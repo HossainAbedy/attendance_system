@@ -1,0 +1,1465 @@
+[ACCESS INSERT TIME] Inserted 2604 records into Access DB in 207.34 seconds from K40 Lobby Islampur Branch
+[FLASK DB INSERT TIME] Inserted 2604 records into Flask DB in 207.47 seconds from K40 Lobby Islampur Branch
+[DISCONNECTED] K40 Lobby Islampur Branch
+
+[ACCESS INSERT TIME] Inserted 1624 records into Access DB in 131.30 seconds from K40 Lobby Modhunaghat Branch
+[FLASK DB INSERT TIME] Inserted 1624 records into Flask DB in 131.39 seconds from K40 Lobby Modhunaghat Branch
+[DISCONNECTED] K40 Lobby Modhunaghat Branch
+
+[ACCESS INSERT TIME] Inserted 5980 records into Access DB in 474.26 seconds from K40 Lobby Gazipur Branch
+[FLASK DB INSERT TIME] Inserted 5980 records into Flask DB in 474.49 seconds from K40 Lobby Gazipur Branch
+[DISCONNECTED] K40 Lobby Gazipur Branch
+[SCHEDULER] K40 Lobby Gazipur Branch: 5980 new logs
+
+[ACCESS INSERT TIME] Inserted 2726 records into Access DB in 216.71 seconds from K40 Lobby Sarbolakkhona Branch
+[FLASK DB INSERT TIME] Inserted 2726 records into Flask DB in 216.88 seconds from K40 Lobby Sarbolakkhona Branch
+[DISCONNECTED] K40 Lobby Sarbolakkhona Branch
+[SCHEDULER] K40 Lobby Sarbolakkhona Branch: 2726 new logs
+
+[SCHEDULER] K40 Lobby Velanagar Branch: 0 new logs
+    [ACCESS ✅] USERID=9045 CHECKTIME=2025-08-06 14:35:02
+    [NEW] RID 7297, User=9045, Time=2025-08-06 14:35:02
+
+
+##################################  NEW PULL 11AM 07.08.2025  ######################################
+
+Duration: Around 10-15s for 35 Branch
+
+ABEDY@ABEDY MINGW64 /e/ShareME/SBAC TAO/NewYear25/attendance-system/backend
+$ flask run
+[SCHEDULER] Started polling every 5 seconds with up to 10 workers.
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+[SCHEDULER] Dispatching polling for devices…
+
+[DEBUG] Connecting to K40 Lobby Principal Branch (172.19.102.231:4370)
+[DEBUG] Connecting to K40 Lobby Hemayetpur  Branch (172.19.103.231:4370)
+
+
+[DEBUG] Connecting to K40 Lobby Bhatiary  Branch (172.19.104.231:4370)
+
+[DEBUG] Connecting to K40 Lobby Khulna Branch (172.19.106.231:4370)
+[DEBUG] Connecting to K40 Lobby Agrabad  Branch (172.19.105.231:4370)
+
+[DEBUG] Connecting to K40 Lobby Keraniganj Branch (172.19.108.231:4370)
+[DEBUG] Connecting to K40 Lobby Katakhali Branch (172.19.107.231:4370)
+
+
+[DEBUG] Connecting to K40 Lobby Velanagar Branch (172.19.111.231:4370)
+[DEBUG] Connecting to K40 Lobby Uttara Branch (172.19.109.231:4370)
+[DEBUG] Connecting to K40 Lobby Gulshan Branch (172.19.110.231:4370)
+
+
+
+[CONNECTED] K40 Lobby Principal Branch
+[CONNECTED] K40 Lobby Hemayetpur  Branch
+[CONNECTED] K40 Lobby Velanagar Branch
+[CONNECTED] K40 Lobby Gulshan Branch
+[CONNECTED] K40 Lobby Uttara Branch
+[CONNECTED] K40 Lobby Keraniganj Branch
+[CONNECTED] K40 Lobby Katakhali Branch
+[CONNECTED] K40 Lobby Khulna Branch
+[CONNECTED] K40 Lobby Agrabad  Branch
+[CONNECTED] K40 Lobby Bhatiary  Branch
+[INFO] Retrieved 2264 logs from K40 Lobby Hemayetpur  Branch in 0.73 seconds
+[INFO] Retrieved 2319 logs from K40 Lobby Bhatiary  Branch in 0.79 seconds
+    [ACCESS ✅] USERID=696 CHECKTIME=2025-08-07 08:43:36
+    [NEW] RID 2261, User=696, Time=2025-08-07 08:43:36
+[INFO] Retrieved 3602 logs from K40 Lobby Katakhali Branch in 1.15 seconds
+[INFO] Retrieved 3757 logs from K40 Lobby Agrabad  Branch in 1.18 seconds
+    [ACCESS ✅] USERID=1675 CHECKTIME=2025-08-07 09:16:43
+    [NEW] RID 2262, User=1675, Time=2025-08-07 09:16:43
+[INFO] Retrieved 4320 logs from K40 Lobby Keraniganj Branch in 1.22 seconds
+    [ACCESS ✅] USERID=672 CHECKTIME=2025-08-07 09:43:20
+    [NEW] RID 2263, User=672, Time=2025-08-07 09:43:20
+    [ACCESS ✅] USERID=854 CHECKTIME=2025-08-07 09:51:26
+    [NEW] RID 2264, User=854, Time=2025-08-07 09:51:26
+[ACCESS INSERT TIME] Inserted 4 records into Access DB in 0.71 seconds from K40 Lobby Hemayetpur  Branch
+[FLASK DB INSERT TIME] Inserted 4 records into Flask DB in 0.75 seconds from K40 Lobby Hemayetpur  Branch
+[DISCONNECTED] K40 Lobby Hemayetpur  Branch
+[SCHEDULER] K40 Lobby Hemayetpur  Branch: 4 new logs
+
+[DEBUG] Connecting to K40 Lobby Imamganj Branch (172.19.112.231:4370)
+[CONNECTED] K40 Lobby Imamganj Branch
+[INFO] Retrieved 6034 logs from K40 Lobby Khulna Branch in 1.59 seconds
+    [ACCESS ✅] USERID=9026 CHECKTIME=2025-08-06 19:23:45
+    [NEW] RID 6018, User=9026, Time=2025-08-06 19:23:45
+    [ACCESS ✅] USERID=646 CHECKTIME=2025-08-06 19:25:55
+    [NEW] RID 6019, User=646, Time=2025-08-06 19:25:55
+    [ACCESS ✅] USERID=493 CHECKTIME=2025-08-06 19:57:47
+    [NEW] RID 6020, User=493, Time=2025-08-06 19:57:47
+[INFO] Retrieved 7327 logs from K40 Lobby Gulshan Branch in 1.96 seconds
+    [ACCESS ✅] USERID=7006 CHECKTIME=2025-08-06 19:59:24
+    [NEW] RID 6021, User=7006, Time=2025-08-06 19:59:24
+    [ACCESS ✅] USERID=22 CHECKTIME=2025-08-07 09:07:34
+    [NEW] RID 6022, User=22, Time=2025-08-07 09:07:34
+    [ACCESS ✅] USERID=723 CHECKTIME=2025-08-07 09:25:29
+    [NEW] RID 6023, User=723, Time=2025-08-07 09:25:29
+    [ACCESS ✅] USERID=9026 CHECKTIME=2025-08-07 09:29:20
+    [NEW] RID 6024, User=9026, Time=2025-08-07 09:29:20
+    [ACCESS ✅] USERID=9026 CHECKTIME=2025-08-07 09:29:37
+    [NEW] RID 6025, User=9026, Time=2025-08-07 09:29:37
+    [ACCESS ✅] USERID=745 CHECKTIME=2025-08-07 09:30:26
+[INFO] Retrieved 8532 logs from K40 Lobby Velanagar Branch in 2.49 seconds    [NEW] RID 6026, User=745, Time=2025-08-07 09:30:26
+
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:58:33 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ✅] USERID=826 CHECKTIME=2025-08-07 09:36:27
+    [NEW] RID 6027, User=826, Time=2025-08-07 09:36:27
+    [ACCESS ✅] USERID=567 CHECKTIME=2025-08-07 09:39:20
+    [NEW] RID 6028, User=567, Time=2025-08-07 09:39:20
+[INFO] Retrieved 9808 logs from K40 Lobby Uttara Branch in 2.68 seconds
+[INFO] Retrieved 10736 logs from K40 Lobby Principal Branch in 2.87 seconds
+    [ACCESS ✅] USERID=7006 CHECKTIME=2025-08-07 09:40:42
+    [NEW] RID 6029, User=7006, Time=2025-08-07 09:40:42
+    [ACCESS ✅] USERID=145 CHECKTIME=2025-08-07 09:13:40
+    [NEW] RID 2312, User=145, Time=2025-08-07 09:13:40
+    [ACCESS ✅] USERID=89 CHECKTIME=2025-08-07 09:40:47
+    [NEW] RID 6030, User=89, Time=2025-08-07 09:40:47
+    [ACCESS ✅] USERID=1008 CHECKTIME=2025-08-07 09:28:57
+    [NEW] RID 2313, User=1008, Time=2025-08-07 09:28:57
+    [ACCESS ✅] USERID=493 CHECKTIME=2025-08-07 09:41:52
+    [NEW] RID 6031, User=493, Time=2025-08-07 09:41:52
+    [ACCESS ✅] USERID=119 CHECKTIME=2025-08-07 09:32:52
+    [NEW] RID 2314, User=119, Time=2025-08-07 09:32:52
+    [ACCESS ✅] USERID=738 CHECKTIME=2025-08-07 09:46:30
+    [NEW] RID 6032, User=738, Time=2025-08-07 09:46:30
+    [ACCESS ✅] USERID=328 CHECKTIME=2025-08-07 09:44:29
+    [NEW] RID 2315, User=328, Time=2025-08-07 09:44:29
+    [ACCESS ✅] USERID=646 CHECKTIME=2025-08-07 09:54:41
+    [NEW] RID 6033, User=646, Time=2025-08-07 09:54:41
+    [ACCESS ✅] USERID=275 CHECKTIME=2025-08-07 09:44:55
+    [NEW] RID 2316, User=275, Time=2025-08-07 09:44:55
+    [ACCESS ✅] USERID=761 CHECKTIME=2025-08-07 09:58:05
+    [NEW] RID 6034, User=761, Time=2025-08-07 09:58:05
+[ACCESS INSERT TIME] Inserted 17 records into Access DB in 1.32 seconds from K40 Lobby Khulna Branch
+[FLASK DB INSERT TIME] Inserted 17 records into Flask DB in 1.34 seconds from K40 Lobby Khulna Branch
+[DISCONNECTED] K40 Lobby Khulna Branch
+[SCHEDULER] K40 Lobby Khulna Branch: 17 new logs
+
+[DEBUG] Connecting to K40 Lobby Ashulia Branch (172.19.113.231:4370)
+    [ACCESS ✅] USERID=275 CHECKTIME=2025-08-07 09:44:56
+    [NEW] RID 2317, User=275, Time=2025-08-07 09:44:56
+[INFO] Retrieved 4542 logs from K40 Lobby Imamganj Branch in 1.46 seconds
+    [ACCESS ✅] USERID=1583 CHECKTIME=2025-08-07 09:45:21
+    [NEW] RID 2318, User=1583, Time=2025-08-07 09:45:21
+[CONNECTED] K40 Lobby Ashulia Branch
+    [ACCESS ✅] USERID=415 CHECKTIME=2025-08-06 19:21:24
+    [NEW] RID 4530, User=415, Time=2025-08-06 19:21:24
+    [ACCESS ✅] USERID=820 CHECKTIME=2025-08-07 09:45:40
+    [NEW] RID 2319, User=820, Time=2025-08-07 09:45:40
+[ACCESS INSERT TIME] Inserted 8 records into Access DB in 0.30 seconds from K40 Lobby Bhatiary  Branch
+[FLASK DB INSERT TIME] Inserted 8 records into Flask DB in 0.32 seconds from K40 Lobby Bhatiary  Branch
+    [ACCESS ✅] USERID=181 CHECKTIME=2025-08-07 09:12:15
+    [NEW] RID 4531, User=181, Time=2025-08-07 09:12:15
+[DISCONNECTED] K40 Lobby Bhatiary  Branch
+[SCHEDULER] K40 Lobby Bhatiary  Branch: 8 new logs
+
+[DEBUG] Connecting to K40 Lobby Dhanmondi Branch (172.19.114.231:4370)
+    [ACCESS ✅] USERID=285 CHECKTIME=2025-08-07 09:26:41
+    [NEW] RID 4532, User=285, Time=2025-08-07 09:26:41
+[CONNECTED] K40 Lobby Dhanmondi Branch
+    [ACCESS ✅] USERID=415 CHECKTIME=2025-08-07 09:29:19
+    [NEW] RID 4533, User=415, Time=2025-08-07 09:29:19
+    [ACCESS ✅] USERID=1472 CHECKTIME=2025-08-06 19:49:41
+    [NEW] RID 3584, User=1472, Time=2025-08-06 19:49:41
+    [ACCESS ✅] USERID=264 CHECKTIME=2025-08-06 19:06:56
+    [NEW] RID 3744, User=264, Time=2025-08-06 19:06:56
+    [ACCESS ✅] USERID=343 CHECKTIME=2025-08-06 19:51:37
+    [NEW] RID 3585, User=343, Time=2025-08-06 19:51:37
+    [ACCESS ✅] USERID=1636 CHECKTIME=2025-08-07 09:29:36
+    [NEW] RID 4534, User=1636, Time=2025-08-07 09:29:36
+    [ACCESS ✅] USERID=1601 CHECKTIME=2025-08-06 18:38:00
+    [NEW] RID 4311, User=1601, Time=2025-08-06 18:38:00
+    [ACCESS ✅] USERID=122 CHECKTIME=2025-08-06 19:08:03
+    [NEW] RID 3745, User=122, Time=2025-08-06 19:08:03
+    [ACCESS ✅] USERID=790 CHECKTIME=2025-08-06 19:53:09
+    [NEW] RID 3586, User=790, Time=2025-08-06 19:53:09
+    [ACCESS ✅] USERID=582 CHECKTIME=2025-08-07 09:33:52
+    [NEW] RID 4535, User=582, Time=2025-08-07 09:33:52
+    [ACCESS ✅] USERID=386 CHECKTIME=2025-08-06 18:50:13
+    [NEW] RID 4312, User=386, Time=2025-08-06 18:50:13
+    [ACCESS ✅] USERID=127 CHECKTIME=2025-08-06 19:08:27
+    [NEW] RID 3746, User=127, Time=2025-08-06 19:08:27
+    [ACCESS ✅] USERID=173 CHECKTIME=2025-08-07 09:34:03
+    [NEW] RID 4536, User=173, Time=2025-08-07 09:34:03
+    [ACCESS ✅] USERID=631 CHECKTIME=2025-08-06 19:59:08
+    [NEW] RID 3587, User=631, Time=2025-08-06 19:59:08
+    [ACCESS ✅] USERID=1399 CHECKTIME=2025-08-06 20:29:54
+    [NEW] RID 4313, User=1399, Time=2025-08-06 20:29:54
+    [ACCESS ✅] USERID=1443 CHECKTIME=2025-08-07 09:35:00
+    [NEW] RID 4537, User=1443, Time=2025-08-07 09:35:00
+    [ACCESS ✅] USERID=137 CHECKTIME=2025-08-06 19:29:07
+    [NEW] RID 3747, User=137, Time=2025-08-06 19:29:07
+    [ACCESS ✅] USERID=378 CHECKTIME=2025-08-06 20:01:18
+    [NEW] RID 3588, User=378, Time=2025-08-06 20:01:18
+    [ACCESS ✅] USERID=124 CHECKTIME=2025-08-07 08:52:45
+    [NEW] RID 4314, User=124, Time=2025-08-07 08:52:45
+    [ACCESS ✅] USERID=9005 CHECKTIME=2025-08-06 20:04:01
+    [NEW] RID 3589, User=9005, Time=2025-08-06 20:04:01
+    [ACCESS ✅] USERID=575 CHECKTIME=2025-08-06 19:29:24
+    [NEW] RID 3748, User=575, Time=2025-08-06 19:29:24
+    [ACCESS ✅] USERID=1362 CHECKTIME=2025-08-07 09:38:53
+    [NEW] RID 4538, User=1362, Time=2025-08-07 09:38:53
+    [ACCESS ✅] USERID=375 CHECKTIME=2025-08-07 09:22:55
+    [NEW] RID 4315, User=375, Time=2025-08-07 09:22:55
+    [ACCESS ✅] USERID=650 CHECKTIME=2025-08-06 20:05:24
+    [NEW] RID 3590, User=650, Time=2025-08-06 20:05:24
+    [ACCESS ✅] USERID=805 CHECKTIME=2025-08-06 19:29:59
+    [NEW] RID 3749, User=805, Time=2025-08-06 19:29:59
+    [ACCESS ✅] USERID=570 CHECKTIME=2025-08-07 09:39:35
+    [NEW] RID 4539, User=570, Time=2025-08-07 09:39:35
+    [ACCESS ✅] USERID=1470 CHECKTIME=2025-08-07 09:40:03
+    [NEW] RID 4316, User=1470, Time=2025-08-07 09:40:03
+    [ACCESS ✅] USERID=1001 CHECKTIME=2025-08-07 09:21:05
+    [NEW] RID 3591, User=1001, Time=2025-08-07 09:21:05
+    [ACCESS ✅] USERID=1362 CHECKTIME=2025-08-07 09:44:12
+    [NEW] RID 4540, User=1362, Time=2025-08-07 09:44:12
+    [ACCESS ✅] USERID=936 CHECKTIME=2025-08-06 19:31:38
+    [NEW] RID 3750, User=936, Time=2025-08-06 19:31:38
+    [ACCESS ✅] USERID=1001 CHECKTIME=2025-08-07 09:21:18
+    [NEW] RID 3592, User=1001, Time=2025-08-07 09:21:18
+    [ACCESS ✅] USERID=570 CHECKTIME=2025-08-07 09:44:34
+    [NEW] RID 4541, User=570, Time=2025-08-07 09:44:34
+    [ACCESS ✅] USERID=271 CHECKTIME=2025-08-07 09:46:59
+    [NEW] RID 4317, User=271, Time=2025-08-07 09:46:59
+    [ACCESS ✅] USERID=9005 CHECKTIME=2025-08-07 09:28:08
+    [NEW] RID 3593, User=9005, Time=2025-08-07 09:28:08
+    [ACCESS ✅] USERID=574 CHECKTIME=2025-08-07 09:40:31
+    [NEW] RID 3751, User=574, Time=2025-08-07 09:40:31
+    [ACCESS ✅] USERID=162 CHECKTIME=2025-08-07 09:47:02
+    [NEW] RID 4542, User=162, Time=2025-08-07 09:47:02
+    [ACCESS ✅] USERID=386 CHECKTIME=2025-08-07 09:48:25
+    [NEW] RID 4318, User=386, Time=2025-08-07 09:48:25
+    [ACCESS ✅] USERID=1472 CHECKTIME=2025-08-07 09:34:27
+    [NEW] RID 3594, User=1472, Time=2025-08-07 09:34:27
+    [ACCESS ✅] USERID=574 CHECKTIME=2025-08-07 09:40:53
+    [NEW] RID 3752, User=574, Time=2025-08-07 09:40:53
+[ACCESS INSERT TIME] Inserted 13 records into Access DB in 0.48 seconds from K40 Lobby Imamganj Branch
+[FLASK DB INSERT TIME] Inserted 13 records into Flask DB in 0.49 seconds from K40 Lobby Imamganj Branch
+    [ACCESS ✅] USERID=631 CHECKTIME=2025-08-07 09:41:48
+    [NEW] RID 3595, User=631, Time=2025-08-07 09:41:48
+    [ACCESS ✅] USERID=1399 CHECKTIME=2025-08-07 09:52:58
+    [NEW] RID 4319, User=1399, Time=2025-08-07 09:52:58
+    [ACCESS ✅] USERID=7058 CHECKTIME=2025-08-07 09:40:56
+    [NEW] RID 3753, User=7058, Time=2025-08-07 09:40:56
+    [ACCESS ✅] USERID=378 CHECKTIME=2025-08-07 09:46:25
+    [NEW] RID 3596, User=378, Time=2025-08-07 09:46:25
+    [ACCESS ✅] USERID=1601 CHECKTIME=2025-08-07 09:55:21
+    [NEW] RID 4320, User=1601, Time=2025-08-07 09:55:21
+    [ACCESS ✅] USERID=1002 CHECKTIME=2025-08-07 09:46:25
+    [NEW] RID 3754, User=1002, Time=2025-08-07 09:46:25
+[ACCESS INSERT TIME] Inserted 10 records into Access DB in 0.25 seconds from K40 Lobby Keraniganj Branch
+[FLASK DB INSERT TIME] Inserted 10 records into Flask DB in 0.26 seconds from K40 Lobby Keraniganj Branch
+[DISCONNECTED] K40 Lobby Imamganj Branch
+[SCHEDULER] K40 Lobby Imamganj Branch: 13 new logs
+
+[DEBUG] Connecting to K40 Lobby Sylhet Branch (172.19.116.231:4370)
+    [ACCESS ✅] USERID=378 CHECKTIME=2025-08-07 09:46:37
+    [NEW] RID 3597, User=378, Time=2025-08-07 09:46:37
+[DISCONNECTED] K40 Lobby Keraniganj Branch
+[SCHEDULER] K40 Lobby Keraniganj Branch: 10 new logs
+
+[DEBUG] Connecting to K40 Lobby Jubliroad Sub Branch (172.19.117.231:4370)
+    [ACCESS ✅] USERID=1524 CHECKTIME=2025-08-07 09:48:24
+    [NEW] RID 3755, User=1524, Time=2025-08-07 09:48:24
+    [ACCESS ✅] USERID=343 CHECKTIME=2025-08-07 09:55:58
+    [NEW] RID 3598, User=343, Time=2025-08-07 09:55:58
+    [ACCESS ✅] USERID=1597 CHECKTIME=2025-08-07 10:04:36
+    [NEW] RID 3756, User=1597, Time=2025-08-07 10:04:36
+    [ACCESS ✅] USERID=590 CHECKTIME=2025-08-07 09:56:28
+    [NEW] RID 3599, User=590, Time=2025-08-07 09:56:28
+    [ACCESS ✅] USERID=363 CHECKTIME=2025-08-07 10:14:25
+    [NEW] RID 3757, User=363, Time=2025-08-07 10:14:25
+[ACCESS INSERT TIME] Inserted 14 records into Access DB in 0.39 seconds from K40 Lobby Agrabad  Branch
+[FLASK DB INSERT TIME] Inserted 14 records into Flask DB in 0.41 seconds from K40 Lobby Agrabad  Branch
+[CONNECTED] K40 Lobby Sylhet Branch
+[CONNECTED] K40 Lobby Jubliroad Sub Branch
+[DISCONNECTED] K40 Lobby Agrabad  Branch
+[SCHEDULER] K40 Lobby Agrabad  Branch: 14 new logs
+
+[DEBUG] Connecting to K40 Lobby Bogura Branch (172.19.118.231:4370)
+    [ACCESS ✅] USERID=215 CHECKTIME=2025-08-07 09:57:47
+    [NEW] RID 3600, User=215, Time=2025-08-07 09:57:47
+    [ACCESS ✅] USERID=790 CHECKTIME=2025-08-07 09:58:19
+    [NEW] RID 3601, User=790, Time=2025-08-07 09:58:19
+[CONNECTED] K40 Lobby Bogura Branch
+    [ACCESS ✅] USERID=650 CHECKTIME=2025-08-07 10:09:47
+    [NEW] RID 3602, User=650, Time=2025-08-07 10:09:47
+[ACCESS INSERT TIME] Inserted 19 records into Access DB in 0.63 seconds from K40 Lobby Katakhali Branch
+[FLASK DB INSERT TIME] Inserted 19 records into Flask DB in 0.65 seconds from K40 Lobby Katakhali Branch
+[DISCONNECTED] K40 Lobby Katakhali Branch
+[SCHEDULER] K40 Lobby Katakhali Branch: 19 new logs
+[DEBUG] Connecting to K40 Lobby Mawna Branch (172.19.119.231:4370)
+
+    [ACCESS ✅] USERID=1622 CHECKTIME=2025-08-06 18:35:46
+    [NEW] RID 7298, User=1622, Time=2025-08-06 18:35:46
+    [ACCESS ✅] USERID=1604 CHECKTIME=2025-08-06 18:45:38
+    [NEW] RID 7299, User=1604, Time=2025-08-06 18:45:38
+[CONNECTED] K40 Lobby Mawna Branch
+    [ACCESS ✅] USERID=7049 CHECKTIME=2025-08-06 19:02:48
+    [NEW] RID 7300, User=7049, Time=2025-08-06 19:02:48
+[INFO] Retrieved 4012 logs from K40 Lobby Ashulia Branch in 1.19 seconds
+    [ACCESS ✅] USERID=581 CHECKTIME=2025-08-06 19:04:33
+    [NEW] RID 7301, User=581, Time=2025-08-06 19:04:33
+    [ACCESS ✅] USERID=1474 CHECKTIME=2025-08-06 19:07:50
+    [NEW] RID 7302, User=1474, Time=2025-08-06 19:07:50
+    [ACCESS ✅] USERID=866 CHECKTIME=2025-08-06 18:34:55
+    [NEW] RID 4005, User=866, Time=2025-08-06 18:34:55
+    [ACCESS ✅] USERID=1474 CHECKTIME=2025-08-06 19:07:58
+    [NEW] RID 7303, User=1474, Time=2025-08-06 19:07:58
+    [ACCESS ✅] USERID=1537 CHECKTIME=2025-08-06 18:35:30
+    [NEW] RID 4006, User=1537, Time=2025-08-06 18:35:30
+    [ACCESS ✅] USERID=687 CHECKTIME=2025-08-06 19:15:13
+    [NEW] RID 7304, User=687, Time=2025-08-06 19:15:13
+    [ACCESS ✅] USERID=759 CHECKTIME=2025-08-06 19:00:37
+    [NEW] RID 4007, User=759, Time=2025-08-06 19:00:37
+    [ACCESS ✅] USERID=992 CHECKTIME=2025-08-06 19:16:32
+    [NEW] RID 7305, User=992, Time=2025-08-06 19:16:32
+    [ACCESS ✅] USERID=660 CHECKTIME=2025-08-06 19:00:48
+    [NEW] RID 4008, User=660, Time=2025-08-06 19:00:48
+    [ACCESS ✅] USERID=1319 CHECKTIME=2025-08-06 19:16:35
+    [NEW] RID 7306, User=1319, Time=2025-08-06 19:16:35
+    [ACCESS ✅] USERID=569 CHECKTIME=2025-08-07 09:25:09
+    [NEW] RID 4009, User=569, Time=2025-08-07 09:25:09
+    [ACCESS ✅] USERID=1222 CHECKTIME=2025-08-06 19:21:04
+    [NEW] RID 7307, User=1222, Time=2025-08-06 19:21:04
+    [ACCESS ✅] USERID=1632 CHECKTIME=2025-08-07 09:25:57
+    [NEW] RID 4010, User=1632, Time=2025-08-07 09:25:57
+    [ACCESS ✅] USERID=129 CHECKTIME=2025-08-06 19:24:46
+    [NEW] RID 7308, User=129, Time=2025-08-06 19:24:46
+    [ACCESS ✅] USERID=759 CHECKTIME=2025-08-07 09:40:33
+    [NEW] RID 4011, User=759, Time=2025-08-07 09:40:33
+    [ACCESS ✅] USERID=1274 CHECKTIME=2025-08-06 19:34:23
+    [NEW] RID 7309, User=1274, Time=2025-08-06 19:34:23
+    [ACCESS ✅] USERID=1537 CHECKTIME=2025-08-07 09:41:05
+    [NEW] RID 4012, User=1537, Time=2025-08-07 09:41:05
+[ACCESS INSERT TIME] Inserted 8 records into Access DB in 0.15 seconds from K40 Lobby Ashulia Branch
+[FLASK DB INSERT TIME] Inserted 8 records into Flask DB in 0.16 seconds from K40 Lobby Ashulia Branch
+[INFO] Retrieved 1923 logs from K40 Lobby Sylhet Branch in 0.74 seconds
+[INFO] Retrieved 2058 logs from K40 Lobby Jubliroad Sub Branch in 0.75 seconds
+[DISCONNECTED] K40 Lobby Ashulia Branch
+[SCHEDULER] K40 Lobby Ashulia Branch: 8 new logs
+
+[DEBUG] Connecting to K40 Lobby Islampur Branch (172.19.120.231:4370)
+    [ACCESS ✅] USERID=1274 CHECKTIME=2025-08-06 19:34:25
+    [NEW] RID 7310, User=1274, Time=2025-08-06 19:34:25
+    [ACCESS ✅] USERID=1366 CHECKTIME=2025-08-07 09:22:18
+    [NEW] RID 1918, User=1366, Time=2025-08-07 09:22:18
+    [ACCESS ✅] USERID=1396 CHECKTIME=2025-08-06 20:36:26
+    [NEW] RID 7311, User=1396, Time=2025-08-06 20:36:26
+    [ACCESS ✅] USERID=298 CHECKTIME=2025-08-07 09:24:40
+    [NEW] RID 1919, User=298, Time=2025-08-07 09:24:40
+    [ACCESS ✅] USERID=992 CHECKTIME=2025-08-07 08:56:07
+    [NEW] RID 7312, User=992, Time=2025-08-07 08:56:07
+[CONNECTED] K40 Lobby Islampur Branch
+[INFO] Retrieved 1864 logs from K40 Lobby Mawna Branch in 0.94 seconds
+[INFO] Retrieved 5549 logs from K40 Lobby Dhanmondi Branch in 2.19 seconds
+[INFO] Retrieved 2611 logs from K40 Lobby Islampur Branch in 0.89 seconds
+[INFO] Retrieved 7368 logs from K40 Lobby Bogura Branch in 2.53 seconds
+    [ACCESS ✅] USERID=923 CHECKTIME=2025-08-07 09:36:47
+    [NEW] RID 1920, User=923, Time=2025-08-07 09:36:47
+    [ACCESS ✅] USERID=9045 CHECKTIME=2025-08-07 08:58:57
+    [NEW] RID 7313, User=9045, Time=2025-08-07 08:58:57
+    [ACCESS ❌] RID 2051: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [NEW] RID 2051, User=153, Time=2025-08-06 20:31:47
+    [ACCESS ✅] USERID=1078 CHECKTIME=2025-08-06 18:32:51
+    [NEW] RID 9779, User=1078, Time=2025-08-06 18:32:51
+    [ACCESS ✅] USERID=1119 CHECKTIME=2025-08-07 08:58:52
+    [NEW] RID 1858, User=1119, Time=2025-08-07 08:58:52
+    [ACCESS ✅] USERID=1409 CHECKTIME=2025-08-07 09:39:06
+    [NEW] RID 1921, User=1409, Time=2025-08-07 09:39:06
+    [ACCESS ✅] USERID=1569 CHECKTIME=2025-08-06 19:00:02
+    [NEW] RID 5534, User=1569, Time=2025-08-06 19:00:02
+    [ACCESS ✅] USERID=445 CHECKTIME=2025-08-07 09:19:24
+    [NEW] RID 10707, User=445, Time=2025-08-07 09:19:24
+    [ACCESS ✅] USERID=7065 CHECKTIME=2025-08-06 18:41:27
+    [NEW] RID 8503, User=7065, Time=2025-08-06 18:41:27
+    [ACCESS ✅] USERID=7079 CHECKTIME=2025-08-07 09:31:47
+    [NEW] RID 2605, User=7079, Time=2025-08-07 09:31:47
+    [ACCESS ✅] USERID=1091 CHECKTIME=2025-08-06 18:38:06
+    [NEW] RID 9780, User=1091, Time=2025-08-06 18:38:06
+    [ACCESS ✅] USERID=129 CHECKTIME=2025-08-07 09:19:49
+    [NEW] RID 7314, User=129, Time=2025-08-07 09:19:49
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:58:38 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 1859: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=1053 CHECKTIME=2025-08-07 09:50:25
+    [NEW] RID 2052, User=1053, Time=2025-08-07 09:50:25
+    [ACCESS ✅] USERID=1679 CHECKTIME=2025-08-07 09:45:37
+    [NEW] RID 1922, User=1679, Time=2025-08-07 09:45:37
+    [ACCESS ✅] USERID=7064 CHECKTIME=2025-08-06 18:52:00
+    [NEW] RID 8504, User=7064, Time=2025-08-06 18:52:00
+    [ACCESS ✅] USERID=251 CHECKTIME=2025-08-07 09:32:35
+    [NEW] RID 2606, User=251, Time=2025-08-07 09:32:35
+    [NEW] RID 1859, User=1563, Time=2025-08-07 09:13:14
+    [ACCESS ✅] USERID=1569 CHECKTIME=2025-08-06 19:32:59
+    [NEW] RID 5535, User=1569, Time=2025-08-06 19:32:59
+    [ACCESS ✅] USERID=1294 CHECKTIME=2025-08-07 09:19:36
+    [NEW] RID 10708, User=1294, Time=2025-08-07 09:19:36
+    [ACCESS ✅] USERID=1570 CHECKTIME=2025-08-06 18:40:23
+    [NEW] RID 9781, User=1570, Time=2025-08-06 18:40:23
+    [ACCESS ✅] USERID=7078 CHECKTIME=2025-08-06 20:00:24
+    [NEW] RID 7347, User=7078, Time=2025-08-06 20:00:24
+    [ACCESS ✅] USERID=1272 CHECKTIME=2025-08-07 09:46:07
+    [NEW] RID 1923, User=1272, Time=2025-08-07 09:46:07
+[ACCESS INSERT TIME] Inserted 6 records into Access DB in 4.65 seconds from K40 Lobby Sylhet Branch
+[FLASK DB INSERT TIME] Inserted 6 records into Flask DB in 4.66 seconds from K40 Lobby Sylhet Branch
+    [ACCESS ✅] USERID=247 CHECKTIME=2025-08-07 09:35:09
+    [NEW] RID 2607, User=247, Time=2025-08-07 09:35:09
+    [ACCESS ✅] USERID=1392 CHECKTIME=2025-08-07 09:34:54
+    [NEW] RID 1860, User=1392, Time=2025-08-07 09:34:54    [ACCESS ✅] USERID=1083 CHECKTIME=2025-08-07 09:21:42
+
+    [ACCESS ✅] USERID=29 CHECKTIME=2025-08-07 09:22:35    [NEW] RID 7315, User=1083, Time=2025-08-07 09:21:42
+    [NEW] RID 10709, User=29, Time=2025-08-07 09:22:35
+
+[DISCONNECTED] K40 Lobby Sylhet Branch
+[SCHEDULER] K40 Lobby Sylhet Branch: 6 new logs
+[DEBUG] Connecting to K40 Lobby Modhunaghat Branch (172.19.121.231:4370)
+
+    [ACCESS ✅] USERID=1429 CHECKTIME=2025-08-06 19:33:07
+    [NEW] RID 5536, User=1429, Time=2025-08-06 19:33:07
+    [ACCESS ✅] USERID=1053 CHECKTIME=2025-08-07 09:50:33
+    [NEW] RID 2053, User=1053, Time=2025-08-07 09:50:33
+    [ACCESS ✅] USERID=335 CHECKTIME=2025-08-06 18:41:23
+    [NEW] RID 9782, User=335, Time=2025-08-06 18:41:23
+    [ACCESS ✅] USERID=223 CHECKTIME=2025-08-06 18:52:10
+    [NEW] RID 8505, User=223, Time=2025-08-06 18:52:10
+    [ACCESS ✅] USERID=1050 CHECKTIME=2025-08-07 09:18:27
+    [NEW] RID 5537, User=1050, Time=2025-08-07 09:18:27
+    [ACCESS ✅] USERID=270 CHECKTIME=2025-08-07 09:26:05
+    [NEW] RID 10710, User=270, Time=2025-08-07 09:26:05
+    [ACCESS ✅] USERID=247 CHECKTIME=2025-08-07 09:36:36
+    [NEW] RID 2608, User=247, Time=2025-08-07 09:36:36
+    [ACCESS ✅] USERID=1439 CHECKTIME=2025-08-06 20:00:27
+    [NEW] RID 7348, User=1439, Time=2025-08-06 20:00:27
+    [ACCESS ✅] USERID=1640 CHECKTIME=2025-08-06 20:01:47
+    [NEW] RID 7349, User=1640, Time=2025-08-06 20:01:47
+    [ACCESS ✅] USERID=1392 CHECKTIME=2025-08-07 09:34:55
+    [NEW] RID 1861, User=1392, Time=2025-08-07 09:34:55
+    [ACCESS ✅] USERID=1053 CHECKTIME=2025-08-07 09:51:24
+    [NEW] RID 2054, User=1053, Time=2025-08-07 09:51:24
+    [ACCESS ✅] USERID=7056 CHECKTIME=2025-08-06 18:43:48
+    [NEW] RID 9783, User=7056, Time=2025-08-06 18:43:48
+    [ACCESS ✅] USERID=282 CHECKTIME=2025-08-07 09:42:17
+    [NEW] RID 2609, User=282, Time=2025-08-07 09:42:17
+    [ACCESS ✅] USERID=1676 CHECKTIME=2025-08-06 18:54:44
+    [NEW] RID 8506, User=1676, Time=2025-08-06 18:54:44
+    [ACCESS ✅] USERID=445 CHECKTIME=2025-08-07 09:29:22
+    [NEW] RID 10711, User=445, Time=2025-08-07 09:29:22
+[CONNECTED] K40 Lobby Modhunaghat Branch
+[INFO] Retrieved 1628 logs from K40 Lobby Modhunaghat Branch in 0.73 seconds
+    [ACCESS ❌] RID 2055: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=1429 CHECKTIME=2025-08-07 09:29:47
+    [NEW] RID 5538, User=1429, Time=2025-08-07 09:29:47
+    [NEW] RID 2055, User=1413, Time=2025-08-07 09:53:43
+    [ACCESS ✅] USERID=211 CHECKTIME=2025-08-07 09:22:16
+    [NEW] RID 7316, User=211, Time=2025-08-07 09:22:16
+    [ACCESS ✅] USERID=462 CHECKTIME=2025-08-06 20:04:18
+    [NEW] RID 7350, User=462, Time=2025-08-06 20:04:18
+    [ACCESS ✅] USERID=1520 CHECKTIME=2025-08-06 20:29:28
+    [NEW] RID 9784, User=1520, Time=2025-08-06 20:29:28
+    [ACCESS ✅] USERID=1447 CHECKTIME=2025-08-07 09:43:40
+    [NEW] RID 2610, User=1447, Time=2025-08-07 09:43:40
+    [ACCESS ✅] USERID=661 CHECKTIME=2025-08-07 09:43:31
+    [NEW] RID 1625, User=661, Time=2025-08-07 09:43:31
+    [ACCESS ✅] USERID=1027 CHECKTIME=2025-08-07 09:37:46
+    [NEW] RID 1862, User=1027, Time=2025-08-07 09:37:46
+    [ACCESS ✅] USERID=462 CHECKTIME=2025-08-06 20:04:19
+    [NEW] RID 7351, User=462, Time=2025-08-06 20:04:19
+    [ACCESS ✅] USERID=7049 CHECKTIME=2025-08-07 09:30:13
+    [NEW] RID 7317, User=7049, Time=2025-08-07 09:30:13
+    [ACCESS ✅] USERID=1413 CHECKTIME=2025-08-07 09:53:45
+    [NEW] RID 2056, User=1413, Time=2025-08-07 09:53:45
+    [ACCESS ✅] USERID=159 CHECKTIME=2025-08-07 09:32:34
+    [NEW] RID 10712, User=159, Time=2025-08-07 09:32:34
+    [ACCESS ✅] USERID=1386 CHECKTIME=2025-08-06 18:57:04
+    [NEW] RID 8507, User=1386, Time=2025-08-06 18:57:04
+    [ACCESS ✅] USERID=643 CHECKTIME=2025-08-07 10:11:52
+    [NEW] RID 1626, User=643, Time=2025-08-07 10:11:52
+    [ACCESS ✅] USERID=687 CHECKTIME=2025-08-07 09:37:56
+    [NEW] RID 7318, User=687, Time=2025-08-07 09:37:56
+    [ACCESS ✅] USERID=981 CHECKTIME=2025-08-06 20:29:39
+    [NEW] RID 9785, User=981, Time=2025-08-06 20:29:39
+    [ACCESS ✅] USERID=1594 CHECKTIME=2025-08-07 09:45:24
+    [NEW] RID 2611, User=1594, Time=2025-08-07 09:45:24
+    [ACCESS ✅] USERID=1412 CHECKTIME=2025-08-06 20:17:11
+    [NEW] RID 7352, User=1412, Time=2025-08-06 20:17:11
+    [ACCESS ✅] USERID=1352 CHECKTIME=2025-08-07 09:30:05
+    [NEW] RID 5539, User=1352, Time=2025-08-07 09:30:05
+[ACCESS INSERT TIME] Inserted 7 records into Access DB in 6.12 seconds from K40 Lobby Islampur Branch
+[FLASK DB INSERT TIME] Inserted 7 records into Flask DB in 6.13 seconds from K40 Lobby Islampur Branch
+    [ACCESS ✅] USERID=1232 CHECKTIME=2025-08-07 09:51:11
+    [NEW] RID 1863, User=1232, Time=2025-08-07 09:51:11
+    [ACCESS ✅] USERID=929 CHECKTIME=2025-08-07 10:02:14
+    [NEW] RID 2057, User=929, Time=2025-08-07 10:02:14
+[DISCONNECTED] K40 Lobby Islampur Branch
+[SCHEDULER] K40 Lobby Islampur Branch: 7 new logs
+[DEBUG] Connecting to K40 Lobby Shyamnagar Branch (172.19.122.231:4370)
+
+[CONNECTED] K40 Lobby Shyamnagar Branch
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:58:43 +06)" skipped: maximum number of running instances reached (1)
+[INFO] Retrieved 858 logs from K40 Lobby Shyamnagar Branch in 0.57 seconds
+    [ACCESS ❌] RID 10713: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=678 CHECKTIME=2025-08-07 10:14:51
+    [NEW] RID 1627, User=678, Time=2025-08-07 10:14:51
+    [ACCESS ✅] USERID=1319 CHECKTIME=2025-08-07 09:45:37
+    [NEW] RID 7319, User=1319, Time=2025-08-07 09:45:37
+    [ACCESS ✅] USERID=1469 CHECKTIME=2025-08-07 09:36:15
+    [NEW] RID 5540, User=1469, Time=2025-08-07 09:36:15
+    [ACCESS ✅] USERID=153 CHECKTIME=2025-08-07 10:16:38
+    [NEW] RID 2058, User=153, Time=2025-08-07 10:16:38
+    [ACCESS ✅] USERID=1345 CHECKTIME=2025-08-06 20:42:43
+    [NEW] RID 9786, User=1345, Time=2025-08-06 20:42:43
+    [ACCESS ✅] USERID=629 CHECKTIME=2025-08-06 18:58:42
+    [NEW] RID 8508, User=629, Time=2025-08-06 18:58:42
+[ACCESS INSERT TIME] Inserted 8 records into Access DB in 9.37 seconds from K40 Lobby Jubliroad Sub Branch
+[FLASK DB INSERT TIME] Inserted 8 records into Flask DB in 9.37 seconds from K40 Lobby Jubliroad Sub Branch
+    [NEW] RID 10713, User=13, Time=2025-08-07 09:39:12
+    [ACCESS ✅] USERID=1453 CHECKTIME=2025-08-06 20:38:39
+    [NEW] RID 7353, User=1453, Time=2025-08-06 20:38:39
+    [ACCESS ✅] USERID=268 CHECKTIME=2025-08-07 09:56:11
+    [NEW] RID 1864, User=268, Time=2025-08-07 09:56:11
+[ACCESS INSERT TIME] Inserted 7 records into Access DB in 8.80 seconds from K40 Lobby Mawna Branch
+[FLASK DB INSERT TIME] Inserted 7 records into Flask DB in 8.82 seconds from K40 Lobby Mawna Branch
+[DISCONNECTED] K40 Lobby Jubliroad Sub Branch
+[SCHEDULER] K40 Lobby Jubliroad Sub Branch: 8 new logs
+
+[DEBUG] Connecting to K40 Lobby Gazipur Branch (172.19.123.231:4370)
+[DISCONNECTED] K40 Lobby Mawna Branch
+[SCHEDULER] K40 Lobby Mawna Branch: 7 new logs
+
+[DEBUG] Connecting to K40 Lobby Moynamoti Branch (172.19.124.231:4370)
+[CONNECTED] K40 Lobby Gazipur Branch
+[CONNECTED] K40 Lobby Moynamoti Branch
+[INFO] Retrieved 2080 logs from K40 Lobby Moynamoti Branch in 0.84 seconds
+[INFO] Retrieved 6001 logs from K40 Lobby Gazipur Branch in 1.63 seconds
+    [ACCESS ❌] RID 1628: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:58:48 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 7320: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=9036 CHECKTIME=2025-08-06 20:03:38
+    [NEW] RID 853, User=9036, Time=2025-08-06 20:03:38
+    [ACCESS ❌] RID 8509: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=1138 CHECKTIME=2025-08-07 09:39:56
+    [NEW] RID 5541, User=1138, Time=2025-08-07 09:39:56
+    [NEW] RID 1628, User=114, Time=2025-08-07 10:40:09
+    [ACCESS ✅] USERID=817 CHECKTIME=2025-08-06 20:42:52
+    [NEW] RID 9787, User=817, Time=2025-08-06 20:42:52
+    [NEW] RID 8509, User=830, Time=2025-08-06 18:58:52
+[ACCESS INSERT TIME] Inserted 4 records into Access DB in 10.43 seconds from K40 Lobby Modhunaghat Branch
+[FLASK DB INSERT TIME] Inserted 4 records into Flask DB in 10.45 seconds from K40 Lobby Modhunaghat Branch
+    [NEW] RID 7320, User=654, Time=2025-08-07 09:45:51
+    [ACCESS ✅] USERID=1449 CHECKTIME=2025-08-07 08:57:58
+    [NEW] RID 2074, User=1449, Time=2025-08-07 08:57:58
+    [ACCESS ✅] USERID=468 CHECKTIME=2025-08-06 18:52:59
+    [NEW] RID 5985, User=468, Time=2025-08-06 18:52:59
+[DISCONNECTED] K40 Lobby Modhunaghat Branch
+[SCHEDULER] K40 Lobby Modhunaghat Branch: 4 new logs
+
+[DEBUG] Connecting to K40 Lobby Banglabazar Branch (172.19.125.231:4370)
+    [ACCESS ✅] USERID=1201 CHECKTIME=2025-08-06 20:42:59
+    [NEW] RID 9788, User=1201, Time=2025-08-06 20:42:59
+    [ACCESS ✅] USERID=871 CHECKTIME=2025-08-07 09:40:32
+    [NEW] RID 10714, User=871, Time=2025-08-07 09:40:32
+    [ACCESS ✅] USERID=1030 CHECKTIME=2025-08-06 19:03:58
+    [NEW] RID 8510, User=1030, Time=2025-08-06 19:03:58
+    [ACCESS ✅] USERID=648 CHECKTIME=2025-08-07 09:40:35
+    [NEW] RID 5542, User=648, Time=2025-08-07 09:40:35
+    [ACCESS ✅] USERID=1089 CHECKTIME=2025-08-06 20:40:37
+    [NEW] RID 7354, User=1089, Time=2025-08-06 20:40:37
+    [ACCESS ✅] USERID=350 CHECKTIME=2025-08-07 09:29:56
+    [NEW] RID 2075, User=350, Time=2025-08-07 09:29:56
+    [ACCESS ✅] USERID=9036 CHECKTIME=2025-08-07 08:50:24
+    [NEW] RID 854, User=9036, Time=2025-08-07 08:50:24
+[CONNECTED] K40 Lobby Banglabazar Branch
+[INFO] Retrieved 2218 logs from K40 Lobby Banglabazar Branch in 0.94 seconds
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:58:53 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 5986: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=142 CHECKTIME=2025-08-07 09:47:50
+    [NEW] RID 10715, User=142, Time=2025-08-07 09:47:50
+    [ACCESS ✅] USERID=1396 CHECKTIME=2025-08-07 09:51:52
+    [NEW] RID 7321, User=1396, Time=2025-08-07 09:51:52
+    [ACCESS ✅] USERID=325 CHECKTIME=2025-08-06 19:06:06
+    [NEW] RID 8511, User=325, Time=2025-08-06 19:06:06
+    [ACCESS ✅] USERID=9056 CHECKTIME=2025-08-06 20:42:35
+    [NEW] RID 7355, User=9056, Time=2025-08-06 20:42:35
+    [ACCESS ✅] USERID=916 CHECKTIME=2025-08-07 08:59:47
+    [NEW] RID 9789, User=916, Time=2025-08-07 08:59:47
+    [NEW] RID 5986, User=1608, Time=2025-08-06 18:54:16
+    [ACCESS ✅] USERID=886 CHECKTIME=2025-08-07 09:39:52
+    [NEW] RID 855, User=886, Time=2025-08-07 09:39:52
+    [ACCESS ✅] USERID=1459 CHECKTIME=2025-08-07 09:44:06
+    [NEW] RID 5543, User=1459, Time=2025-08-07 09:44:06
+    [ACCESS ✅] USERID=1137 CHECKTIME=2025-08-07 09:10:09
+    [NEW] RID 2213, User=1137, Time=2025-08-07 09:10:09
+    [ACCESS ✅] USERID=1425 CHECKTIME=2025-08-07 09:47:57
+    [NEW] RID 10716, User=1425, Time=2025-08-07 09:47:57
+    [ACCESS ✅] USERID=777 CHECKTIME=2025-08-06 19:22:46
+    [NEW] RID 8512, User=777, Time=2025-08-06 19:22:46
+    [ACCESS ✅] USERID=461 CHECKTIME=2025-08-07 09:29:12
+    [NEW] RID 7356, User=461, Time=2025-08-07 09:29:12
+    [ACCESS ✅] USERID=1661 CHECKTIME=2025-08-07 09:40:06
+    [NEW] RID 2076, User=1661, Time=2025-08-07 09:40:06
+    [ACCESS ✅] USERID=1608 CHECKTIME=2025-08-06 18:55:56
+    [NEW] RID 5987, User=1608, Time=2025-08-06 18:55:56
+    [ACCESS ✅] USERID=70 CHECKTIME=2025-08-07 09:52:47
+    [NEW] RID 7322, User=70, Time=2025-08-07 09:52:47
+    [ACCESS ✅] USERID=1091 CHECKTIME=2025-08-07 09:06:28
+    [NEW] RID 9790, User=1091, Time=2025-08-07 09:06:28
+    [ACCESS ✅] USERID=266 CHECKTIME=2025-08-07 09:46:43
+    [NEW] RID 5544, User=266, Time=2025-08-07 09:46:43
+    [ACCESS ✅] USERID=896 CHECKTIME=2025-08-07 09:46:06
+    [NEW] RID 2077, User=896, Time=2025-08-07 09:46:06
+    [ACCESS ✅] USERID=1177 CHECKTIME=2025-08-06 18:56:23
+    [NEW] RID 5988, User=1177, Time=2025-08-06 18:56:23
+    [ACCESS ✅] USERID=777 CHECKTIME=2025-08-06 19:22:48
+    [NEW] RID 8513, User=777, Time=2025-08-06 19:22:48
+    [ACCESS ✅] USERID=337 CHECKTIME=2025-08-07 09:20:59
+    [NEW] RID 2214, User=337, Time=2025-08-07 09:20:59
+    [ACCESS ❌] RID 856: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=797 CHECKTIME=2025-08-07 09:50:38
+    [NEW] RID 10717, User=797, Time=2025-08-07 09:50:38
+    [ACCESS ✅] USERID=462 CHECKTIME=2025-08-07 09:30:07
+    [NEW] RID 7357, User=462, Time=2025-08-07 09:30:07
+    [NEW] RID 856, User=545, Time=2025-08-07 09:41:21
+    [ACCESS ✅] USERID=1078 CHECKTIME=2025-08-07 09:09:56
+    [NEW] RID 9791, User=1078, Time=2025-08-07 09:09:56
+    [ACCESS ✅] USERID=1226 CHECKTIME=2025-08-07 09:51:40
+    [NEW] RID 2078, User=1226, Time=2025-08-07 09:51:40
+    [ACCESS ✅] USERID=635 CHECKTIME=2025-08-07 09:47:28
+    [NEW] RID 5545, User=635, Time=2025-08-07 09:47:28
+    [ACCESS ✅] USERID=1222 CHECKTIME=2025-08-07 09:54:03
+    [NEW] RID 7323, User=1222, Time=2025-08-07 09:54:03
+    [ACCESS ✅] USERID=1177 CHECKTIME=2025-08-06 18:56:47
+    [NEW] RID 5989, User=1177, Time=2025-08-06 18:56:47
+    [ACCESS ✅] USERID=1089 CHECKTIME=2025-08-07 09:32:58
+    [NEW] RID 7358, User=1089, Time=2025-08-07 09:32:58
+    [ACCESS ✅] USERID=545 CHECKTIME=2025-08-07 09:41:22
+    [NEW] RID 857, User=545, Time=2025-08-07 09:41:22
+    [ACCESS ✅] USERID=797 CHECKTIME=2025-08-07 09:50:40
+    [NEW] RID 10718, User=797, Time=2025-08-07 09:50:40
+    [ACCESS ✅] USERID=7073 CHECKTIME=2025-08-07 09:55:49
+    [NEW] RID 2079, User=7073, Time=2025-08-07 09:55:49
+    [ACCESS ✅] USERID=581 CHECKTIME=2025-08-07 09:55:54
+    [NEW] RID 7324, User=581, Time=2025-08-07 09:55:54
+    [ACCESS ✅] USERID=777 CHECKTIME=2025-08-06 19:22:49
+    [NEW] RID 8514, User=777, Time=2025-08-06 19:22:49
+    [ACCESS ✅] USERID=1171 CHECKTIME=2025-08-07 09:21:50
+    [NEW] RID 2215, User=1171, Time=2025-08-07 09:21:50
+    [ACCESS ✅] USERID=1569 CHECKTIME=2025-08-07 09:49:35
+    [NEW] RID 5546, User=1569, Time=2025-08-07 09:49:35
+    [ACCESS ✅] USERID=1089 CHECKTIME=2025-08-07 09:34:41
+    [NEW] RID 7359, User=1089, Time=2025-08-07 09:34:41
+    [ACCESS ✅] USERID=9023 CHECKTIME=2025-08-06 18:57:31
+    [NEW] RID 5990, User=9023, Time=2025-08-06 18:57:31
+    [ACCESS ✅] USERID=578 CHECKTIME=2025-08-07 09:52:52
+    [NEW] RID 10719, User=578, Time=2025-08-07 09:52:52
+    [ACCESS ✅] USERID=1078 CHECKTIME=2025-08-07 09:11:34
+    [NEW] RID 9792, User=1078, Time=2025-08-07 09:11:34
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:58:58 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 858: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ❌] RID 2216: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=1367 CHECKTIME=2025-08-07 09:59:24
+    [NEW] RID 2080, User=1367, Time=2025-08-07 09:59:24
+    [ACCESS ✅] USERID=505 CHECKTIME=2025-08-07 09:57:01
+    [NEW] RID 5547, User=505, Time=2025-08-07 09:57:01
+    [ACCESS ✅] USERID=9023 CHECKTIME=2025-08-07 09:12:17
+    [NEW] RID 5991, User=9023, Time=2025-08-07 09:12:17
+    [NEW] RID 2216, User=1322, Time=2025-08-07 09:27:47
+    [ACCESS ✅] USERID=656 CHECKTIME=2025-08-06 19:26:18
+    [NEW] RID 8515, User=656, Time=2025-08-06 19:26:18
+    [NEW] RID 858, User=390, Time=2025-08-07 09:42:23
+    [ACCESS ✅] USERID=1640 CHECKTIME=2025-08-07 09:36:57
+    [NEW] RID 7360, User=1640, Time=2025-08-07 09:36:57
+[ACCESS INSERT TIME] Inserted 7 records into Access DB in 14.72 seconds from K40 Lobby Moynamoti Branch
+    [ACCESS ✅] USERID=1604 CHECKTIME=2025-08-07 09:57:21
+[FLASK DB INSERT TIME] Inserted 7 records into Flask DB in 14.74 seconds from K40 Lobby Moynamoti Branch    [NEW] RID 7325, User=1604, Time=2025-08-07 09:57:21
+
+    [ACCESS ✅] USERID=1606 CHECKTIME=2025-08-07 09:12:24
+    [NEW] RID 9793, User=1606, Time=2025-08-07 09:12:24
+[ACCESS INSERT TIME] Inserted 6 records into Access DB in 17.29 seconds from K40 Lobby Shyamnagar Branch
+[FLASK DB INSERT TIME] Inserted 6 records into Flask DB in 17.31 seconds from K40 Lobby Shyamnagar Branch
+[DISCONNECTED] K40 Lobby Shyamnagar Branch
+[SCHEDULER] K40 Lobby Shyamnagar Branch: 6 new logs
+
+[DEBUG] Connecting to K40 Lobby Banani Branch (172.19.126.231:4370)
+[DISCONNECTED] K40 Lobby Moynamoti Branch
+[SCHEDULER] K40 Lobby Moynamoti Branch: 7 new logs
+[DEBUG] Connecting to K40 Lobby Chuknagar  Branch (172.19.127.231:4370)
+
+[CONNECTED] K40 Lobby Banani Branch
+[CONNECTED] K40 Lobby Chuknagar  Branch
+[INFO] Retrieved 4858 logs from K40 Lobby Banani Branch in 1.40 seconds
+[INFO] Retrieved 4799 logs from K40 Lobby Chuknagar  Branch in 1.53 seconds
+    [ACCESS ❌] RID 10720: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=777 CHECKTIME=2025-08-07 08:58:45
+    [NEW] RID 8516, User=777, Time=2025-08-07 08:58:45
+    [NEW] RID 10720, User=1567, Time=2025-08-07 09:53:00
+    [ACCESS ✅] USERID=303 CHECKTIME=2025-08-07 09:36:26
+    [NEW] RID 2217, User=303, Time=2025-08-07 09:36:26
+    [ACCESS ✅] USERID=26 CHECKTIME=2025-08-07 09:59:25
+    [NEW] RID 5548, User=26, Time=2025-08-07 09:59:25
+    [ACCESS ✅] USERID=1608 CHECKTIME=2025-08-07 09:12:30
+    [NEW] RID 5992, User=1608, Time=2025-08-07 09:12:30
+    [ACCESS ✅] USERID=1412 CHECKTIME=2025-08-07 09:39:51
+    [NEW] RID 7361, User=1412, Time=2025-08-07 09:39:51
+    [ACCESS ✅] USERID=930 CHECKTIME=2025-08-06 19:10:10
+    [NEW] RID 4788, User=930, Time=2025-08-06 19:10:10
+    [ACCESS ✅] USERID=9043 CHECKTIME=2025-08-06 18:43:04
+    [NEW] RID 4844, User=9043, Time=2025-08-06 18:43:04
+    [ACCESS ✅] USERID=1474 CHECKTIME=2025-08-07 09:58:21
+    [NEW] RID 7326, User=1474, Time=2025-08-07 09:58:21
+    [ACCESS ✅] USERID=1033 CHECKTIME=2025-08-07 10:04:26
+    [NEW] RID 5549, User=1033, Time=2025-08-07 10:04:26
+    [ACCESS ✅] USERID=245 CHECKTIME=2025-08-07 09:53:40
+    [NEW] RID 10721, User=245, Time=2025-08-07 09:53:40
+    [ACCESS ✅] USERID=1637 CHECKTIME=2025-08-07 09:37:14
+    [NEW] RID 2218, User=1637, Time=2025-08-07 09:37:14
+    [ACCESS ✅] USERID=777 CHECKTIME=2025-08-07 08:58:46
+    [NEW] RID 8517, User=777, Time=2025-08-07 08:58:46
+    [ACCESS ✅] USERID=1177 CHECKTIME=2025-08-07 09:28:03
+    [NEW] RID 5993, User=1177, Time=2025-08-07 09:28:03
+[ACCESS INSERT TIME] Inserted 16 records into Access DB in 26.52 seconds from K40 Lobby Dhanmondi Branch
+[FLASK DB INSERT TIME] Inserted 16 records into Flask DB in 26.53 seconds from K40 Lobby Dhanmondi Branch
+[ACCESS INSERT TIME] Inserted 6 records into Access DB in 10.30 seconds from K40 Lobby Banglabazar Branch
+[FLASK DB INSERT TIME] Inserted 6 records into Flask DB in 10.31 seconds from K40 Lobby Banglabazar Branch
+    [ACCESS ✅] USERID=7056 CHECKTIME=2025-08-07 09:18:27
+    [NEW] RID 9794, User=7056, Time=2025-08-07 09:18:27
+    [ACCESS ✅] USERID=1634 CHECKTIME=2025-08-07 08:34:18
+    [NEW] RID 4845, User=1634, Time=2025-08-07 08:34:18
+    [ACCESS ✅] USERID=1622 CHECKTIME=2025-08-07 10:04:31
+    [NEW] RID 7327, User=1622, Time=2025-08-07 10:04:31
+    [ACCESS ✅] USERID=1412 CHECKTIME=2025-08-07 09:39:53
+    [NEW] RID 7362, User=1412, Time=2025-08-07 09:39:53
+    [ACCESS ✅] USERID=281 CHECKTIME=2025-08-06 19:12:18
+    [NEW] RID 4789, User=281, Time=2025-08-06 19:12:18
+[ACCESS INSERT TIME] Inserted 30 records into Access DB in 28.09 seconds from K40 Lobby Gulshan Branch
+[FLASK DB INSERT TIME] Inserted 30 records into Flask DB in 28.10 seconds from K40 Lobby Gulshan Branch
+[DISCONNECTED] K40 Lobby Banglabazar Branch
+[SCHEDULER] K40 Lobby Banglabazar Branch: 6 new logs
+
+[DEBUG] Connecting to K40 Lobby Madhobdi Branch (172.19.128.231:4370)
+[DISCONNECTED] K40 Lobby Dhanmondi Branch
+[SCHEDULER] K40 Lobby Dhanmondi Branch: 16 new logs
+
+[DEBUG] Connecting to K40 Lobby Barishal Branch (172.19.129.231:4370)
+[DISCONNECTED] K40 Lobby Gulshan Branch
+[SCHEDULER] K40 Lobby Gulshan Branch: 30 new logs
+[DEBUG] Connecting to K40 Lobby Sarbolakkhona Branch (172.19.130.231:4370)
+
+[CONNECTED] K40 Lobby Barishal Branch
+[CONNECTED] K40 Lobby Madhobdi Branch
+[CONNECTED] K40 Lobby Sarbolakkhona Branch
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:59:03 +06)" skipped: maximum number of running instances reached (1)
+[INFO] Retrieved 2737 logs from K40 Lobby Sarbolakkhona Branch in 1.13 seconds
+[INFO] Retrieved 3514 logs from K40 Lobby Madhobdi Branch in 1.20 seconds
+[INFO] Retrieved 6521 logs from K40 Lobby Barishal Branch in 2.07 seconds
+    [ACCESS ✅] USERID=245 CHECKTIME=2025-08-07 09:53:41
+    [ACCESS ❌] RID 8518: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")    [NEW] RID 10722, User=245, Time=2025-08-07 09:53:41
+
+    [ACCESS ✅] USERID=1363 CHECKTIME=2025-08-07 09:33:18
+    [NEW] RID 5994, User=1363, Time=2025-08-07 09:33:18
+    [ACCESS ✅] USERID=235 CHECKTIME=2025-08-07 09:44:50
+    [NEW] RID 7363, User=235, Time=2025-08-07 09:44:50
+    [ACCESS ✅] USERID=1444 CHECKTIME=2025-08-07 09:25:49
+    [NEW] RID 2728, User=1444, Time=2025-08-07 09:25:49
+    [ACCESS ❌] RID 4790: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=1368 CHECKTIME=2025-08-07 09:09:31
+    [NEW] RID 4846, User=1368, Time=2025-08-07 09:09:31
+    [ACCESS ✅] USERID=9012 CHECKTIME=2025-08-06 19:22:18
+    [NEW] RID 3497, User=9012, Time=2025-08-06 19:22:18
+    [ACCESS ✅] USERID=256 CHECKTIME=2025-08-07 09:32:01
+    [NEW] RID 9795, User=256, Time=2025-08-07 09:32:01
+    [NEW] RID 8518, User=777, Time=2025-08-07 08:58:48
+    [NEW] RID 4790, User=652, Time=2025-08-06 19:16:36
+    [ACCESS ✅] USERID=9056 CHECKTIME=2025-08-07 09:47:12
+    [NEW] RID 7364, User=9056, Time=2025-08-07 09:47:12
+    [ACCESS ✅] USERID=7077 CHECKTIME=2025-08-06 19:07:16
+    [NEW] RID 6504, User=7077, Time=2025-08-06 19:07:16
+    [ACCESS ✅] USERID=777 CHECKTIME=2025-08-07 08:58:49
+    [NEW] RID 8519, User=777, Time=2025-08-07 08:58:49
+    [ACCESS ✅] USERID=335 CHECKTIME=2025-08-07 09:34:27
+    [NEW] RID 9796, User=335, Time=2025-08-07 09:34:27
+    [ACCESS ✅] USERID=1391 CHECKTIME=2025-08-07 09:36:49
+    [NEW] RID 2729, User=1391, Time=2025-08-07 09:36:49
+    [ACCESS ✅] USERID=982 CHECKTIME=2025-08-07 09:54:30
+    [NEW] RID 10723, User=982, Time=2025-08-07 09:54:30
+    [ACCESS ✅] USERID=7078 CHECKTIME=2025-08-07 09:48:55
+    [NEW] RID 7365, User=7078, Time=2025-08-07 09:48:55
+    [ACCESS ✅] USERID=468 CHECKTIME=2025-08-07 09:42:40
+    [NEW] RID 5995, User=468, Time=2025-08-07 09:42:40
+    [ACCESS ✅] USERID=9012 CHECKTIME=2025-08-06 20:56:57
+    [NEW] RID 3498, User=9012, Time=2025-08-06 20:56:57
+    [ACCESS ✅] USERID=1368 CHECKTIME=2025-08-07 09:09:33
+    [NEW] RID 4847, User=1368, Time=2025-08-07 09:09:33
+    [ACCESS ✅] USERID=1358 CHECKTIME=2025-08-07 09:55:18
+    [NEW] RID 10724, User=1358, Time=2025-08-07 09:55:18
+    [ACCESS ✅] USERID=706 CHECKTIME=2025-08-07 09:38:28
+    [NEW] RID 2730, User=706, Time=2025-08-07 09:38:28
+    [ACCESS ✅] USERID=817 CHECKTIME=2025-08-07 09:34:38
+    [NEW] RID 9797, User=817, Time=2025-08-07 09:34:38
+    [ACCESS ✅] USERID=1453 CHECKTIME=2025-08-07 09:50:03
+    [NEW] RID 7366, User=1453, Time=2025-08-07 09:50:03
+    [ACCESS ✅] USERID=864 CHECKTIME=2025-08-07 09:11:55
+    [NEW] RID 8520, User=864, Time=2025-08-07 09:11:55
+    [ACCESS ✅] USERID=828 CHECKTIME=2025-08-06 20:32:11
+    [NEW] RID 4791, User=828, Time=2025-08-06 20:32:11
+    [ACCESS ✅] USERID=1363 CHECKTIME=2025-08-07 09:42:59
+    [NEW] RID 5996, User=1363, Time=2025-08-07 09:42:59
+    [ACCESS ✅] USERID=9012 CHECKTIME=2025-08-06 20:56:58
+    [NEW] RID 3499, User=9012, Time=2025-08-06 20:56:58
+    [ACCESS ✅] USERID=1570 CHECKTIME=2025-08-07 09:34:56
+    [NEW] RID 9798, User=1570, Time=2025-08-07 09:34:56
+    [ACCESS ✅] USERID=7063 CHECKTIME=2025-08-07 09:39:58
+    [NEW] RID 2731, User=7063, Time=2025-08-07 09:39:58
+    [ACCESS ✅] USERID=9034 CHECKTIME=2025-08-06 20:18:12
+    [NEW] RID 6505, User=9034, Time=2025-08-06 20:18:12
+    [ACCESS ✅] USERID=1660 CHECKTIME=2025-08-07 09:56:22
+    [NEW] RID 10725, User=1660, Time=2025-08-07 09:56:22
+    [ACCESS ✅] USERID=1439 CHECKTIME=2025-08-07 09:52:56
+    [NEW] RID 7367, User=1439, Time=2025-08-07 09:52:56
+    [ACCESS ✅] USERID=1363 CHECKTIME=2025-08-07 09:43:01
+    [NEW] RID 5997, User=1363, Time=2025-08-07 09:43:01
+    [ACCESS ✅] USERID=1030 CHECKTIME=2025-08-07 09:19:42
+    [NEW] RID 8521, User=1030, Time=2025-08-07 09:19:42
+    [ACCESS ✅] USERID=9043 CHECKTIME=2025-08-07 09:35:48
+    [NEW] RID 4848, User=9043, Time=2025-08-07 09:35:48
+    [ACCESS ✅] USERID=9050 CHECKTIME=2025-08-06 20:32:24
+    [NEW] RID 4792, User=9050, Time=2025-08-06 20:32:24
+    [ACCESS ✅] USERID=387 CHECKTIME=2025-08-06 20:57:17
+    [NEW] RID 3500, User=387, Time=2025-08-06 20:57:17
+    [ACCESS ✅] USERID=7066 CHECKTIME=2025-08-07 09:42:00
+    [NEW] RID 2732, User=7066, Time=2025-08-07 09:42:00
+    [ACCESS ✅] USERID=1037 CHECKTIME=2025-08-06 20:18:20
+    [NEW] RID 6506, User=1037, Time=2025-08-06 20:18:20
+    [ACCESS ✅] USERID=225 CHECKTIME=2025-08-07 09:50:42
+    [NEW] RID 5998, User=225, Time=2025-08-07 09:50:42
+    [ACCESS ✅] USERID=1344 CHECKTIME=2025-08-07 09:57:07
+    [NEW] RID 10726, User=1344, Time=2025-08-07 09:57:07
+    [ACCESS ✅] USERID=223 CHECKTIME=2025-08-07 09:23:36
+    [NEW] RID 8522, User=223, Time=2025-08-07 09:23:36
+    [ACCESS ✅] USERID=1193 CHECKTIME=2025-08-07 09:53:41
+    [NEW] RID 7368, User=1193, Time=2025-08-07 09:53:41
+    [ACCESS ✅] USERID=250 CHECKTIME=2025-08-07 09:38:29
+    [NEW] RID 9799, User=250, Time=2025-08-07 09:38:29
+    [ACCESS ✅] USERID=387 CHECKTIME=2025-08-06 20:57:19
+    [NEW] RID 3501, User=387, Time=2025-08-06 20:57:19
+[ACCESS INSERT TIME] Inserted 22 records into Access DB in 28.18 seconds from K40 Lobby Bogura Branch
+[FLASK DB INSERT TIME] Inserted 22 records into Flask DB in 28.19 seconds from K40 Lobby Bogura Branch
+    [ACCESS ✅] USERID=9050 CHECKTIME=2025-08-07 09:15:24
+    [NEW] RID 4793, User=9050, Time=2025-08-07 09:15:24
+    [ACCESS ✅] USERID=1315 CHECKTIME=2025-08-07 09:57:36
+    [NEW] RID 10727, User=1315, Time=2025-08-07 09:57:36
+    [ACCESS ✅] USERID=1672 CHECKTIME=2025-08-06 20:37:27
+    [NEW] RID 6507, User=1672, Time=2025-08-06 20:37:27
+    [ACCESS ✅] USERID=1296 CHECKTIME=2025-08-07 09:50:38
+    [NEW] RID 2733, User=1296, Time=2025-08-07 09:50:38
+    [ACCESS ✅] USERID=1031 CHECKTIME=2025-08-07 09:38:38
+    [NEW] RID 4849, User=1031, Time=2025-08-07 09:38:38
+[DISCONNECTED] K40 Lobby Bogura Branch
+[SCHEDULER] K40 Lobby Bogura Branch: 22 new logs
+
+[DEBUG] Connecting to K40 Lobby Rajshahi Branch (172.19.131.231:4370)
+[CONNECTED] K40 Lobby Rajshahi Branch
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:59:08 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 9800: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+[INFO] Retrieved 6512 logs from K40 Lobby Rajshahi Branch in 2.28 seconds
+    [ACCESS ❌] RID 5999: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=7064 CHECKTIME=2025-08-07 09:31:18
+    [NEW] RID 8523, User=7064, Time=2025-08-07 09:31:18
+    [NEW] RID 5999, User=1264, Time=2025-08-07 09:51:18
+    [NEW] RID 9800, User=1562, Time=2025-08-07 09:38:54
+    [ACCESS ✅] USERID=677 CHECKTIME=2025-08-06 21:00:34
+    [NEW] RID 3502, User=677, Time=2025-08-06 21:00:34
+    [ACCESS ✅] USERID=930 CHECKTIME=2025-08-07 09:29:37
+    [NEW] RID 4794, User=930, Time=2025-08-07 09:29:37
+    [ACCESS ✅] USERID=517 CHECKTIME=2025-08-07 09:40:34
+    [NEW] RID 4850, User=517, Time=2025-08-07 09:40:34
+    [ACCESS ✅] USERID=380 CHECKTIME=2025-08-07 09:57:52
+    [NEW] RID 10728, User=380, Time=2025-08-07 09:57:52
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:59:13 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 8524: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=7001 CHECKTIME=2025-08-06 20:37:35
+    [NEW] RID 6508, User=7001, Time=2025-08-06 20:37:35
+    [NEW] RID 8524, User=830, Time=2025-08-07 09:40:52
+    [ACCESS ✅] USERID=9031 CHECKTIME=2025-08-07 09:57:28
+    [NEW] RID 2734, User=9031, Time=2025-08-07 09:57:28
+    [ACCESS ✅] USERID=7042 CHECKTIME=2025-08-06 18:42:57
+    [NEW] RID 6493, User=7042, Time=2025-08-06 18:42:57
+    [ACCESS ✅] USERID=671 CHECKTIME=2025-08-07 09:36:26
+    [NEW] RID 6509, User=671, Time=2025-08-07 09:36:26
+    [ACCESS ✅] USERID=755 CHECKTIME=2025-08-07 09:35:38
+    [NEW] RID 4795, User=755, Time=2025-08-07 09:35:38
+    [ACCESS ✅] USERID=1028 CHECKTIME=2025-08-07 09:57:33
+    [NEW] RID 6000, User=1028, Time=2025-08-07 09:57:33
+    [ACCESS ✅] USERID=792 CHECKTIME=2025-08-07 09:41:02
+    [NEW] RID 4851, User=792, Time=2025-08-07 09:41:02
+    [ACCESS ✅] USERID=677 CHECKTIME=2025-08-06 21:00:35
+    [NEW] RID 3503, User=677, Time=2025-08-06 21:00:35
+    [ACCESS ✅] USERID=844 CHECKTIME=2025-08-07 09:43:19
+    [NEW] RID 9801, User=844, Time=2025-08-07 09:43:19
+    [ACCESS ✅] USERID=396 CHECKTIME=2025-08-07 09:46:49
+    [NEW] RID 4852, User=396, Time=2025-08-07 09:46:49
+    [ACCESS ✅] USERID=458 CHECKTIME=2025-08-07 10:04:25
+    [NEW] RID 2735, User=458, Time=2025-08-07 10:04:25
+    [ACCESS ✅] USERID=9034 CHECKTIME=2025-08-07 09:38:17
+    [NEW] RID 6510, User=9034, Time=2025-08-07 09:38:17
+    [ACCESS ✅] USERID=1611 CHECKTIME=2025-08-07 09:57:59
+    [NEW] RID 10729, User=1611, Time=2025-08-07 09:57:59
+    [ACCESS ✅] USERID=7065 CHECKTIME=2025-08-07 09:41:00
+    [NEW] RID 8525, User=7065, Time=2025-08-07 09:41:00
+    [ACCESS ✅] USERID=828 CHECKTIME=2025-08-07 09:36:53
+    [NEW] RID 4796, User=828, Time=2025-08-07 09:36:53
+    [ACCESS ❌] RID 6001: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=1445 CHECKTIME=2025-08-07 09:38:24
+    [NEW] RID 6511, User=1445, Time=2025-08-07 09:38:24
+    [NEW] RID 6001, User=299, Time=2025-08-07 10:02:30
+    [ACCESS ✅] USERID=1520 CHECKTIME=2025-08-07 09:47:21
+    [NEW] RID 9802, User=1520, Time=2025-08-07 09:47:21
+[ACCESS INSERT TIME] Inserted 17 records into Access DB in 29.97 seconds from K40 Lobby Gazipur Branch
+[FLASK DB INSERT TIME] Inserted 17 records into Flask DB in 29.98 seconds from K40 Lobby Gazipur Branch
+[DISCONNECTED] K40 Lobby Gazipur Branch
+[SCHEDULER] K40 Lobby Gazipur Branch: 17 new logs
+
+[DEBUG] Connecting to K40 Lobby Nababpur Branch (172.19.132.231:4370)
+[CONNECTED] K40 Lobby Nababpur Branch
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:59:18 +06)" skipped: maximum number of running instances reached (1)
+[INFO] Retrieved 5935 logs from K40 Lobby Nababpur Branch in 3.78 seconds
+    [ACCESS ❌] RID 6494: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=458 CHECKTIME=2025-08-07 10:10:21
+    [ACCESS ❌] RID 8526: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [NEW] RID 2736, User=458, Time=2025-08-07 10:10:21
+    [NEW] RID 6494, User=1577, Time=2025-08-06 18:47:29
+    [ACCESS ✅] USERID=677 CHECKTIME=2025-08-07 09:08:10
+    [NEW] RID 3504, User=677, Time=2025-08-07 09:08:10
+    [ACCESS ✅] USERID=396 CHECKTIME=2025-08-07 09:47:28
+    [NEW] RID 4853, User=396, Time=2025-08-07 09:47:28
+    [ACCESS ✅] USERID=438 CHECKTIME=2025-08-07 09:58:24
+    [NEW] RID 10730, User=438, Time=2025-08-07 09:58:24
+    [ACCESS ✅] USERID=158 CHECKTIME=2025-08-07 09:38:47
+    [NEW] RID 4797, User=158, Time=2025-08-07 09:38:47
+    [ACCESS ✅] USERID=1345 CHECKTIME=2025-08-07 09:48:50
+    [NEW] RID 9803, User=1345, Time=2025-08-07 09:48:50
+    [NEW] RID 8526, User=325, Time=2025-08-07 09:41:48
+    [ACCESS ✅] USERID=7052 CHECKTIME=2025-08-06 18:32:17
+    [NEW] RID 5917, User=7052, Time=2025-08-06 18:32:17
+    [ACCESS ✅] USERID=7077 CHECKTIME=2025-08-07 09:38:40
+    [NEW] RID 6512, User=7077, Time=2025-08-07 09:38:40
+    [ACCESS ✅] USERID=1379 CHECKTIME=2025-08-07 10:02:53
+    [NEW] RID 10731, User=1379, Time=2025-08-07 10:02:53
+    [ACCESS ✅] USERID=9012 CHECKTIME=2025-08-07 09:08:17
+    [NEW] RID 3505, User=9012, Time=2025-08-07 09:08:17
+    [ACCESS ✅] USERID=1140 CHECKTIME=2025-08-06 18:59:29
+    [NEW] RID 5918, User=1140, Time=2025-08-06 18:59:29
+    [ACCESS ✅] USERID=828 CHECKTIME=2025-08-07 09:43:10
+    [NEW] RID 4798, User=828, Time=2025-08-07 09:43:10
+    [ACCESS ✅] USERID=432 CHECKTIME=2025-08-07 10:21:37
+    [NEW] RID 2737, User=432, Time=2025-08-07 10:21:37
+[ACCESS INSERT TIME] Inserted 10 records into Access DB in 16.85 seconds from K40 Lobby Sarbolakkhona Branch
+[FLASK DB INSERT TIME] Inserted 10 records into Flask DB in 16.86 seconds from K40 Lobby Sarbolakkhona Branch
+    [ACCESS ✅] USERID=7005 CHECKTIME=2025-08-07 09:47:05
+    [NEW] RID 6513, User=7005, Time=2025-08-07 09:47:05
+    [ACCESS ✅] USERID=977 CHECKTIME=2025-08-07 09:54:51
+    [NEW] RID 4854, User=977, Time=2025-08-07 09:54:51
+    [ACCESS ✅] USERID=721 CHECKTIME=2025-08-07 09:21:08
+    [NEW] RID 3506, User=721, Time=2025-08-07 09:21:08
+    [ACCESS ✅] USERID=941 CHECKTIME=2025-08-07 10:03:20
+    [NEW] RID 10732, User=941, Time=2025-08-07 10:03:20
+    [ACCESS ✅] USERID=1676 CHECKTIME=2025-08-07 09:41:55
+    [NEW] RID 8527, User=1676, Time=2025-08-07 09:41:55
+    [ACCESS ✅] USERID=1201 CHECKTIME=2025-08-07 09:49:01
+    [NEW] RID 9804, User=1201, Time=2025-08-07 09:49:01
+    [ACCESS ✅] USERID=9047 CHECKTIME=2025-08-06 18:51:19
+    [NEW] RID 6495, User=9047, Time=2025-08-06 18:51:19
+    [ACCESS ✅] USERID=340 CHECKTIME=2025-08-07 09:48:25
+    [NEW] RID 6514, User=340, Time=2025-08-07 09:48:25
+    [ACCESS ✅] USERID=281 CHECKTIME=2025-08-07 10:02:48
+    [NEW] RID 4799, User=281, Time=2025-08-07 10:02:48
+    [ACCESS ✅] USERID=742 CHECKTIME=2025-08-06 19:16:01
+    [NEW] RID 5919, User=742, Time=2025-08-06 19:16:01
+[DISCONNECTED] K40 Lobby Sarbolakkhona Branch
+    [ACCESS ✅] USERID=941 CHECKTIME=2025-08-07 10:03:21
+[ACCESS INSERT TIME] Inserted 12 records into Access DB in 18.60 seconds from K40 Lobby Chuknagar  Branch
+[SCHEDULER] K40 Lobby Sarbolakkhona Branch: 10 new logs[FLASK DB INSERT TIME] Inserted 12 records into Flask DB in 18.61 seconds from K40 Lobby Chuknagar  Branch
+
+[DEBUG] Connecting to K40 Lobby Mirpur Branch (172.19.133.230:4370)
+
+    [NEW] RID 10733, User=941, Time=2025-08-07 10:03:21
+    [ACCESS ✅] USERID=498 CHECKTIME=2025-08-07 09:52:43
+    [NEW] RID 9805, User=498, Time=2025-08-07 09:52:43
+    [ACCESS ✅] USERID=1190 CHECKTIME=2025-08-06 19:16:06
+    [NEW] RID 5920, User=1190, Time=2025-08-06 19:16:06
+[DISCONNECTED] K40 Lobby Chuknagar  Branch
+[SCHEDULER] K40 Lobby Chuknagar  Branch: 12 new logs
+
+[DEBUG] Connecting to K40 Lobby Shibu Market Branch (172.19.134.231:4370)
+[CONNECTED] K40 Lobby Mirpur Branch
+[CONNECTED] K40 Lobby Shibu Market Branch
+[INFO] Retrieved 5241 logs from K40 Lobby Mirpur Branch in 1.52 seconds
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:59:23 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 6496: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=342 CHECKTIME=2025-08-07 09:58:21
+    [NEW] RID 4855, User=342, Time=2025-08-07 09:58:21
+[INFO] Retrieved 2736 logs from K40 Lobby Shibu Market Branch in 2.70 seconds
+    [ACCESS ❌] RID 6515: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=25 CHECKTIME=2025-08-07 09:27:24
+    [NEW] RID 3507, User=25, Time=2025-08-07 09:27:24
+    [NEW] RID 6515, User=884, Time=2025-08-07 09:49:54
+    [ACCESS ✅] USERID=57 CHECKTIME=2025-08-07 09:42:49
+    [NEW] RID 8528, User=57, Time=2025-08-07 09:42:49
+    [ACCESS ✅] USERID=576 CHECKTIME=2025-08-07 10:13:41
+    [NEW] RID 10734, User=576, Time=2025-08-07 10:13:41
+    [NEW] RID 6496, User=1576, Time=2025-08-06 19:09:24
+    [ACCESS ✅] USERID=525 CHECKTIME=2025-08-06 19:16:10
+    [NEW] RID 5921, User=525, Time=2025-08-06 19:16:10
+    [ACCESS ✅] USERID=25 CHECKTIME=2025-08-07 09:27:26
+    [NEW] RID 3508, User=25, Time=2025-08-07 09:27:26
+    [ACCESS ✅] USERID=754 CHECKTIME=2025-08-07 10:01:07
+    [ACCESS ✅] USERID=31 CHECKTIME=2025-08-07 09:53:17
+    [NEW] RID 9806, User=31, Time=2025-08-07 09:53:17
+    [NEW] RID 4856, User=754, Time=2025-08-07 10:01:07
+    [ACCESS ✅] USERID=771 CHECKTIME=2025-08-06 19:20:26
+    [NEW] RID 5226, User=771, Time=2025-08-06 19:20:26
+    [ACCESS ✅] USERID=1642 CHECKTIME=2025-08-07 09:23:53
+    [NEW] RID 5922, User=1642, Time=2025-08-07 09:23:53
+    [ACCESS ✅] USERID=453 CHECKTIME=2025-08-06 18:37:02
+    [NEW] RID 2733, User=453, Time=2025-08-06 18:37:02
+    [ACCESS ✅] USERID=1672 CHECKTIME=2025-08-07 09:51:53
+    [NEW] RID 6516, User=1672, Time=2025-08-07 09:51:53
+    [ACCESS ✅] USERID=168 CHECKTIME=2025-08-07 09:29:45
+    [NEW] RID 3509, User=168, Time=2025-08-07 09:29:45
+    [ACCESS ✅] USERID=1301 CHECKTIME=2025-08-06 19:20:29
+    [NEW] RID 5227, User=1301, Time=2025-08-06 19:20:29
+    [ACCESS ✅] USERID=656 CHECKTIME=2025-08-07 09:43:39
+    [NEW] RID 8529, User=656, Time=2025-08-07 09:43:39
+    [ACCESS ✅] USERID=1576 CHECKTIME=2025-08-06 19:21:14
+    [NEW] RID 6497, User=1576, Time=2025-08-06 19:21:14
+    [ACCESS ✅] USERID=808 CHECKTIME=2025-08-07 10:26:17
+    [NEW] RID 10735, User=808, Time=2025-08-07 10:26:17
+    [ACCESS ✅] USERID=453 CHECKTIME=2025-08-07 09:24:12
+    [NEW] RID 2734, User=453, Time=2025-08-07 09:24:12
+    [ACCESS ✅] USERID=1642 CHECKTIME=2025-08-07 09:24:03
+    [NEW] RID 5923, User=1642, Time=2025-08-07 09:24:03
+    [ACCESS ✅] USERID=7001 CHECKTIME=2025-08-07 09:52:39
+    [NEW] RID 6517, User=7001, Time=2025-08-07 09:52:39
+    [ACCESS ✅] USERID=325 CHECKTIME=2025-08-07 09:45:47
+    [NEW] RID 8530, User=325, Time=2025-08-07 09:45:47
+    [ACCESS ✅] USERID=506 CHECKTIME=2025-08-07 10:05:39
+    [NEW] RID 4857, User=506, Time=2025-08-07 10:05:39
+    [ACCESS ✅] USERID=490 CHECKTIME=2025-08-07 09:32:20
+    [NEW] RID 3510, User=490, Time=2025-08-07 09:32:20
+    [ACCESS ✅] USERID=341 CHECKTIME=2025-08-07 09:59:03
+    [NEW] RID 9807, User=341, Time=2025-08-07 09:59:03
+    [ACCESS ✅] USERID=97 CHECKTIME=2025-08-07 09:24:19
+    [NEW] RID 5924, User=97, Time=2025-08-07 09:24:19
+    [ACCESS ✅] USERID=1279 CHECKTIME=2025-08-07 09:55:35
+    [NEW] RID 6518, User=1279, Time=2025-08-07 09:55:35
+    [ACCESS ✅] USERID=365 CHECKTIME=2025-08-06 19:24:11
+    [NEW] RID 6498, User=365, Time=2025-08-06 19:24:11
+    [ACCESS ✅] USERID=1168 CHECKTIME=2025-08-07 10:53:41
+    [NEW] RID 4858, User=1168, Time=2025-08-07 10:53:41
+    [ACCESS ✅] USERID=969 CHECKTIME=2025-08-07 09:42:01
+    [NEW] RID 2735, User=969, Time=2025-08-07 09:42:01
+[ACCESS INSERT TIME] Inserted 15 records into Access DB in 23.42 seconds from K40 Lobby Banani Branch
+[FLASK DB INSERT TIME] Inserted 15 records into Flask DB in 23.43 seconds from K40 Lobby Banani Branch
+    [ACCESS ✅] USERID=156 CHECKTIME=2025-08-06 19:34:46
+    [NEW] RID 5228, User=156, Time=2025-08-06 19:34:46
+    [ACCESS ✅] USERID=1428 CHECKTIME=2025-08-07 09:44:25
+    [NEW] RID 2736, User=1428, Time=2025-08-07 09:44:25
+    [ACCESS ✅] USERID=808 CHECKTIME=2025-08-07 10:26:19
+    [NEW] RID 10736, User=808, Time=2025-08-07 10:26:19
+[ACCESS INSERT TIME] Inserted 4 records into Access DB in 1.68 seconds from K40 Lobby Shibu Market Branch
+[FLASK DB INSERT TIME] Inserted 4 records into Flask DB in 1.69 seconds from K40 Lobby Shibu Market Branch
+    [ACCESS ✅] USERID=341 CHECKTIME=2025-08-07 09:59:04
+    [ACCESS ✅] USERID=480 CHECKTIME=2025-08-07 09:55:59
+    [NEW] RID 6519, User=480, Time=2025-08-07 09:55:59    [NEW] RID 9808, User=341, Time=2025-08-07 09:59:04
+
+[ACCESS INSERT TIME] Inserted 30 records into Access DB in 50.04 seconds from K40 Lobby Principal Branch
+[FLASK DB INSERT TIME] Inserted 30 records into Flask DB in 50.06 seconds from K40 Lobby Principal Branch
+    [ACCESS ✅] USERID=1190 CHECKTIME=2025-08-07 09:24:41
+    [NEW] RID 5925, User=1190, Time=2025-08-07 09:24:41
+    [ACCESS ✅] USERID=1 CHECKTIME=2025-08-07 09:35:47
+    [NEW] RID 3511, User=1, Time=2025-08-07 09:35:47
+    [ACCESS ✅] USERID=1386 CHECKTIME=2025-08-07 09:53:31
+    [NEW] RID 8531, User=1386, Time=2025-08-07 09:53:31
+    [ACCESS ✅] USERID=1270 CHECKTIME=2025-08-06 19:24:19
+    [NEW] RID 6499, User=1270, Time=2025-08-06 19:24:19
+[ACCESS INSERT TIME] Inserted 30 records into Access DB in 50.03 seconds from K40 Lobby Uttara Branch
+[FLASK DB INSERT TIME] Inserted 30 records into Flask DB in 50.04 seconds from K40 Lobby Uttara Branch
+    [ACCESS ✅] USERID=1013 CHECKTIME=2025-08-07 09:30:29
+    [NEW] RID 5229, User=1013, Time=2025-08-07 09:30:29
+[DISCONNECTED] K40 Lobby Banani Branch
+[SCHEDULER] K40 Lobby Banani Branch: 15 new logs
+
+[DEBUG] Connecting to K40 Lobby Ghonapara Branch (172.19.135.231:4370)
+    [ACCESS ✅] USERID=629 CHECKTIME=2025-08-07 10:05:41
+    [NEW] RID 8532, User=629, Time=2025-08-07 10:05:41
+    [ACCESS ✅] USERID=568 CHECKTIME=2025-08-07 09:56:39
+[DISCONNECTED] K40 Lobby Shibu Market Branch
+    [NEW] RID 6520, User=568, Time=2025-08-07 09:56:39
+[DEBUG] Connecting to K40 Lobby Digraj Branch (172.19.136.231:4370)
+
+[SCHEDULER] K40 Lobby Shibu Market Branch: 4 new logs    [ACCESS ✅] USERID=1642 CHECKTIME=2025-08-07 09:24:48
+
+    [NEW] RID 5926, User=1642, Time=2025-08-07 09:24:48
+[ACCESS INSERT TIME] Inserted 30 records into Access DB in 50.41 seconds from K40 Lobby Velanagar Branch
+[FLASK DB INSERT TIME] Inserted 30 records into Flask DB in 50.42 seconds from K40 Lobby Velanagar Branch
+[DISCONNECTED] K40 Lobby Uttara Branch
+[SCHEDULER] K40 Lobby Uttara Branch: 30 new logs
+[DISCONNECTED] K40 Lobby Principal Branch
+[SCHEDULER] K40 Lobby Principal Branch: 30 new logs
+[DISCONNECTED] K40 Lobby Velanagar Branch
+[SCHEDULER] K40 Lobby Velanagar Branch: 30 new logs
+[CONNECTED] K40 Lobby Ghonapara Branch
+[CONNECTED] K40 Lobby Digraj Branch
+[INFO] Retrieved 2393 logs from K40 Lobby Ghonapara Branch in 0.78 seconds
+[INFO] Retrieved 2725 logs from K40 Lobby Digraj Branch in 0.96 seconds
+    [ACCESS ❌] RID 6500: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=832 CHECKTIME=2025-08-07 09:30:35
+    [NEW] RID 5230, User=832, Time=2025-08-07 09:30:35
+    [ACCESS ✅] USERID=917 CHECKTIME=2025-08-07 09:39:05
+    [NEW] RID 3512, User=917, Time=2025-08-07 09:39:05
+    [NEW] RID 6500, User=891, Time=2025-08-06 19:25:21
+    [ACCESS ✅] USERID=373 CHECKTIME=2025-08-07 09:44:12
+    [NEW] RID 2720, User=373, Time=2025-08-07 09:44:12
+    [ACCESS ✅] USERID=9044 CHECKTIME=2025-08-07 09:41:22
+    [NEW] RID 5231, User=9044, Time=2025-08-07 09:41:22
+    [ACCESS ✅] USERID=1140 CHECKTIME=2025-08-07 09:39:09
+    [NEW] RID 5927, User=1140, Time=2025-08-07 09:39:09
+    [ACCESS ✅] USERID=500 CHECKTIME=2025-08-07 09:33:02
+    [NEW] RID 2387, User=500, Time=2025-08-07 09:33:02
+    [ACCESS ✅] USERID=794 CHECKTIME=2025-08-07 09:44:57
+    [NEW] RID 2721, User=794, Time=2025-08-07 09:44:57
+    [ACCESS ✅] USERID=1037 CHECKTIME=2025-08-07 10:05:01
+    [NEW] RID 6521, User=1037, Time=2025-08-07 10:05:01
+    [ACCESS ✅] USERID=1351 CHECKTIME=2025-08-06 19:35:40
+    [NEW] RID 6501, User=1351, Time=2025-08-06 19:35:40
+[ACCESS INSERT TIME] Inserted 18 records into Access DB in 22.91 seconds from K40 Lobby Barishal Branch
+[FLASK DB INSERT TIME] Inserted 18 records into Flask DB in 22.92 seconds from K40 Lobby Barishal Branch
+    [ACCESS ✅] USERID=1084 CHECKTIME=2025-08-07 09:42:59
+    [NEW] RID 5232, User=1084, Time=2025-08-07 09:42:59
+    [ACCESS ✅] USERID=500 CHECKTIME=2025-08-07 09:33:12
+    [NEW] RID 2388, User=500, Time=2025-08-07 09:33:12
+    [ACCESS ✅] USERID=248 CHECKTIME=2025-08-07 09:45:53
+    [NEW] RID 3513, User=248, Time=2025-08-07 09:45:53
+    [ACCESS ✅] USERID=742 CHECKTIME=2025-08-07 09:55:01
+    [NEW] RID 5928, User=742, Time=2025-08-07 09:55:01
+    [ACCESS ✅] USERID=228 CHECKTIME=2025-08-07 09:45:27
+    [NEW] RID 2722, User=228, Time=2025-08-07 09:45:27
+    [ACCESS ✅] USERID=638 CHECKTIME=2025-08-07 09:33:26
+[DISCONNECTED] K40 Lobby Barishal Branch
+    [NEW] RID 2389, User=638, Time=2025-08-07 09:33:26[SCHEDULER] K40 Lobby Barishal Branch: 18 new logs
+
+    [ACCESS ✅] USERID=573 CHECKTIME=2025-08-06 19:36:04
+    [NEW] RID 6502, User=573, Time=2025-08-06 19:36:04
+    [ACCESS ✅] USERID=771 CHECKTIME=2025-08-07 09:48:41
+    [NEW] RID 5233, User=771, Time=2025-08-07 09:48:41
+    [ACCESS ✅] USERID=387 CHECKTIME=2025-08-07 09:51:01
+    [NEW] RID 3514, User=387, Time=2025-08-07 09:51:01
+    [ACCESS ✅] USERID=584 CHECKTIME=2025-08-07 09:59:25
+    [NEW] RID 5929, User=584, Time=2025-08-07 09:59:25
+    [ACCESS ✅] USERID=794 CHECKTIME=2025-08-07 09:46:00
+    [NEW] RID 2723, User=794, Time=2025-08-07 09:46:00
+[ACCESS INSERT TIME] Inserted 18 records into Access DB in 23.84 seconds from K40 Lobby Madhobdi Branch
+[FLASK DB INSERT TIME] Inserted 18 records into Flask DB in 23.85 seconds from K40 Lobby Madhobdi Branch
+    [ACCESS ✅] USERID=1468 CHECKTIME=2025-08-07 09:50:08
+    [NEW] RID 5234, User=1468, Time=2025-08-07 09:50:08
+    [ACCESS ✅] USERID=845 CHECKTIME=2025-08-07 09:36:48
+    [NEW] RID 2390, User=845, Time=2025-08-07 09:36:48
+    [ACCESS ✅] USERID=9047 CHECKTIME=2025-08-07 09:32:48
+    [NEW] RID 6503, User=9047, Time=2025-08-07 09:32:48
+    [ACCESS ✅] USERID=1642 CHECKTIME=2025-08-07 10:01:41
+    [NEW] RID 5930, User=1642, Time=2025-08-07 10:01:41
+    [ACCESS ✅] USERID=794 CHECKTIME=2025-08-07 09:46:02
+    [NEW] RID 2724, User=794, Time=2025-08-07 09:46:02
+    [ACCESS ✅] USERID=1641 CHECKTIME=2025-08-07 09:38:54
+    [NEW] RID 2391, User=1641, Time=2025-08-07 09:38:54
+    [ACCESS ✅] USERID=156 CHECKTIME=2025-08-07 09:53:37
+    [NEW] RID 5235, User=156, Time=2025-08-07 09:53:37
+    [ACCESS ✅] USERID=1351 CHECKTIME=2025-08-07 09:32:58
+    [NEW] RID 6504, User=1351, Time=2025-08-07 09:32:58
+    [ACCESS ✅] USERID=115 CHECKTIME=2025-08-07 09:54:34
+    [NEW] RID 2725, User=115, Time=2025-08-07 09:54:34
+    [ACCESS ✅] USERID=1190 CHECKTIME=2025-08-07 10:01:48
+    [NEW] RID 5931, User=1190, Time=2025-08-07 10:01:48
+[ACCESS INSERT TIME] Inserted 6 records into Access DB in 1.27 seconds from K40 Lobby Digraj Branch
+[FLASK DB INSERT TIME] Inserted 6 records into Flask DB in 1.27 seconds from K40 Lobby Digraj Branch
+[DISCONNECTED] K40 Lobby Madhobdi Branch
+[SCHEDULER] K40 Lobby Madhobdi Branch: 18 new logs
+    [ACCESS ✅] USERID=47 CHECKTIME=2025-08-07 09:54:13
+    [NEW] RID 5236, User=47, Time=2025-08-07 09:54:13
+[DISCONNECTED] K40 Lobby Digraj Branch
+[SCHEDULER] K40 Lobby Digraj Branch: 6 new logs
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:59:28 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 6505: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=9011 CHECKTIME=2025-08-07 09:39:32
+    [NEW] RID 2392, User=9011, Time=2025-08-07 09:39:32
+    [ACCESS ✅] USERID=7052 CHECKTIME=2025-08-07 10:01:50
+    [NEW] RID 5932, User=7052, Time=2025-08-07 10:01:50
+    [NEW] RID 6505, User=1577, Time=2025-08-07 09:35:04
+    [ACCESS ✅] USERID=1643 CHECKTIME=2025-08-07 09:56:35
+    [NEW] RID 5237, User=1643, Time=2025-08-07 09:56:35
+    [ACCESS ✅] USERID=395 CHECKTIME=2025-08-07 10:09:37
+    [NEW] RID 5933, User=395, Time=2025-08-07 10:09:37
+    [ACCESS ✅] USERID=622 CHECKTIME=2025-08-07 09:47:52
+    [NEW] RID 2393, User=622, Time=2025-08-07 09:47:52
+[ACCESS INSERT TIME] Inserted 7 records into Access DB in 3.68 seconds from K40 Lobby Ghonapara Branch
+[FLASK DB INSERT TIME] Inserted 7 records into Flask DB in 3.70 seconds from K40 Lobby Ghonapara Branch
+[DISCONNECTED] K40 Lobby Ghonapara Branch
+[SCHEDULER] K40 Lobby Ghonapara Branch: 7 new logs
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:59:33 +06)" skipped: maximum number of running instances reached (1)
+    [ACCESS ❌] RID 5238: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ❌] RID 6506: ('HY000', "[HY000] [Microsoft][ODBC Microsoft Access Driver] Could not update; currently locked by user 'admin' on machine 'ABEDY'. (-1102) (SQLExecDirectW)")
+    [ACCESS ✅] USERID=856 CHECKTIME=2025-08-07 10:13:38
+    [NEW] RID 5934, User=856, Time=2025-08-07 10:13:38
+    [NEW] RID 5238, User=7089, Time=2025-08-07 09:57:41
+    [NEW] RID 6506, User=1270, Time=2025-08-07 09:37:08
+    [ACCESS ✅] USERID=185 CHECKTIME=2025-08-07 09:58:21
+    [NEW] RID 5239, User=185, Time=2025-08-07 09:58:21
+    [ACCESS ✅] USERID=525 CHECKTIME=2025-08-07 10:13:45
+    [NEW] RID 5935, User=525, Time=2025-08-07 10:13:45
+    [ACCESS ✅] USERID=365 CHECKTIME=2025-08-07 09:39:06
+    [NEW] RID 6507, User=365, Time=2025-08-07 09:39:06
+    [ACCESS ✅] USERID=1301 CHECKTIME=2025-08-07 09:59:52
+    [NEW] RID 5240, User=1301, Time=2025-08-07 09:59:52
+[ACCESS INSERT TIME] Inserted 19 records into Access DB in 14.83 seconds from K40 Lobby Nababpur Branch
+[FLASK DB INSERT TIME] Inserted 19 records into Flask DB in 14.85 seconds from K40 Lobby Nababpur Branch
+    [ACCESS ✅] USERID=573 CHECKTIME=2025-08-07 09:39:26
+    [NEW] RID 6508, User=573, Time=2025-08-07 09:39:26
+    [ACCESS ✅] USERID=1301 CHECKTIME=2025-08-07 09:59:53
+    [NEW] RID 5241, User=1301, Time=2025-08-07 09:59:53
+[ACCESS INSERT TIME] Inserted 16 records into Access DB in 12.57 seconds from K40 Lobby Mirpur Branch
+[FLASK DB INSERT TIME] Inserted 16 records into Flask DB in 12.58 seconds from K40 Lobby Mirpur Branch
+[DISCONNECTED] K40 Lobby Nababpur Branch
+[SCHEDULER] K40 Lobby Nababpur Branch: 19 new logs
+[DISCONNECTED] K40 Lobby Mirpur Branch
+[SCHEDULER] K40 Lobby Mirpur Branch: 16 new logs
+    [ACCESS ✅] USERID=891 CHECKTIME=2025-08-07 09:42:27
+    [NEW] RID 6509, User=891, Time=2025-08-07 09:42:27
+    [ACCESS ✅] USERID=1262 CHECKTIME=2025-08-07 09:45:20
+    [NEW] RID 6510, User=1262, Time=2025-08-07 09:45:20
+    [ACCESS ✅] USERID=7042 CHECKTIME=2025-08-07 09:50:39
+    [NEW] RID 6511, User=7042, Time=2025-08-07 09:50:39
+    [ACCESS ✅] USERID=1576 CHECKTIME=2025-08-07 09:53:17
+    [NEW] RID 6512, User=1576, Time=2025-08-07 09:53:17
+[ACCESS INSERT TIME] Inserted 20 records into Access DB in 25.47 seconds from K40 Lobby Rajshahi Branch
+[FLASK DB INSERT TIME] Inserted 20 records into Flask DB in 25.50 seconds from K40 Lobby Rajshahi Branch
+[DISCONNECTED] K40 Lobby Rajshahi Branch
+[SCHEDULER] K40 Lobby Rajshahi Branch: 20 new logs
+[SCHEDULER] Dispatching polling for devices…
+
+[DEBUG] Connecting to K40 Lobby Principal Branch (172.19.102.231:4370)
+[DEBUG] Connecting to K40 Lobby Hemayetpur  Branch (172.19.103.231:4370)
+
+
+[DEBUG] Connecting to K40 Lobby Bhatiary  Branch (172.19.104.231:4370)
+[DEBUG] Connecting to K40 Lobby Agrabad  Branch (172.19.105.231:4370)
+
+
+[DEBUG] Connecting to K40 Lobby Keraniganj Branch (172.19.108.231:4370)
+[DEBUG] Connecting to K40 Lobby Khulna Branch (172.19.106.231:4370)
+[DEBUG] Connecting to K40 Lobby Gulshan Branch (172.19.110.231:4370)
+[DEBUG] Connecting to K40 Lobby Katakhali Branch (172.19.107.231:4370)
+[DEBUG] Connecting to K40 Lobby Velanagar Branch (172.19.111.231:4370)
+
+[DEBUG] Connecting to K40 Lobby Uttara Branch (172.19.109.231:4370)
+
+
+
+
+[CONNECTED] K40 Lobby Hemayetpur  Branch
+[CONNECTED] K40 Lobby Principal Branch
+[CONNECTED] K40 Lobby Bhatiary  Branch
+[CONNECTED] K40 Lobby Gulshan Branch
+[CONNECTED] K40 Lobby Khulna Branch
+[CONNECTED] K40 Lobby Katakhali Branch
+[CONNECTED] K40 Lobby Agrabad  Branch
+[CONNECTED] K40 Lobby Uttara Branch
+[CONNECTED] K40 Lobby Keraniganj Branch
+[CONNECTED] K40 Lobby Velanagar Branch
+[INFO] Retrieved 2264 logs from K40 Lobby Hemayetpur  Branch in 0.74 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Hemayetpur  Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Hemayetpur  Branch
+[DISCONNECTED] K40 Lobby Hemayetpur  Branch
+[SCHEDULER] K40 Lobby Hemayetpur  Branch: 0 new logs
+[DEBUG] Connecting to K40 Lobby Imamganj Branch (172.19.112.231:4370)
+
+[INFO] Retrieved 2319 logs from K40 Lobby Bhatiary  Branch in 0.80 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Bhatiary  Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Bhatiary  Branch
+[CONNECTED] K40 Lobby Imamganj Branch
+[DISCONNECTED] K40 Lobby Bhatiary  Branch
+[SCHEDULER] K40 Lobby Bhatiary  Branch: 0 new logs
+[DEBUG] Connecting to K40 Lobby Ashulia Branch (172.19.113.231:4370)
+
+[CONNECTED] K40 Lobby Ashulia Branch
+[INFO] Retrieved 4320 logs from K40 Lobby Keraniganj Branch in 1.14 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Keraniganj Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Keraniganj Branch
+[INFO] Retrieved 3602 logs from K40 Lobby Katakhali Branch in 1.21 seconds
+[INFO] Retrieved 3757 logs from K40 Lobby Agrabad  Branch in 1.21 seconds[DISCONNECTED] K40 Lobby Keraniganj Branch
+
+[SCHEDULER] K40 Lobby Keraniganj Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Dhanmondi Branch (172.19.114.231:4370)
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Agrabad  Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Agrabad  Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Katakhali Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Katakhali Branch
+[CONNECTED] K40 Lobby Dhanmondi Branch
+[DISCONNECTED] K40 Lobby Agrabad  Branch
+[SCHEDULER] K40 Lobby Agrabad  Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Sylhet Branch (172.19.116.231:4370)
+[DISCONNECTED] K40 Lobby Katakhali Branch
+[SCHEDULER] K40 Lobby Katakhali Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Jubliroad Sub Branch (172.19.117.231:4370)
+[CONNECTED] K40 Lobby Jubliroad Sub Branch
+[CONNECTED] K40 Lobby Sylhet Branch
+[INFO] Retrieved 6034 logs from K40 Lobby Khulna Branch in 1.60 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Khulna Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Khulna Branch
+[DISCONNECTED] K40 Lobby Khulna Branch
+[SCHEDULER] K40 Lobby Khulna Branch: 0 new logs
+[DEBUG] Connecting to K40 Lobby Bogura Branch (172.19.118.231:4370)
+
+[CONNECTED] K40 Lobby Bogura Branch
+[INFO] Retrieved 7327 logs from K40 Lobby Gulshan Branch in 2.06 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Gulshan Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Gulshan Branch
+[DISCONNECTED] K40 Lobby Gulshan Branch
+[SCHEDULER] K40 Lobby Gulshan Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Mawna Branch (172.19.119.231:4370)
+[INFO] Retrieved 2058 logs from K40 Lobby Jubliroad Sub Branch in 0.74 seconds
+[INFO] Retrieved 4012 logs from K40 Lobby Ashulia Branch in 1.27 seconds
+[INFO] Retrieved 4542 logs from K40 Lobby Imamganj Branch in 1.41 seconds
+[INFO] Retrieved 1923 logs from K40 Lobby Sylhet Branch in 0.78 seconds
+[CONNECTED] K40 Lobby Mawna Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Jubliroad Sub Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Jubliroad Sub Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Sylhet Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Sylhet Branch
+[DISCONNECTED] K40 Lobby Jubliroad Sub Branch
+[SCHEDULER] K40 Lobby Jubliroad Sub Branch: 0 new logs
+[DEBUG] Connecting to K40 Lobby Islampur Branch (172.19.120.231:4370)
+
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Ashulia Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Ashulia Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Imamganj Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Imamganj Branch
+[DISCONNECTED] K40 Lobby Sylhet Branch
+[DISCONNECTED] K40 Lobby Imamganj Branch
+[SCHEDULER] K40 Lobby Sylhet Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Modhunaghat Branch (172.19.121.231:4370)
+[SCHEDULER] K40 Lobby Imamganj Branch: 0 new logs
+[DEBUG] Connecting to K40 Lobby Shyamnagar Branch (172.19.122.231:4370)
+[DISCONNECTED] K40 Lobby Ashulia Branch
+
+[SCHEDULER] K40 Lobby Ashulia Branch: 0 new logs
+[DEBUG] Connecting to K40 Lobby Gazipur Branch (172.19.123.231:4370)
+
+[CONNECTED] K40 Lobby Islampur Branch
+[CONNECTED] K40 Lobby Gazipur Branch
+[CONNECTED] K40 Lobby Modhunaghat Branch
+[CONNECTED] K40 Lobby Shyamnagar Branch
+[INFO] Retrieved 9808 logs from K40 Lobby Uttara Branch in 2.77 seconds
+[INFO] Retrieved 10736 logs from K40 Lobby Principal Branch in 2.91 seconds
+[INFO] Retrieved 8532 logs from K40 Lobby Velanagar Branch in 2.93 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Uttara Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Uttara Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Principal Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Principal Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Velanagar Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Velanagar Branch
+[DISCONNECTED] K40 Lobby Uttara Branch
+[SCHEDULER] K40 Lobby Uttara Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Moynamoti Branch (172.19.124.231:4370)
+[DISCONNECTED] K40 Lobby Principal Branch
+[SCHEDULER] K40 Lobby Principal Branch: 0 new logs
+[DEBUG] Connecting to K40 Lobby Banglabazar Branch (172.19.125.231:4370)
+
+[DISCONNECTED] K40 Lobby Velanagar Branch
+[SCHEDULER] K40 Lobby Velanagar Branch: 0 new logs
+[DEBUG] Connecting to K40 Lobby Banani Branch (172.19.126.231:4370)
+
+[INFO] Retrieved 858 logs from K40 Lobby Shyamnagar Branch in 0.65 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Shyamnagar Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Shyamnagar Branch
+[CONNECTED] K40 Lobby Moynamoti Branch
+[DISCONNECTED] K40 Lobby Shyamnagar Branch
+[SCHEDULER] K40 Lobby Shyamnagar Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Chuknagar  Branch (172.19.127.231:4370)
+[CONNECTED] K40 Lobby Banani Branch
+[CONNECTED] K40 Lobby Banglabazar Branch
+[INFO] Retrieved 1864 logs from K40 Lobby Mawna Branch in 1.02 seconds
+[INFO] Retrieved 2611 logs from K40 Lobby Islampur Branch in 0.88 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Mawna Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Mawna Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Islampur Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Islampur Branch
+[INFO] Retrieved 1629 logs from K40 Lobby Modhunaghat Branch in 0.84 seconds
+[CONNECTED] K40 Lobby Chuknagar  Branch
+[DISCONNECTED] K40 Lobby Islampur Branch
+[SCHEDULER] K40 Lobby Islampur Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Madhobdi Branch (172.19.128.231:4370)
+[DISCONNECTED] K40 Lobby Mawna Branch
+[SCHEDULER] K40 Lobby Mawna Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Barishal Branch (172.19.129.231:4370)
+    [ACCESS ✅] USERID=112 CHECKTIME=2025-08-07 10:59:29
+    [NEW] RID 1629, User=112, Time=2025-08-07 10:59:29
+[ACCESS INSERT TIME] Inserted 1 records into Access DB in 0.07 seconds from K40 Lobby Modhunaghat Branch
+[FLASK DB INSERT TIME] Inserted 1 records into Flask DB in 0.08 seconds from K40 Lobby Modhunaghat Branch
+[DISCONNECTED] K40 Lobby Modhunaghat Branch
+[SCHEDULER] K40 Lobby Modhunaghat Branch: 1 new logs
+
+[DEBUG] Connecting to K40 Lobby Sarbolakkhona Branch (172.19.130.231:4370)
+[CONNECTED] K40 Lobby Barishal Branch
+[CONNECTED] K40 Lobby Madhobdi Branch
+[CONNECTED] K40 Lobby Sarbolakkhona Branch
+[INFO] Retrieved 2080 logs from K40 Lobby Moynamoti Branch in 0.81 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Moynamoti Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Moynamoti Branch
+[DISCONNECTED] K40 Lobby Moynamoti Branch
+[SCHEDULER] K40 Lobby Moynamoti Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Rajshahi Branch (172.19.131.231:4370)
+[INFO] Retrieved 2218 logs from K40 Lobby Banglabazar Branch in 0.88 seconds
+[INFO] Retrieved 5549 logs from K40 Lobby Dhanmondi Branch in 2.96 seconds
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Banglabazar Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Banglabazar Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Dhanmondi Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Dhanmondi Branch
+[CONNECTED] K40 Lobby Rajshahi Branch
+[DISCONNECTED] K40 Lobby Banglabazar Branch
+[SCHEDULER] K40 Lobby Banglabazar Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Nababpur Branch (172.19.132.231:4370)
+[INFO] Retrieved 7368 logs from K40 Lobby Bogura Branch in 2.55 seconds
+[DISCONNECTED] K40 Lobby Dhanmondi Branch
+[SCHEDULER] K40 Lobby Dhanmondi Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Mirpur Branch (172.19.133.230:4370)
+[INFO] Retrieved 6001 logs from K40 Lobby Gazipur Branch in 1.87 seconds
+[CONNECTED] K40 Lobby Nababpur Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Bogura Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Bogura Branch
+[CONNECTED] K40 Lobby Mirpur Branch
+[ACCESS INSERT TIME] Inserted 0 records into Access DB in 0.00 seconds from K40 Lobby Gazipur Branch
+[FLASK DB INSERT TIME] Inserted 0 records into Flask DB in 0.00 seconds from K40 Lobby Gazipur Branch
+[DISCONNECTED] K40 Lobby Gazipur Branch
+[SCHEDULER] K40 Lobby Gazipur Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Shibu Market Branch (172.19.134.231:4370)
+[DISCONNECTED] K40 Lobby Bogura Branch
+[SCHEDULER] K40 Lobby Bogura Branch: 0 new logs
+
+[DEBUG] Connecting to K40 Lobby Ghonapara Branch (172.19.135.231:4370)
+[CONNECTED] K40 Lobby Shibu Market Branch
+Execution of job "init_scheduler.<locals>.poll_all (trigger: interval[0:00:05], next run at: 2025-08-07 10:59:43 +06)" skipped: maximum number of running instances reached (1)
