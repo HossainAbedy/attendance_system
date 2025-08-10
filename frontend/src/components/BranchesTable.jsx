@@ -1,0 +1,234 @@
+// FILE: src/components/BranchesTable.jsx
+import React, { useState } from 'react';
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  IconButton,
+  Typography,
+  Box,
+  Button,
+  Tooltip,
+  Chip,
+  Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DevicesIcon from '@mui/icons-material/DeviceHub';
+import SyncIcon from '@mui/icons-material/Sync';
+
+export default function BranchesTable({ branches = [], onFetch, onShowDevices, onCreate, onUpdate, onDelete }) {
+  const [formOpen, setFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState('add'); // 'add' | 'edit'
+  const [formData, setFormData] = useState({ name: '', ip_range: '' });
+  const [deleting, setDeleting] = useState({ open: false, id: null, name: '' });
+  const [submitting, setSubmitting] = useState(false);
+
+  function openAdd() {
+    setFormMode('add');
+    setFormData({ name: '', ip_range: '' });
+    setFormOpen(true);
+  }
+
+  function openEdit(branch) {
+    setFormMode('edit');
+    setFormData({ id: branch.id, name: branch.name, ip_range: branch.ip_range });
+    setFormOpen(true);
+  }
+
+  async function submitForm() {
+    setSubmitting(true);
+    try {
+      if (formMode === 'add') {
+        const res = await onCreate({ name: formData.name, ip_range: formData.ip_range });
+        if (res?.success) setFormOpen(false);
+        else alert('Failed to create branch');
+      } else {
+        const res = await onUpdate(formData.id, { name: formData.name, ip_range: formData.ip_range });
+        if (res?.success) setFormOpen(false);
+        else alert('Failed to update branch');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error performing request');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function confirmDelete() {
+    setSubmitting(true);
+    try {
+      const res = await onDelete(deleting.id);
+      if (res?.success) setDeleting({ open: false, id: null, name: '' });
+      else alert('Failed to delete branch');
+    } catch (err) {
+      console.error(err);
+      alert('Error deleting branch');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <Box>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+        <Typography variant="subtitle1">Branches</Typography>
+        <Button startIcon={<AddIcon />} onClick={openAdd} size="small">
+          Add Branch
+        </Button>
+      </Box>
+
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>IP Range</TableCell>
+            <TableCell>Devices</TableCell>
+            <TableCell>Logs</TableCell>
+            <TableCell>Online</TableCell>
+            <TableCell align="right">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {branches.map((b) => (
+            <TableRow key={b.id} hover>
+              <TableCell>
+                <Chip
+                    label={b.name}
+                    size="small"
+                    sx={{ backgroundColor: 'deepskyblue', color: 'black' }}
+                />
+              </TableCell>
+              <TableCell>
+                <Chip
+                    label={b.ip_range}
+                    size="small"
+                    sx={{ backgroundColor: 'orange', color: 'black' }}
+                />
+              </TableCell>
+              <TableCell>
+                <Chip
+                    label={b.device_count ?? 0}
+                    size="small"
+                    sx={{ backgroundColor: 'yellow', color: 'black' }}
+                />
+              </TableCell>
+
+              <TableCell>
+                <Chip
+                    label={b.log_count ?? 0}
+                    size="small"
+                    sx={{ backgroundColor: 'cyan', color: 'black' }}
+                />
+              </TableCell>
+
+              <TableCell>
+                {b.online ? (
+                    <Chip label="Online" size="small" sx={{ backgroundColor: 'green', color: 'black' }} />
+                ) : (
+                    <Chip label="Offline" size="small" sx={{ backgroundColor: 'coral', color: 'black' }} />
+                )}
+              </TableCell>
+              <TableCell align="right">
+                <Stack direction="row" spacing={1} justifyContent="flex-end">
+                  <Tooltip title="Fetch">
+                    <IconButton size="small" onClick={() => onFetch && onFetch(b.id)}
+                        sx={{
+                        // backgroundColor: 'green',
+                        color: 'green',
+                        '&:hover': {
+                            backgroundColor: 'green',
+                            color: 'white'
+                    },
+                    }}>
+                      <SyncIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Devices">
+                    <IconButton size="small" onClick={() => onShowDevices && onShowDevices(b.id)}
+                        sx={{
+                    // backgroundColor: 'deepskyblue',
+                    color: 'deepskyblue',
+                    '&:hover': {
+                        backgroundColor: 'deepskyblue',
+                        color: 'white'
+                    },
+                    }}>
+                      <DevicesIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Edit">
+                    <IconButton size="small" onClick={() => openEdit(b)}
+                    sx={{
+                        // backgroundColor: 'yellow',
+                        color: 'yellow',
+                        '&:hover': {
+                            backgroundColor: 'orange',
+                            color: 'white'
+                    },
+                    }}>
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete">
+                    <IconButton size="small" color="error" onClick={() => setDeleting({ open: true, id: b.id, name: b.name })} 
+                        sx={{
+                            // backgroundColor: 'red',
+                            color: 'red',
+                            '&:hover': {
+                                backgroundColor: 'red',
+                                color: 'white'
+                        },
+                        }}>
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </Stack>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      {/* Form dialog */}
+      <Dialog open={formOpen} onClose={() => setFormOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>{formMode === 'add' ? 'Add Branch' : 'Edit Branch'}</DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
+            <TextField label="Name" value={formData.name} onChange={(e) => setFormData((s) => ({ ...s, name: e.target.value }))} fullWidth />
+            <TextField label="IP Range" value={formData.ip_range} onChange={(e) => setFormData((s) => ({ ...s, ip_range: e.target.value }))} fullWidth />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setFormOpen(false)}>Cancel</Button>
+          <Button onClick={submitForm} disabled={submitting} variant="contained">
+            {formMode === 'add' ? 'Create' : 'Save'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete confirmation */}
+      <Dialog open={deleting.open} onClose={() => setDeleting({ open: false, id: null, name: '' })}>
+        <DialogTitle>Delete Branch</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to delete branch "{deleting.name}"? This will remove its devices/logs if cascade is enabled.</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleting({ open: false, id: null, name: '' })}>Cancel</Button>
+          <Button onClick={confirmDelete} color="error" variant="contained" disabled={submitting}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
+}
