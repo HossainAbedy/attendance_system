@@ -1,1 +1,3 @@
 backend/att2000.mdb
+backend/venv/
+frontend/node_modules/

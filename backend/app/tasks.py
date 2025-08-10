@@ -1,29 +1,104 @@
+# tasks.py
 import json
 import pyodbc
 import time
-from datetime import datetime
+import threading
+import uuid
+from datetime import datetime, timedelta
 from zk import ZK
 from flask import current_app
 from .models import AttendanceLog, Device
 from . import db
-from colorama import init as colorama_init, Fore, Style
-colorama_init(autoreset=True)  # Automatically resets colors after each print
+from colorama import init as colorama_init, Fore
+colorama_init(autoreset=True)
 
 # Path to Access DB and table name
 ACCESS_DB_PATH = r"E:\ShareME\SBAC TAO\NewYear25\attendance-system\backend\att2000.mdb"
-ACCESS_TABLE   = "CHECKINOUT"
+ACCESS_TABLE = "CHECKINOUT"
 
+# --- Job registry (in-memory)
+_JOB_REGISTRY = {}
+_JOB_LOCK = threading.Lock()
+_JOB_TTL_SECONDS = 60 * 60  # how long to keep finished jobs (1 hour)
+
+# --- Scheduler holder (will be created on demand)
+_scheduler = None
+_scheduler_lock = threading.Lock()
+
+# ---------------------------------------------------------------------
+# Utilities
+# ---------------------------------------------------------------------
+def _resolve_app(app):
+    try:
+        return app._get_current_object()
+    except Exception:
+        return app
+
+def _now_iso():
+    return datetime.utcnow().isoformat()
+
+def _set_job(job_id, payload):
+    with _JOB_LOCK:
+        _JOB_REGISTRY[job_id] = payload
+
+def prune_old_jobs(ttl_seconds=_JOB_TTL_SECONDS):
+    cutoff = datetime.utcnow() - timedelta(seconds=ttl_seconds)
+    removed = []
+    with _JOB_LOCK:
+        for jid, job in list(_JOB_REGISTRY.items()):
+            ts_str = job.get('finished_at') or job.get('started_at')
+            if not ts_str:
+                continue
+            try:
+                ts = datetime.fromisoformat(ts_str)
+            except Exception:
+                continue
+            if ts < cutoff:
+                removed.append(jid)
+                del _JOB_REGISTRY[jid]
+    if removed:
+        print(Fore.CYAN + f"[JOB PRUNE] removed {len(removed)} jobs: {removed}")
+
+def get_job_status(job_id):
+    with _JOB_LOCK:
+        job = _JOB_REGISTRY.get(job_id)
+        if not job:
+            return None
+        return {
+            'job_id': job.get('job_id'),
+            'type': job.get('type'),
+            'status': job.get('status'),
+            'started_at': job.get('started_at'),
+            'finished_at': job.get('finished_at'),
+            'total': job.get('total'),
+            'done': job.get('done'),
+            'results': list(job.get('results', [])),
+            'error': job.get('error'),
+            'branch_id': job.get('branch_id')
+        }
+
+def list_jobs(limit=50):
+    with _JOB_LOCK:
+        jobs = list(_JOB_REGISTRY.values())
+    def key(j):
+        v = j.get('started_at')
+        try:
+            return datetime.fromisoformat(v) if v else datetime.min
+        except Exception:
+            return datetime.min
+    jobs.sort(key=key, reverse=True)
+    return [get_job_status(j['job_id']) for j in jobs[:limit]]
+
+# ---------------------------------------------------------------------
+# Access DB insert
+# ---------------------------------------------------------------------
 def insert_into_access_db(record):
-    """
-    Insert one attendance record into the Access DB's CHECKINOUT table.
-    """
     conn_str = (
         r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};"
         f"DBQ={ACCESS_DB_PATH};"
     )
     conn = pyodbc.connect(conn_str)
     cur = conn.cursor()
-
     sql = (
         f"INSERT INTO {ACCESS_TABLE} ("
         "USERID, CHECKTIME, CHECKTYPE, VERIFYCODE, SENSORID, WorkCode, sn) "
@@ -38,11 +113,10 @@ def insert_into_access_db(record):
     conn.close()
     print(Fore.GREEN + f"    [ACCESS ✅] USERID={record['USERID']} CHECKTIME={record['CHECKTIME']}")
 
+# ---------------------------------------------------------------------
+# Core fetch function (unchanged)
+# ---------------------------------------------------------------------
 def fetch_and_forward_for_device(device, inspect_only=False):
-    """
-    Fetch new logs from a ZKTeco device, insert into Access DB, and record in Flask DB.
-    Returns count of new logs.
-    """
     zk = ZK(
         device.ip_address,
         port=device.port,
@@ -54,7 +128,6 @@ def fetch_and_forward_for_device(device, inspect_only=False):
     conn = None
     snapshot = []
     new_count = 0
-
     print(Fore.YELLOW + f"\n[DEBUG] Connecting to {device.name} ({device.ip_address}:{device.port})")
     try:
         conn = zk.connect()
@@ -66,13 +139,11 @@ def fetch_and_forward_for_device(device, inspect_only=False):
         elapsed = time.time() - start_time
         print(Fore.CYAN + f"[INFO] Retrieved {len(logs)} logs from {device.name} in {elapsed:.2f} seconds")
 
-        # Dedupe by existing record_ids
         existing = {rid for (rid,) in db.session.query(AttendanceLog.record_id)
                     .filter_by(device_id=device.id).all()}
 
         access_start = time.time()
         flask_start = time.time()
-
         flask_log_entries = []
 
         for rec in logs:
@@ -82,7 +153,6 @@ def fetch_and_forward_for_device(device, inspect_only=False):
 
             status_str = str(rec.status) if isinstance(rec.status, int) else getattr(rec.status, 'name', str(rec.status))
 
-            # Build record for Access
             access_record = {
                 'USERID':     rec.user_id,
                 'CHECKTIME':  rec.timestamp,
@@ -98,7 +168,6 @@ def fetch_and_forward_for_device(device, inspect_only=False):
             except Exception as e:
                 print(Fore.RED + f"    [ACCESS ❌] RID {rid}: {e}")
 
-            # Build object for Flask DB (but don't insert yet)
             log_entry = AttendanceLog(
                 device_id=device.id,
                 record_id=rid,
@@ -113,12 +182,9 @@ def fetch_and_forward_for_device(device, inspect_only=False):
             print(Fore.BLUE + f"    [NEW] RID {rid}, User={rec.user_id}, Time={rec.timestamp}")
 
         access_elapsed = time.time() - access_start
-
-        # Bulk insert into Flask DB
         if flask_log_entries:
             db.session.bulk_save_objects(flask_log_entries)
             db.session.commit()
-
         flask_elapsed = time.time() - flask_start
 
         print(Fore.MAGENTA + f"[ACCESS INSERT TIME] Inserted {new_count} records into Access DB in {access_elapsed:.2f} seconds from {device.name}")
@@ -128,11 +194,16 @@ def fetch_and_forward_for_device(device, inspect_only=False):
         print(Fore.RED + f"[ERROR] Polling {device.name} failed: {e}")
     finally:
         if conn:
-            conn.enable_device()
-            conn.disconnect()
+            try:
+                conn.enable_device()
+            except Exception:
+                pass
+            try:
+                conn.disconnect()
+            except Exception:
+                pass
             print(Fore.RED + f"[DISCONNECTED] {device.name}")
 
-        # Snapshot if requested
         if inspect_only and snapshot:
             fn = f"zk_snapshot_{device.name.replace(' ', '_')}_{datetime.now():%Y%m%d_%H%M%S}.json"
             with open(fn, 'w', encoding='utf-8') as f:
@@ -141,40 +212,197 @@ def fetch_and_forward_for_device(device, inspect_only=False):
 
     return new_count
 
+# ---------------------------------------------------------------------
+# Background job runner that updates the job registry
+# ---------------------------------------------------------------------
+def _update_job_result(job_id, device_result):
+    with _JOB_LOCK:
+        job = _JOB_REGISTRY.get(job_id)
+        if not job:
+            return
+        job['results'].append(device_result)
+        job['done'] += 1
+        if job['done'] >= job['total']:
+            job['status'] = 'finished'
+            job['finished_at'] = _now_iso()
 
-# Scheduler with ThreadPoolExecutor
-from concurrent.futures import ThreadPoolExecutor, as_completed
+def _run_poll_devices_job(app, devices, job_id):
+    real_app = _resolve_app(app)
+    with real_app.app_context():
+        if not devices:
+            with _JOB_LOCK:
+                job = _JOB_REGISTRY.get(job_id)
+                if job:
+                    job['status'] = 'finished'
+                    job['finished_at'] = _now_iso()
+            return
 
-def run_with_context(app, device):
-    with app.app_context():
-        return fetch_and_forward_for_device(device)
-
-def init_scheduler(app):
-    from apscheduler.schedulers.background import BackgroundScheduler
-    from .models import Device
-
-    scheduler = BackgroundScheduler()
-    interval = app.config.get("POLL_INTERVAL", 3600)
-
-    def poll_all():
-        print(Fore.MAGENTA + f"[SCHEDULER] Dispatching polling for devices…")
-
-        with app.app_context():
-            devices = Device.query.all()
-
-        max_workers = app.config.get("MAX_POLL_WORKERS", 10)
-        with ThreadPoolExecutor(max_workers=max_workers) as pool:
-            futures = {pool.submit(run_with_context, app, dev): dev for dev in devices}
-
-            for future in as_completed(futures):
-                dev = futures[future]
+        try:
+            for dev in devices:
                 try:
-                    count = future.result()
-                    print(Fore.BLUE + f"[SCHEDULER] {dev.name}: {count} new logs")
+                    count = fetch_and_forward_for_device(dev)
+                    device_result = {
+                        'device_id': dev.id,
+                        'name': dev.name,
+                        'ip': dev.ip_address,
+                        'fetched': int(count),
+                        'error': None,
+                        'timestamp': _now_iso()
+                    }
+                    print(Fore.BLUE + f"[JOB {job_id}] {dev.name} -> {count} new")
                 except Exception as e:
-                    print(Fore.RED + f"[SCHEDULER ERROR] {dev.name}: {e}")
+                    device_result = {
+                        'device_id': getattr(dev, 'id', None),
+                        'name': getattr(dev, 'name', str(dev)),
+                        'ip': getattr(dev, 'ip_address', None),
+                        'fetched': 0,
+                        'error': str(e),
+                        'timestamp': _now_iso()
+                    }
+                    print(Fore.RED + f"[JOB {job_id} ERROR] {dev}: {e}")
+                _update_job_result(job_id, device_result)
+        except Exception as e:
+            with _JOB_LOCK:
+                job = _JOB_REGISTRY.get(job_id)
+                if job:
+                    job['status'] = 'failed'
+                    job['finished_at'] = _now_iso()
+                    job['error'] = str(e)
 
-    scheduler.add_job(poll_all, 'interval', seconds=interval, id="zk_poll_job")
-    scheduler.start()
-    print(Fore.CYAN + f"[SCHEDULER] Started polling every {interval} seconds with up to {app.config.get('MAX_POLL_WORKERS', 10)} workers.")
+# ---------------------------------------------------------------------
+# Public job starters (one-off)
+# ---------------------------------------------------------------------
+def start_poll_all_job(app):
+    from .models import Device
+    real_app = _resolve_app(app)
+    with real_app.app_context():
+        devices = Device.query.all()
 
+    job_id = str(uuid.uuid4())
+    payload = {
+        'job_id': job_id,
+        'type': 'poll_all',
+        'status': 'running',
+        'started_at': _now_iso(),
+        'finished_at': None,
+        'total': len(devices),
+        'done': 0,
+        'results': [],
+        'error': None
+    }
+    _set_job(job_id, payload)
+
+    if payload['total'] == 0:
+        with _JOB_LOCK:
+            payload['status'] = 'finished'
+            payload['finished_at'] = _now_iso()
+        return job_id
+
+    thread = threading.Thread(target=_run_poll_devices_job, args=(real_app, devices, job_id), daemon=True)
+    thread.start()
+    print(Fore.CYAN + f"[JOB STARTED] id={job_id} (all devices, total={payload['total']})")
+    return job_id
+
+def start_poll_branch_job(app, branch_id):
+    from .models import Device
+    real_app = _resolve_app(app)
+    with real_app.app_context():
+        devices = Device.query.filter_by(branch_id=branch_id).all()
+
+    job_id = str(uuid.uuid4())
+    payload = {
+        'job_id': job_id,
+        'type': 'poll_branch',
+        'branch_id': branch_id,
+        'status': 'running',
+        'started_at': _now_iso(),
+        'finished_at': None,
+        'total': len(devices),
+        'done': 0,
+        'results': [],
+        'error': None
+    }
+    _set_job(job_id, payload)
+
+    if payload['total'] == 0:
+        with _JOB_LOCK:
+            payload['status'] = 'finished'
+            payload['finished_at'] = _now_iso()
+        return job_id
+
+    thread = threading.Thread(target=_run_poll_devices_job, args=(real_app, devices, job_id), daemon=True)
+    thread.start()
+    print(Fore.CYAN + f"[JOB STARTED] id={job_id} (branch={branch_id}, total={payload['total']})")
+    return job_id
+
+# ---------------------------------------------------------------------
+# Recurring scheduler control (start/stop) - must be called explicitly
+# ---------------------------------------------------------------------
+from concurrent.futures import ThreadPoolExecutor, as_completed
+def _poll_all_for_scheduler(app):
+    print(Fore.MAGENTA + f"[SCHEDULER] Dispatching polling for devices…")
+    real_app = _resolve_app(app)
+    with real_app.app_context():
+        devices = Device.query.all()
+
+    max_workers = current_app.config.get("MAX_POLL_WORKERS", 10) if current_app else 10
+
+    def run_with_app_context(dev, app):
+        with app.app_context():
+            return fetch_and_forward_for_device(dev)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        futures = {pool.submit(run_with_app_context, dev, real_app): dev for dev in devices}
+        for future in as_completed(futures):
+            dev = futures[future]
+            try:
+                count = future.result()
+                print(Fore.BLUE + f"[SCHEDULER] {dev.name}: {count} new logs")
+            except Exception as e:
+                print(Fore.RED + f"[SCHEDULER ERROR] {dev.name}: {e}")
+
+
+def start_recurring_scheduler(app, interval_seconds=3600, prune_interval_seconds=600):
+    """
+    Create and start a BackgroundScheduler that runs the polling job every `interval_seconds`.
+    Call this from your endpoint or app factory when you want recurring sync to begin.
+    """
+    global _scheduler
+    with _scheduler_lock:
+        if _scheduler and _scheduler.running:
+            print(Fore.CYAN + "[SCHEDULER] already running")
+            return
+
+        from apscheduler.schedulers.background import BackgroundScheduler
+        real_app = _resolve_app(app)
+        _scheduler = BackgroundScheduler()
+        _scheduler.add_job(_poll_all_for_scheduler, 'interval', seconds=interval_seconds, args=[real_app], id="zk_poll_job")
+        _scheduler.add_job(prune_old_jobs, 'interval', seconds=prune_interval_seconds, args=[_JOB_TTL_SECONDS], id="job_prune")
+        _scheduler.start()
+        print(Fore.CYAN + f"[SCHEDULER] Started recurring polling every {interval_seconds} seconds.")
+
+def stop_recurring_scheduler():
+    """
+    Stop and shutdown the recurring scheduler if it exists.
+    """
+    global _scheduler
+    with _scheduler_lock:
+        if not _scheduler:
+            print("[SCHEDULER] no scheduler to stop")
+            return
+        try:
+            _scheduler.remove_job("zk_poll_job")
+        except Exception:
+            pass
+        try:
+            _scheduler.remove_job("job_prune")
+        except Exception:
+            pass
+        try:
+            _scheduler.shutdown(wait=False)
+        except Exception:
+            pass
+        _scheduler = None
+        print("[SCHEDULER] Stopped and shutdown.")
+
+# End of file

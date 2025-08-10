@@ -777,10 +777,66 @@
         "url": "http://localhost:5000/api/devices/130/devices"    
     },
     {     
-        "name": "K40 Lobby Bhairab Branch",
-        "ip_address": "172.19.213.231",
+        "name": "K40 Lobby Pirojpur Sub Branch",
+        "ip_address": "172.19.214.231",
         "port": 4370,
-        "serial_no": "A8N5232360610",
+        "serial_no": "A8N5232360386",
         "url": "http://localhost:5000/api/devices/131/devices"    
+    },
+    {     
+        "name": "K40 Lobby Shahi Eidgah Sub Branch",
+        "ip_address": "172.19.215.231",
+        "port": 4370,
+        "serial_no": "A8N5232360605",
+        "url": "http://localhost:5000/api/devices/132/devices"    
+    },
+    {     
+        "name": "K40 Lobby Charfeshon Branch",
+        "ip_address": "172.19.216.231",
+        "port": 4370,
+        "serial_no": "A8N5232360582",
+        "url": "http://localhost:5000/api/devices/133/devices"    
+    },
+    {     
+        "name": "K40 Lobby Hossainpur Branch",
+        "ip_address": "172.19.217.231",
+        "port": 4370,
+        "serial_no": "A8N5232360798",
+        "url": "http://localhost:5000/api/devices/134/devices"    
+    },
+    {     
+        "name": "K40 Lobby Sherpur Sub Branch",
+        "ip_address": "172.19.218.231",
+        "port": 4370,
+        "serial_no": "A8N5232360007",
+        "url": "http://localhost:5000/api/devices/135/devices"    
+    },
+    {     
+        "name": "K40 Lobby Boteswor SUB Branch",
+        "ip_address": "172.19.219.231",
+        "port": 4370,
+        "serial_no": "A8N5232360500",
+        "url": "http://localhost:5000/api/devices/136/devices"    
+    },
+    {     
+        "name": "K40 Lobby Aftabganj Sub Branch",
+        "ip_address": "172.19.220.231",
+        "port": 4370,
+        "serial_no": "A8N5232360608",
+        "url": "http://localhost:5000/api/devices/137/devices"    
+    },
+    {     
+        "name": "K40 Lobby Padua Bazar Sub Branch",
+        "ip_address": "172.19.221.231",
+        "port": 4370,
+        "serial_no": "A8N5232360785",
+        "url": "http://localhost:5000/api/devices/138/devices"    
+    },
+    {     
+        "name": "K40 Lobby Padua Bazar Sub Branch",
+        "ip_address": "172.19.221.231",
+        "port": 4370,
+        "serial_no": "A8N5232360785",
+        "url": "http://localhost:5000/api/devices/139/devices"    
     },
 ]
