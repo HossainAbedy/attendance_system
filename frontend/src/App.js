@@ -23,7 +23,10 @@ import TopBar from './components/TopBar';
 import DetailsDialog from './components/DetailsDialog';
 import SyncControls from './components/SyncControls';
 import QuickActions from './components/QuickActions';
+import LogsViewer from './components/LogsViewer';
+import DevicesTable from "./components/DevicesTable";
 
+import { getAllDevices, getBranchDevices } from './api';  // Only import getDevices now
 import useBranches from './hooks/useBranches';
 import useSync from './hooks/useSync';
 
@@ -34,7 +37,6 @@ export default function App() {
     devicesCount = 0,
     logsCount = 0,
     refreshBranches,
-    getDevices,
     createBranch,
     updateBranch,
     deleteBranch,
@@ -45,6 +47,14 @@ export default function App() {
 
   const { jobs = [], jobsOpen = false, setJobsOpen, actions, state } = useSync(refreshBranches);
   const [dialog, setDialog] = useState({ open: false, type: null, props: {} });
+
+  const [activeView, setActiveView] = useState('branches');
+  const [logsBranchFilter, setLogsBranchFilter] = useState(null);
+
+  const [devicesForBranch, setDevicesForBranch] = useState([]);
+  const [devicesLoading, setDevicesLoading] = useState(false);
+  const [devicesError, setDevicesError] = useState(null);
+  const [selectedBranchForDevices, setSelectedBranchForDevices] = useState(null);
 
   function openBranchesDialog() {
     setDialog({
@@ -61,19 +71,53 @@ export default function App() {
     });
   }
 
-  async function handleShowDevices(branchId) {
-    setDialog({
-      open: true,
-      type: 'devices',
-      props: { loading: true, branchId, devices: [], onCreate: createDevice, onUpdate: updateDevice, onDelete: deleteDevice, onFetch: actions.handleFetchBranch },
-    });
+  async function fetchDevices(branchId = null) {
+    console.log('fetchDevices called with branchId:', branchId);
 
-    const { devices, error } = await getDevices(branchId);
-    setDialog({
-      open: true,
-      type: 'devices',
-      props: { loading: false, branchId, devices: error ? null : devices, error: !!error, onCreate: createDevice, onUpdate: updateDevice, onDelete: deleteDevice, onFetch: actions.handleFetchBranch },
-    });
+    setDevicesLoading(true);
+    setDevicesError(null);
+    setSelectedBranchForDevices(branchId);
+    setActiveView('devices');
+
+    try {
+      let devices = [];
+      if (branchId) {
+        const res = await getBranchDevices(branchId);
+        console.log('Raw data from getBranchDevices:', res);
+        // if backend returns array directly
+        devices = Array.isArray(res) ? res : res.devices ?? [];
+      } else {
+        const res = await getAllDevices();
+        devices = res.devices ?? [];
+      }
+      console.log('Fetched devices:', devices);
+      setDevicesForBranch(devices);
+    } catch (error) {
+      console.error('Failed to fetch devices', error);
+      setDevicesError(true);
+      setDevicesForBranch([]);
+    } finally {
+      setDevicesLoading(false);
+    }
+  }
+
+  function handleDevicesStatClick() {
+    fetchDevices(null); // fetch all devices
+  }
+
+  function handleShowDevices(branchId) {
+    fetchDevices(branchId); // fetch devices for specific branch
+  }
+
+  function handleBackFromDevices() {
+    setActiveView('branches');
+    setSelectedBranchForDevices(null);
+    setDevicesForBranch([]);
+  }
+
+  function openLogsView(branchId = null) {
+    setLogsBranchFilter(branchId);
+    setActiveView('logs');
   }
 
   return (
@@ -81,9 +125,7 @@ export default function App() {
       <TopBar onRefresh={refreshBranches} onShowJobs={() => setJobsOpen(true)} />
 
       <Container sx={{ py: 3, maxWidth: 'xl' }}>
-        {/* Two-column layout: LEFT = Sync + Branches, RIGHT = Stats + Quick Actions */}
         <Grid container spacing={2}>
-          {/* LEFT COLUMN (70%) */}
           <Grid item xs={12} md={8}>
             <Card sx={{ mb: 2 }}>
               <CardContent>
@@ -96,30 +138,54 @@ export default function App() {
 
             <Card>
               <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Branches
-                </Typography>
                 {loading ? (
                   <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
                     <CircularProgress />
                   </Box>
                 ) : (
-                  <BranchesTable
-                    branches={branches}
-                    onFetch={actions.handleFetchBranch}
-                    onShowDevices={handleShowDevices}
-                    onCreate={createBranch}
-                    onUpdate={updateBranch}
-                    onDelete={deleteBranch}
-                  />
+                  <>
+                    {activeView === 'branches' && (
+                      <BranchesTable
+                        branches={branches}
+                        onFetch={actions.handleFetchBranch}
+                        onShowDevices={handleShowDevices}
+                        onCreate={createBranch}
+                        onUpdate={updateBranch}
+                        onDelete={deleteBranch}
+                        onShowLogs={(branchId) => openLogsView(branchId)}
+                      />
+                    )}
+
+                    {activeView === 'logs' && (
+                      <LogsViewer
+                        branchId={logsBranchFilter}
+                        onBack={() => {
+                          setActiveView('branches');
+                          setLogsBranchFilter(null);
+                        }}
+                      />
+                    )}
+
+                    {activeView === 'devices' && (
+                      <DevicesTable
+                        devices={devicesForBranch}
+                        loading={devicesLoading}
+                        error={devicesError}
+                        branchId={selectedBranchForDevices}
+                        onBack={handleBackFromDevices}
+                        onCreate={createDevice}
+                        onUpdate={updateDevice}
+                        onDelete={deleteDevice}
+                        onFetch={actions.handleFetchBranch}
+                      />
+                    )}
+                  </>
                 )}
               </CardContent>
             </Card>
           </Grid>
 
-          {/* RIGHT COLUMN (30%) */}
           <Grid item xs={12} md={4}>
-            {/* Stats moved here */}
             <Card sx={{ mb: 2 }}>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
@@ -136,26 +202,14 @@ export default function App() {
                   <StatCard
                     title="Devices"
                     value={devicesCount ?? '-'}
-                    onClick={() =>
-                      setDialog({
-                        open: true,
-                        type: 'info',
-                        props: { title: 'Devices', content: <div>Use Branch → Devices to view devices</div> },
-                      })
-                    }
+                    onClick={handleDevicesStatClick}
                     icon={<DeviceHubIcon fontSize="large" />}
                     bgColor="blue"
                   />
                   <StatCard
                     title="Logs"
                     value={logsCount ?? '-'}
-                    onClick={() =>
-                      setDialog({
-                        open: true,
-                        type: 'info',
-                        props: { title: 'Logs', content: <div>Logs viewer not implemented (server-driven)</div> },
-                      })
-                    }
+                    onClick={() => openLogsView(null)}
                     icon={<SyncIcon fontSize="large" />}
                     bgColor="green"
                   />
@@ -175,7 +229,6 @@ export default function App() {
         </Grid>
       </Container>
 
-      {/* Dialogs */}
       <DetailsDialog
         dialog={dialog}
         onClose={() => setDialog({ open: false, type: null, props: {} })}

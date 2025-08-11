@@ -15,6 +15,8 @@ from app.tasks import (
     start_poll_branch_job,
     get_job_status,
     list_jobs,
+    start_scheduler_job,
+    stop_scheduler_job,
 )
 
 def create_app(config_class=Config):
@@ -36,12 +38,16 @@ def create_app(config_class=Config):
         body = request.get_json(silent=True) or {}
         interval = int(body.get("interval_seconds", app.config.get("POLL_INTERVAL", 3600)))
         start_recurring_scheduler(current_app, interval_seconds=interval)
-        return jsonify({"message": "recurring scheduler started", "interval_seconds": interval}), 200
+        # Enqueue a job to start the recurring scheduler (returns job_id)
+        job_id = start_scheduler_job(current_app, interval_seconds=interval)
+        return jsonify({"job_id": job_id, "message": "Recurring scheduler started"}), 202
 
     @app.route("/api/sync/stop", methods=["POST"])
     def stop_recurring():
         stop_recurring_scheduler()
-        return jsonify({"message": "recurring scheduler stopped"}), 200
+        # Enqueue a job to stop the recurring scheduler (returns job_id)
+        job_id = stop_scheduler_job(current_app)
+        return jsonify({"job_id": job_id, "message": "Recurring scheduler stopped"}), 202
 
     @app.route("/api/sync/one", methods=["POST"])
     def start_one_off():

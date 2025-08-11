@@ -3,6 +3,7 @@ import json
 import pyodbc
 import time
 import threading
+import traceback
 import uuid
 from datetime import datetime, timedelta
 from zk import ZK
@@ -333,6 +334,116 @@ def start_poll_branch_job(app, branch_id):
     thread = threading.Thread(target=_run_poll_devices_job, args=(real_app, devices, job_id), daemon=True)
     thread.start()
     print(Fore.CYAN + f"[JOB STARTED] id={job_id} (branch={branch_id}, total={payload['total']})")
+    return job_id
+
+def _make_scheduler_job_record(job_id, job_type, meta=None):
+    payload = {
+        'job_id': job_id,
+        'type': job_type,
+        'status': 'running',
+        'started_at': _now_iso(),
+        'finished_at': None,
+        'total': 1,
+        'done': 0,
+        'results': [],
+        'meta': meta or {},
+        'error': None
+    }
+    return payload
+
+def _resolve_app_object(maybe_proxy_or_app):
+    """
+    Ensure we return a real Flask app object, not a LocalProxy.
+    If the argument is a LocalProxy (has _get_current_object), call that.
+    Otherwise try _resolve_app (your existing helper) as a fallback.
+    """
+    try:
+        # LocalProxy has _get_current_object
+        if hasattr(maybe_proxy_or_app, "_get_current_object"):
+            return maybe_proxy_or_app._get_current_object()
+    except Exception:
+        pass
+
+    # fallback to your resolver (keeps original behaviour)
+    return _resolve_app(maybe_proxy_or_app)
+
+
+def start_scheduler_job(app, interval_seconds: int = None):
+    real_app = _resolve_app_object(app)
+
+    job_id = str(uuid.uuid4())
+    meta = {}
+    if interval_seconds is not None:
+        meta['interval_seconds'] = int(interval_seconds)
+
+    payload = _make_scheduler_job_record(job_id, 'start_scheduler', meta=meta)
+    _set_job(job_id, payload)
+
+    def _task(resolved_app, job_id, interval_seconds):
+        try:
+            # Use the resolved Flask app object directly
+            with resolved_app.app_context():
+                if interval_seconds is not None:
+                    start_recurring_scheduler(resolved_app, interval_seconds=interval_seconds)
+                else:
+                    start_recurring_scheduler(resolved_app)
+
+            with _JOB_LOCK:
+                job = _JOB_REGISTRY.get(job_id)
+                if job:
+                    job['done'] = 1
+                    job['status'] = 'finished'
+                    job['finished_at'] = _now_iso()
+                    job['results'].append({'message': 'scheduler started', 'timestamp': _now_iso()})
+        except Exception:
+            tb = traceback.format_exc()
+            print(Fore.RED + f"[JOB ERROR] start_scheduler_job {job_id}\n{tb}")
+            with _JOB_LOCK:
+                job = _JOB_REGISTRY.get(job_id)
+                if job:
+                    job['status'] = 'failed'
+                    job['finished_at'] = _now_iso()
+                    job['error'] = tb
+
+    # pass the concrete Flask app object into the thread
+    thread = threading.Thread(target=_task, args=(real_app, job_id, interval_seconds), daemon=True)
+    thread.start()
+    print(Fore.CYAN + f"[JOB STARTED] id={job_id} (start_scheduler meta={meta})")
+    return job_id
+
+
+def stop_scheduler_job(app):
+    real_app = _resolve_app_object(app)
+
+    job_id = str(uuid.uuid4())
+    payload = _make_scheduler_job_record(job_id, 'stop_scheduler', meta={})
+    _set_job(job_id, payload)
+
+    def _task(resolved_app, job_id):
+        try:
+            with resolved_app.app_context():
+                stop_recurring_scheduler()
+
+            with _JOB_LOCK:
+                job = _JOB_REGISTRY.get(job_id)
+                if job:
+                    job['done'] = 1
+                    job['status'] = 'finished'
+                    job['finished_at'] = _now_iso()
+                    job['results'].append({'message': 'scheduler stopped', 'timestamp': _now_iso()})
+        except Exception:
+            tb = traceback.format_exc()
+            print(Fore.RED + f"[JOB ERROR] stop_scheduler_job {job_id}\n{tb}")
+            with _JOB_LOCK:
+                job = _JOB_REGISTRY.get(job_id)
+                if job:
+                    job['status'] = 'failed'
+                    job['finished_at'] = _now_iso()
+                    job['error'] = tb
+
+    thread = threading.Thread(target=_task, args=(real_app, job_id), daemon=True)
+    thread.start()
+    print(Fore.CYAN + f"[JOB STARTED] id={job_id} (stop_scheduler)")
     return job_id
 
 # ---------------------------------------------------------------------

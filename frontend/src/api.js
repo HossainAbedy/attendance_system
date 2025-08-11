@@ -4,17 +4,14 @@ import axios from 'axios';
 export const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:5000';
 
 /**
- * Backend routes (devices blueprint is mounted at /api/devices)
+ * Backend routes
  */
 export const ENDPOINTS = {
   // Branches (list + create)
-  branches: '/api/devices/',
+  branches: '/api/devices',
 
   // Single branch (update, delete)
   branch: (branchId) => `/api/devices/${branchId}`,
-
-  // Devices under a branch (list + create)
-  branchDevices: (branchId) => `/api/devices/${branchId}/devices`,
 
   // Single device (get, update, delete)
   device: (deviceId) => `/api/devices/device/${deviceId}`,
@@ -23,7 +20,11 @@ export const ENDPOINTS = {
   pollDevice: (deviceId) => `/api/devices/device/${deviceId}/ping`,
   pollDeviceLegacy: (deviceId) => `/api/logs/poll/${deviceId}`,
 
-  // Sync endpoints (keep as you had them)
+  // Logs endpoint
+  logs: '/api/logs',
+  logsByDevice: (deviceId) => `/api/logs/device/${deviceId}`,
+
+  // Sync endpoints
   syncRoot: '/api/sync/',
   syncOneLegacy: '/api/sync/one',
   syncStart: '/api/sync/start',
@@ -39,16 +40,17 @@ export const api = axios.create({
 });
 
 /**
- * Convenience helpers (named exports) — use these from your hooks/components.
- * Also provide a default export object for legacy imports.
+ * Convenience helpers
  */
 export const getBranches = () => api.get(ENDPOINTS.branches);
 export const createBranch = (payload) => api.post(ENDPOINTS.branches, payload);
 export const updateBranch = (branchId, payload) => api.put(ENDPOINTS.branch(branchId), payload);
 export const deleteBranch = (branchId) => api.delete(ENDPOINTS.branch(branchId));
 
-export const getBranchDevices = (branchId) => api.get(ENDPOINTS.branchDevices(branchId));
-export const createDevice = (branchId, payload) => api.post(ENDPOINTS.branchDevices(branchId), payload);
+// IMPORTANT: Removed getBranchDevices and branchDevices endpoint - not supported by backend
+
+export const createDevice = (branchId, payload) =>
+  api.post(`${ENDPOINTS.branches}?branch_id=${branchId}`, payload);
 
 export const getDevice = (deviceId) => api.get(ENDPOINTS.device(deviceId));
 export const updateDevice = (deviceId, payload) => api.put(ENDPOINTS.device(deviceId), payload);
@@ -56,6 +58,10 @@ export const deleteDevice = (deviceId) => api.delete(ENDPOINTS.device(deviceId))
 
 export const pingDevice = (deviceId) => api.post(ENDPOINTS.pollDevice(deviceId));
 export const pollDeviceLegacy = (deviceId) => api.post(ENDPOINTS.pollDeviceLegacy(deviceId));
+
+export const getLogs = (params) => api.get(ENDPOINTS.logs, { params });
+export const getLogsByDevice = (deviceId, params) =>
+  api.get(ENDPOINTS.logsByDevice(deviceId), { params });
 
 export const startSyncAll = () => api.post(ENDPOINTS.syncRoot);
 export const startSyncOneLegacy = () => api.post(ENDPOINTS.syncOneLegacy);
@@ -65,6 +71,13 @@ export const fetchBranch = (id) => api.post(ENDPOINTS.syncBranch(id));
 export const getJobs = () => api.get(ENDPOINTS.jobs);
 export const getJobStatus = (id) => api.get(ENDPOINTS.jobStatus(id));
 
+// export const getBranchDevices = (branchId) => api.get(`/api/devices/${branchId}/devices`);
+export const getBranchDevices = (branchId) => api.get(`/api/devices/${branchId}/devices`).then(res => res.data);
+
+export async function getAllDevices() {
+  const res = await axios.get(`${API_BASE}/api/devices/alldevices`);
+  return res.data;
+}
 export default {
   api,
   ENDPOINTS,
@@ -79,6 +92,8 @@ export default {
   deleteDevice,
   pingDevice,
   pollDeviceLegacy,
+  getLogs,
+  getLogsByDevice,
   startSyncAll,
   startSyncOneLegacy,
   startScheduler,

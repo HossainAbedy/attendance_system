@@ -68,20 +68,31 @@ export default function useBranches() {
     const statusMap = {};
 
     await Promise.allSettled(
-      (branchesList || []).map(async (branch) => {
+        (branchesList || []).map(async (branch) => {
         try {
-          const res = await apiGetBranchDevices(branch.id);
-          const devices = Array.isArray(res.data) ? res.data : res.data?.devices ?? res.data?.items ?? [];
-          const pings = await Promise.allSettled(devices.map((d) => apiGetDevice(d.id).then(() => true).catch(() => false)));
-          statusMap[branch.id] = pings.some((p) => p.status === 'fulfilled' && p.value === true);
+            const devices = await apiGetBranchDevices(branch.id);
+            // devices is expected to be an array directly
+            const deviceList = Array.isArray(devices) ? devices : devices?.devices ?? devices?.items ?? [];
+
+            const pings = await Promise.allSettled(
+            deviceList.map((d) =>
+                apiGetDevice(d.id).then(() => true).catch(() => false)
+            )
+            );
+
+            statusMap[branch.id] = pings.some(
+            (p) => p.status === 'fulfilled' && p.value === true
+            );
         } catch (err) {
-          statusMap[branch.id] = false;
+            statusMap[branch.id] = false;
         }
-      })
+        })
     );
 
-    setBranches((old) => old.map((b) => ({ ...b, online: statusMap[b.id] ?? b.online })));
-  }
+    setBranches((old) =>
+        old.map((b) => ({ ...b, online: statusMap[b.id] ?? b.online }))
+    );
+   }
 
   // --- Branch CRUD ---
   async function createBranch(payload) {

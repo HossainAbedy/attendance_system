@@ -81,7 +81,9 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-        <Typography variant="subtitle1">Branches</Typography>
+        <Typography variant="h6" gutterBottom>
+                  Branches
+        </Typography>
         <Button startIcon={<AddIcon />} onClick={openAdd} size="small">
           Add Branch
         </Button>
@@ -90,12 +92,48 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>IP Range</TableCell>
-            <TableCell>Devices</TableCell>
-            <TableCell>Logs</TableCell>
-            <TableCell>Online</TableCell>
-            <TableCell align="right">Actions</TableCell>
+            <TableCell align="left">
+                <Chip
+                    label="Name"
+                    size="medium"
+                    sx={{ backgroundColor: 'black', color: 'white' }}
+                />
+            </TableCell>
+            <TableCell align="right">
+               <Chip
+                    label="IP Range"
+                    size="medium"
+                    sx={{ backgroundColor: 'black', color: 'white' }}
+                />
+            </TableCell>
+            <TableCell align="center">
+                <Chip
+                    label="Devices"
+                    size="medium"
+                    sx={{ backgroundColor: 'black', color: 'white' }}
+                />
+            </TableCell>
+            <TableCell align="center">
+                <Chip
+                    label="Logs"
+                    size="medium"
+                    sx={{ backgroundColor: 'black', color: 'white' }}
+                />
+            </TableCell>
+            <TableCell align="center">
+                <Chip
+                    label="Status"
+                    size="medium"
+                    sx={{ backgroundColor: 'black', color: 'white' }}
+                />
+            </TableCell>
+            <TableCell align="center">
+                <Chip
+                    label="Actions"
+                    size="medium"
+                    sx={{ backgroundColor: 'black', color: 'white' }}
+                />
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -108,14 +146,14 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
                     sx={{ backgroundColor: 'deepskyblue', color: 'black' }}
                 />
               </TableCell>
-              <TableCell>
+              <TableCell align="right">
                 <Chip
                     label={b.ip_range}
                     size="small"
                     sx={{ backgroundColor: 'orange', color: 'black' }}
                 />
               </TableCell>
-              <TableCell>
+              <TableCell align="center">
                 <Chip
                     label={b.device_count ?? 0}
                     size="small"
@@ -123,7 +161,7 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
                 />
               </TableCell>
 
-              <TableCell>
+              <TableCell align="center">
                 <Chip
                     label={b.log_count ?? 0}
                     size="small"
@@ -131,11 +169,11 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
                 />
               </TableCell>
 
-              <TableCell>
+              <TableCell align="center">
                 {b.online ? (
                     <Chip label="Online" size="small" sx={{ backgroundColor: 'green', color: 'black' }} />
                 ) : (
-                    <Chip label="Offline" size="small" sx={{ backgroundColor: 'coral', color: 'black' }} />
+                    <Chip label="Offline" size="small" sx={{ backgroundColor: 'red', color: 'black' }} />
                 )}
               </TableCell>
               <TableCell align="right">

@@ -92,6 +92,24 @@ def delete_branch(branch_id):
 # -----------------------
 # Devices listing + create (under branch)
 # -----------------------
+
+@bp.route('/alldevices', methods=['GET'])
+def get_all_devices():
+    devices = Device.query.all()
+    devices_list = [
+        {
+            "id": d.id,
+            "name": d.name,
+            "ip_address": d.ip_address,
+            "port": d.port,
+            "serial_no": d.serial_no,
+            "branch_id": d.branch_id,
+            # add more fields if needed
+        }
+        for d in devices
+    ]
+    return jsonify({"devices": devices_list, "total": len(devices_list)})
+
 @bp.route('/<int:branch_id>/devices', methods=['GET'])
 def list_devices(branch_id):
     devices = Device.query.filter_by(branch_id=branch_id).all()
