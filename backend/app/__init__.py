@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, request, current_app
 from flask_cors import CORS
 from .config import Config
-from .extensions import db, migrate
+from .extensions import db, migrate, socketio
 from .views.devices import bp as devices_bp
 from .views.logs import bp as logs_bp
 from .views.sync import bp as sync_bp
@@ -26,8 +26,10 @@ def create_app(config_class=Config):
     origins = app.config.get("CORS_ORIGINS", ["http://localhost:3000"])
     CORS(app, resources={r"/api/*": {"origins": origins}})
 
+    # Initialize extensions with app
     db.init_app(app)
     migrate.init_app(app, db)
+    socketio.init_app(app)
 
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
     app.register_blueprint(logs_bp, url_prefix='/api/logs')

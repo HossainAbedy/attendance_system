@@ -10,6 +10,7 @@ from zk import ZK
 from flask import current_app
 from .models import AttendanceLog, Device
 from . import db
+from . import socketio
 from colorama import init as colorama_init, Fore
 colorama_init(autoreset=True)
 
@@ -112,11 +113,31 @@ def insert_into_access_db(record):
     conn.commit()
     cur.close()
     conn.close()
+
+    message = {
+        "type": "access",
+        "userid": record['USERID'],
+        "checktime": record['CHECKTIME']
+    }
+
+    # Emit to all connected clients
+    socketio.emit("access_log", message)
+
     print(Fore.GREEN + f"    [ACCESS ✅] USERID={record['USERID']} CHECKTIME={record['CHECKTIME']}")
 
 # ---------------------------------------------------------------------
 # Core fetch function (unchanged)
 # ---------------------------------------------------------------------
+def make_event_payload(device, level, message, extra=None):
+    return {
+        "device_id": device.id,
+        "device_name": device.name,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "level": level,   # "debug","info","new","error","disconnect"
+        "message": message,
+        "extra": extra or {}
+    }
+
 def fetch_and_forward_for_device(device, inspect_only=False):
     zk = ZK(
         device.ip_address,
@@ -131,15 +152,17 @@ def fetch_and_forward_for_device(device, inspect_only=False):
     new_count = 0
     print(Fore.YELLOW + f"\n[DEBUG] Connecting to {device.name} ({device.ip_address}:{device.port})")
     try:
+        socketio.emit('device_status', make_event_payload(device, 'debug', f"Connecting to {device.ip_address}:{device.port}"))
         conn = zk.connect()
         print(Fore.GREEN + f"[CONNECTED] {device.name}")
+        socketio.emit('device_status', make_event_payload(device, 'info', "[CONNECTED]"))
         conn.disable_device()
 
         start_time = time.time()
         logs = conn.get_attendance()
         elapsed = time.time() - start_time
         print(Fore.CYAN + f"[INFO] Retrieved {len(logs)} logs from {device.name} in {elapsed:.2f} seconds")
-
+        socketio.emit('device_status', make_event_payload(device, 'info', f"Retrieved {len(logs)} logs in {elapsed:.2f}s", {"count": len(logs)}))
         existing = {rid for (rid,) in db.session.query(AttendanceLog.record_id)
                     .filter_by(device_id=device.id).all()}
 
@@ -168,6 +191,8 @@ def fetch_and_forward_for_device(device, inspect_only=False):
                 insert_into_access_db(access_record)
             except Exception as e:
                 print(Fore.RED + f"    [ACCESS ❌] RID {rid}: {e}")
+                err_payload = make_event_payload(device, 'error', f"Access DB insert failed for RID {rid}: {e}", {"rid": rid})
+                socketio.emit('device_status', err_payload)
 
             log_entry = AttendanceLog(
                 device_id=device.id,
@@ -180,6 +205,15 @@ def fetch_and_forward_for_device(device, inspect_only=False):
 
             snapshot.append(access_record)
             new_count += 1
+            # Emit each new log (for toaster)
+            socketio.emit('new_log', {
+                "device_id": device.id,
+                "device_name": device.name,
+                "rid": rid,
+                "user_id": rec.user_id,
+                "timestamp": rec.timestamp.isoformat() if hasattr(rec.timestamp, "isoformat") else str(rec.timestamp),
+                "status": status_str
+            })
             print(Fore.BLUE + f"    [NEW] RID {rid}, User={rec.user_id}, Time={rec.timestamp}")
 
         access_elapsed = time.time() - access_start
@@ -188,10 +222,21 @@ def fetch_and_forward_for_device(device, inspect_only=False):
             db.session.commit()
         flask_elapsed = time.time() - flask_start
 
+        # Emit each new log (for toaster)
+        socketio.emit('new_log', {
+            "device_id": device.id,
+            "device_name": device.name,
+            "rid": rid,
+            "user_id": rec.user_id,
+            "timestamp": rec.timestamp.isoformat() if hasattr(rec.timestamp, "isoformat") else str(rec.timestamp),
+            "status": status_str
+        })
+
         print(Fore.MAGENTA + f"[ACCESS INSERT TIME] Inserted {new_count} records into Access DB in {access_elapsed:.2f} seconds from {device.name}")
         print(Fore.WHITE + f"[FLASK DB INSERT TIME] Inserted {new_count} records into Flask DB in {flask_elapsed:.2f} seconds from {device.name}")
 
     except Exception as e:
+        socketio.emit('device_status', make_event_payload(device, 'error', f"Polling failed: {e}"))
         print(Fore.RED + f"[ERROR] Polling {device.name} failed: {e}")
     finally:
         if conn:
@@ -203,12 +248,14 @@ def fetch_and_forward_for_device(device, inspect_only=False):
                 conn.disconnect()
             except Exception:
                 pass
+            socketio.emit('device_status', make_event_payload(device, 'info', "[DISCONNECTED]"))
             print(Fore.RED + f"[DISCONNECTED] {device.name}")
 
         if inspect_only and snapshot:
             fn = f"zk_snapshot_{device.name.replace(' ', '_')}_{datetime.now():%Y%m%d_%H%M%S}.json"
             with open(fn, 'w', encoding='utf-8') as f:
                 json.dump(snapshot, f, indent=2, default=str)
+            socketio.emit('device_status', make_event_payload(device, 'info', f"[SNAPSHOT] saved {len(snapshot)} records to {fn}"))    
             print(Fore.GREEN + f"[SNAPSHOT] saved {len(snapshot)} records to {fn}")
 
     return new_count
