@@ -1,11 +1,12 @@
-// FILE: src/components/BranchesTable.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Table,
   TableHead,
   TableRow,
   TableCell,
   TableBody,
+  TableFooter,
+  TablePagination,
   IconButton,
   Typography,
   Box,
@@ -31,6 +32,17 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
   const [formData, setFormData] = useState({ name: '', ip_range: '' });
   const [deleting, setDeleting] = useState({ open: false, id: null, name: '' });
   const [submitting, setSubmitting] = useState(false);
+
+  // pagination
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 30;
+
+  useEffect(() => {
+    // if branches shrink and current page is out of range, reset to 0
+    if (page > 0 && page * rowsPerPage >= branches.length) {
+      setPage(0);
+    }
+  }, [branches, page]);
 
   function openAdd() {
     setFormMode('add');
@@ -78,11 +90,17 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
     }
   }
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const paginated = branches.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
         <Typography variant="h6" gutterBottom>
-                  Branches
+          Branches
         </Typography>
         <Button startIcon={<AddIcon />} onClick={openAdd} size="small">
           Add Branch
@@ -93,140 +111,136 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
         <TableHead>
           <TableRow>
             <TableCell align="left">
-                <Chip
-                    label="Name"
-                    size="medium"
-                    sx={{ backgroundColor: 'black', color: 'white' }}
-                />
+              <Chip
+                label="Name"
+                size="medium"
+                sx={{ backgroundColor: 'black', color: 'white' }}
+              />
             </TableCell>
             <TableCell align="right">
-               <Chip
-                    label="IP Range"
-                    size="medium"
-                    sx={{ backgroundColor: 'black', color: 'white' }}
-                />
+              <Chip
+                label="IP Range"
+                size="medium"
+                sx={{ backgroundColor: 'black', color: 'white' }}
+              />
             </TableCell>
             <TableCell align="center">
-                <Chip
-                    label="Devices"
-                    size="medium"
-                    sx={{ backgroundColor: 'black', color: 'white' }}
-                />
+              <Chip
+                label="Devices"
+                size="medium"
+                sx={{ backgroundColor: 'black', color: 'white' }}
+              />
             </TableCell>
             <TableCell align="center">
-                <Chip
-                    label="Logs"
-                    size="medium"
-                    sx={{ backgroundColor: 'black', color: 'white' }}
-                />
+              <Chip
+                label="Logs"
+                size="medium"
+                sx={{ backgroundColor: 'black', color: 'white' }}
+              />
             </TableCell>
             <TableCell align="center">
-                <Chip
-                    label="Status"
-                    size="medium"
-                    sx={{ backgroundColor: 'black', color: 'white' }}
-                />
+              <Chip
+                label="Status"
+                size="medium"
+                sx={{ backgroundColor: 'black', color: 'white' }}
+              />
             </TableCell>
-            <TableCell align="center">
-                <Chip
-                    label="Actions"
-                    size="medium"
-                    sx={{ backgroundColor: 'black', color: 'white' }}
-                />
+            <TableCell align="right">
+              <Chip
+                label="Actions"
+                size="medium"
+                sx={{ backgroundColor: 'black', color: 'white' }}
+              />
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {branches.map((b) => (
+          {paginated.map((b) => (
             <TableRow key={b.id} hover>
               <TableCell>
                 <Chip
-                    label={b.name}
-                    size="small"
-                    sx={{ backgroundColor: 'deepskyblue', color: 'black' }}
+                  label={b.name}
+                  size="small"
+                  sx={{ backgroundColor: 'deepskyblue', color: 'black' }}
                 />
               </TableCell>
               <TableCell align="right">
                 <Chip
-                    label={b.ip_range}
-                    size="small"
-                    sx={{ backgroundColor: 'orange', color: 'black' }}
+                  label={b.ip_range}
+                  size="small"
+                  sx={{ backgroundColor: 'orange', color: 'black' }}
                 />
               </TableCell>
               <TableCell align="center">
                 <Chip
-                    label={b.device_count ?? 0}
-                    size="small"
-                    sx={{ backgroundColor: 'yellow', color: 'black' }}
+                  label={b.device_count ?? 0}
+                  size="small"
+                  sx={{ backgroundColor: 'yellow', color: 'black' }}
                 />
               </TableCell>
 
               <TableCell align="center">
                 <Chip
-                    label={b.log_count ?? 0}
-                    size="small"
-                    sx={{ backgroundColor: 'cyan', color: 'black' }}
+                  label={b.log_count ?? 0}
+                  size="small"
+                  sx={{ backgroundColor: 'cyan', color: 'black' }}
                 />
               </TableCell>
 
               <TableCell align="center">
                 {b.online ? (
-                    <Chip label="Online" size="small" sx={{ backgroundColor: 'green', color: 'black' }} />
+                  <Chip label="Online" size="small" sx={{ backgroundColor: 'green', color: 'black' }} />
                 ) : (
-                    <Chip label="Offline" size="small" sx={{ backgroundColor: 'red', color: 'black' }} />
+                  <Chip label="Offline" size="small" sx={{ backgroundColor: 'red', color: 'black' }} />
                 )}
               </TableCell>
               <TableCell align="right">
                 <Stack direction="row" spacing={1} justifyContent="flex-end">
                   <Tooltip title="Fetch">
                     <IconButton size="small" onClick={() => onFetch && onFetch(b.id)}
-                        sx={{
-                        // backgroundColor: 'green',
+                      sx={{
                         color: 'green',
                         '&:hover': {
-                            backgroundColor: 'green',
-                            color: 'white'
-                    },
-                    }}>
+                          backgroundColor: 'green',
+                          color: 'white'
+                        },
+                      }}>
                       <SyncIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Devices">
                     <IconButton size="small" onClick={() => onShowDevices && onShowDevices(b.id)}
-                        sx={{
-                    // backgroundColor: 'deepskyblue',
-                    color: 'deepskyblue',
-                    '&:hover': {
-                        backgroundColor: 'deepskyblue',
-                        color: 'white'
-                    },
-                    }}>
+                      sx={{
+                        color: 'deepskyblue',
+                        '&:hover': {
+                          backgroundColor: 'deepskyblue',
+                          color: 'white'
+                        },
+                      }}>
                       <DevicesIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Edit">
                     <IconButton size="small" onClick={() => openEdit(b)}
-                    sx={{
-                        // backgroundColor: 'yellow',
+                      sx={{
                         color: 'yellow',
                         '&:hover': {
-                            backgroundColor: 'orange',
-                            color: 'white'
-                    },
-                    }}>
+                          backgroundColor: 'orange',
+                          color: 'white'
+                        },
+                      }}>
                       <EditIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Delete">
-                    <IconButton size="small" color="error" onClick={() => setDeleting({ open: true, id: b.id, name: b.name })} 
-                        sx={{
-                            // backgroundColor: 'red',
-                            color: 'red',
-                            '&:hover': {
-                                backgroundColor: 'red',
-                                color: 'white'
+                    <IconButton size="small" color="error" onClick={() => setDeleting({ open: true, id: b.id, name: b.name })}
+                      sx={{
+                        color: 'red',
+                        '&:hover': {
+                          backgroundColor: 'red',
+                          color: 'white'
                         },
-                        }}>
+                      }}>
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
@@ -235,6 +249,41 @@ export default function BranchesTable({ branches = [], onFetch, onShowDevices, o
             </TableRow>
           ))}
         </TableBody>
+
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={6}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box>
+                  <Button
+                    size="small"
+                    onClick={(e) => handleChangePage(e, Math.max(0, page - 1))}
+                    disabled={page === 0}
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    size="small"
+                    onClick={(e) => handleChangePage(e, Math.min(Math.ceil(branches.length / rowsPerPage) - 1, page + 1))}
+                    disabled={page >= Math.ceil(branches.length / rowsPerPage) - 1}
+                    sx={{ ml: 1 }}
+                  >
+                    Next
+                  </Button>
+              </Box>
+                  <TablePagination
+                    rowsPerPageOptions={[30]} //data per page
+                    count={branches.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={() => {}}
+                    labelDisplayedRows={({ from, to, count }) => `${from}-${to} of ${count}`}
+                  />
+              </Box>
+            </TableCell>
+          </TableRow>
+        </TableFooter>
       </Table>
 
       {/* Form dialog */}

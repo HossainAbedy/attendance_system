@@ -1,4 +1,5 @@
 # backend/app/__init__.py
+import sys
 from flask import Flask, jsonify, request, current_app
 from flask_cors import CORS
 from .config import Config
@@ -6,6 +7,7 @@ from .extensions import db, migrate, socketio
 from .views.devices import bp as devices_bp
 from .views.logs import bp as logs_bp
 from .views.sync import bp as sync_bp
+from .logging_handler import init_socketio_logging, SocketIOStdout
 
 # ABSOLUTE import (tasks.py lives in the backend/app/ folder)
 from app.tasks import (
@@ -30,6 +32,10 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     socketio.init_app(app)
+    init_socketio_logging()
+
+    sys.stdout = SocketIOStdout(socketio)
+    sys.stderr = SocketIOStdout(socketio)
 
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
     app.register_blueprint(logs_bp, url_prefix='/api/logs')

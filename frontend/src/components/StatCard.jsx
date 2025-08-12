@@ -8,7 +8,17 @@ export default function StatCard({ title, value, onClick, icon, bgColor }) {
       sx={{
         cursor: onClick ? 'pointer' : 'default',
         backgroundColor: bgColor || 'background.paper',
-        color: bgColor ? 'white' : 'inherit'
+        color: bgColor ? 'white' : 'inherit',
+        p: 2,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        transition: 'transform 0.2s ease-in-out',
+        cursor: 'pointer',
+        '&:hover': {
+          transform: 'scale(1.05)',
+          boxShadow: 6,
+        },
       }}
       onClick={onClick}
     >

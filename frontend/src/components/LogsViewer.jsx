@@ -1,4 +1,3 @@
-// FILE: src/components/LogsViewer.jsx
 import React, { useEffect, useState, useCallback } from "react";
 import {
   Box,
@@ -20,6 +19,7 @@ import {
   FormControl,
   Stack,
   Button,
+  Chip,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getLogs, getLogsByDevice } from "../api"; // ← new imports
@@ -34,16 +34,19 @@ function formatDate(iso) {
   }
 }
 
-/**
- * Helper: convert datetime-local input (yyyy-MM-ddTHH:mm) to ISO string (UTC)
- * If value is empty, returns null.
- */
 function dtLocalToISO(val) {
   if (!val) return null;
-  // browser value like "2025-08-11T10:30"
   const dt = new Date(val);
   if (isNaN(dt.getTime())) return null;
   return dt.toISOString();
+}
+
+function statusColor(s) {
+  if (!s) return "cyan";
+  const low = String(s).toLowerCase();
+  if (low.includes("error") || low.includes("fail") || low.includes("denied") || low.includes("unauth")) return "red";
+  if (low.includes("ok") || low.includes("success") || low.includes("passed") || low.includes("accepted")) return "green";
+  return "cyan";
 }
 
 export default function LogsViewer({ branchId = null, deviceId = null, onBack = () => {} }) {
@@ -60,7 +63,6 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
   const [sortDir, setSortDir] = useState("desc");
   const [refreshKey, setRefreshKey] = useState(0);
 
-  // NEW: per-column filters
   const [filters, setFilters] = useState({
     timestamp_from: "",
     timestamp_to: "",
@@ -72,7 +74,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
 
   const buildParams = useCallback(() => {
     const params = {
-      page: page + 1, // backend 1-based
+      page: page + 1,
       per_page: perPage,
       sort_by: "timestamp",
       sort_dir: sortDir,
@@ -81,7 +83,6 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     if (branchId) params.branch_id = branchId;
     if (deviceId) params.device_id = deviceId;
 
-    // map filters -> params (convert datetimes)
     const tsFrom = dtLocalToISO(filters.timestamp_from);
     const tsTo = dtLocalToISO(filters.timestamp_to);
     if (tsFrom) params.timestamp_from = tsFrom;
@@ -127,7 +128,6 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     setSearchInput("");
     setQ("");
     setPage(0);
-    // clear filters too
     setFilters({
       timestamp_from: "",
       timestamp_to: "",
@@ -157,13 +157,11 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     setRefreshKey((k) => k + 1);
   }
 
-  // NEW: apply/clear filter handlers
   function handleFilterChange(field, value) {
     setFilters((f) => ({ ...f, [field]: value }));
   }
 
   function handleApplyFilters() {
-    // When applying filters, push the q input as well (if present)
     setQ(searchInput.trim());
     setPage(0);
     setRefreshKey((k) => k + 1);
@@ -181,6 +179,8 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     setPage(0);
     setRefreshKey((k) => k + 1);
   }
+
+  const paginatedItems = items; // items already paginated by backend
 
   return (
     <Paper sx={{ p: 2 }}>
@@ -255,14 +255,23 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
           <Table size="small" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell>Time</TableCell>
-                <TableCell>User ID</TableCell>
-                <TableCell>Record ID</TableCell>
-                <TableCell>Device</TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell>
+                  <Chip label="Time" size="medium" sx={{ backgroundColor: 'black', color: 'white' }} />
+                </TableCell>
+                <TableCell>
+                  <Chip label="User ID" size="medium" sx={{ backgroundColor: 'black', color: 'white' }} />
+                </TableCell>
+                <TableCell>
+                  <Chip label="Record ID" size="medium" sx={{ backgroundColor: 'black', color: 'white' }} />
+                </TableCell>
+                <TableCell>
+                  <Chip label="Device" size="medium" sx={{ backgroundColor: 'black', color: 'white' }} />
+                </TableCell>
+                <TableCell>
+                  <Chip label="Status" size="medium" sx={{ backgroundColor: 'black', color: 'white' }} />
+                </TableCell>
               </TableRow>
 
-              {/* --- advanced filter row --- */}
               <TableRow>
                 <TableCell>
                   <Stack direction="column" spacing={1}>
@@ -330,7 +339,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
             </TableHead>
 
             <TableBody>
-              {items.map((l) => {
+              {paginatedItems.map((l) => {
                 const ts = l.timestamp ?? l.ts ?? l.time;
                 const user = l.user_id ?? l.user ?? "-";
                 const record = l.record_id ?? l.record ?? "-";
@@ -339,11 +348,21 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
 
                 return (
                   <TableRow key={l.id ?? `${ts}-${Math.random()}`}>
-                    <TableCell style={{ whiteSpace: "nowrap" }}>{formatDate(ts)}</TableCell>
-                    <TableCell>{user}</TableCell>
-                    <TableCell>{record}</TableCell>
-                    <TableCell>{deviceName}</TableCell>
-                    <TableCell>{status}</TableCell>
+                    <TableCell style={{ whiteSpace: "nowrap" }}>
+                      <Chip label={formatDate(ts)} size="small" sx={{ backgroundColor: 'cyan', color: 'black' }} />
+                    </TableCell>
+                    <TableCell>
+                      <Chip label={user} size="small" sx={{ backgroundColor: 'deepskyblue', color: 'black' }} />
+                    </TableCell>
+                    <TableCell>
+                      <Chip label={record} size="small" sx={{ backgroundColor: 'orange', color: 'black' }} />
+                    </TableCell>
+                    <TableCell>
+                      <Chip label={deviceName} size="small" sx={{ backgroundColor: 'yellow', color: 'black' }} />
+                    </TableCell>
+                    <TableCell>
+                      <Chip label={String(status)} size="small" sx={{ backgroundColor: statusColor(status), color: 'black' }} />
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -351,16 +370,37 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
 
             <TableFooter>
               <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  colSpan={5}
-                  count={total}
-                  rowsPerPage={perPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  labelDisplayedRows={({ from, to, count }) => `${from}-${to} of ${count}`}
-                />
+                <TableCell colSpan={5}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Box>
+                      <Button
+                        size="small"
+                        onClick={(e) => handleChangePage(e, Math.max(0, page - 1))}
+                        disabled={page === 0}
+                      >
+                        Previous
+                      </Button>
+                      <Button
+                        size="small"
+                        onClick={(e) => handleChangePage(e, Math.min(Math.ceil(total / perPage) - 1, page + 1))}
+                        disabled={page >= Math.ceil(total / perPage) - 1}
+                        sx={{ ml: 1 }}
+                      >
+                        Next
+                      </Button>
+                    </Box>
+
+                    <TablePagination
+                      rowsPerPageOptions={[10, 25, 50, 100]}
+                      count={total}
+                      rowsPerPage={perPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      labelDisplayedRows={({ from, to, count }) => `${from}-${to} of ${count}`}
+                    />
+                  </Box>
+                </TableCell>
               </TableRow>
             </TableFooter>
           </Table>

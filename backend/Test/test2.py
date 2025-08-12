@@ -2,9 +2,9 @@ import subprocess
 from zk import ZK
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-START = 206
-END = 208
-DEVICE_SUFFIX = "231"
+START = 51
+END = 65
+DEVICE_SUFFIX = "230"
 PORT = 4370
 TIMEOUT = 3  # seconds
 

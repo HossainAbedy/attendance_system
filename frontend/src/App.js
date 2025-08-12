@@ -122,7 +122,7 @@ export default function App() {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <TopBar onRefresh={refreshBranches} onShowJobs={() => setJobsOpen(true)} />
 
-      <Container sx={{ py: 3, maxWidth: 'xl' }}>
+      <Container maxWidth="xl" disableGutters sx={{ py: 3 }}>
         {/* Flex layout: left 60%, right 40% */}
         <Box sx={{
           display: 'flex',
@@ -131,9 +131,9 @@ export default function App() {
           // On small screens stack vertically
           flexDirection: { xs: 'column', md: 'row' }
         }}>
-          {/* LEFT: 60% */}
+          {/* LEFT: 70% */}
           <Box sx={{
-            flex: '0 0 60%',
+            flex: '0 0 70%',
             minWidth: 0 // important so children can shrink
           }}>
             <Stack spacing={2}>
@@ -194,9 +194,9 @@ export default function App() {
             </Stack>
           </Box>
 
-          {/* RIGHT: 40% */}
+          {/* RIGHT: 30% */}
           <Box sx={{
-            flex: '0 0 40%',
+            flex: '0 0 30%',
             minWidth: 280,      // friendly minimum
             display: 'flex',
             flexDirection: 'column',
