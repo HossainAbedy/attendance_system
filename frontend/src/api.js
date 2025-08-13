@@ -44,14 +44,14 @@ export const api = axios.create({
  * Convenience helpers
  */
 export const getBranches = () => api.get(ENDPOINTS.branches);
-export const createBranch = (payload) => api.post(ENDPOINTS.branches, payload);
+export const createBranch = (payload) => api.post(`${ENDPOINTS.branches}/`, payload);
 export const updateBranch = (branchId, payload) => api.put(ENDPOINTS.branch(branchId), payload);
 export const deleteBranch = (branchId) => api.delete(ENDPOINTS.branch(branchId));
 
 // IMPORTANT: Removed getBranchDevices and branchDevices endpoint - not supported by backend
 
 export const createDevice = (branchId, payload) =>
-  api.post(`${ENDPOINTS.branches}?branch_id=${branchId}`, payload);
+  api.post(`/api/devices/${branchId}/devices`, payload);
 
 export const getDevice = (deviceId) => api.get(ENDPOINTS.device(deviceId));
 export const updateDevice = (deviceId, payload) => api.put(ENDPOINTS.device(deviceId), payload);

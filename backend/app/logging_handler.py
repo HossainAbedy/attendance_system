@@ -1,35 +1,38 @@
 # logging_handler.py
+"""
+Minimal Socket.IO logging bridge.
+- Call init_socketio_logging() once after socketio is created.
+- Replaces sys.stdout/sys.stderr so print()/errors are forwarded as 'console' and 'log'.
+- Installs a logging.Handler that forwards Python logging records as 'log'.
+"""
+
 import logging
 import sys
-import os
 import re
 import threading
 import subprocess
 from datetime import datetime
-from .extensions import socketio  # your socketio instance
+from .extensions import socketio  # must be initialized before calling init_socketio_logging
 
-# ------------ Configuration ------------
-SKIP_PATTERNS = [
+# ---------- small config ----------
+_SKIP_PATTERNS = [
     r"Restarting with stat",
     r"Debugger is active",
     r"Debugger PIN",
     r"Serving Flask app",
-    r"Running on http://",
     r"Press CTRL\+C to quit",
-    r"werkzeug",
     r"Started reloader",
 ]
-
-WHITELIST_LOGGER_PREFIXES = os.getenv("SOCKETIO_WHITELIST_LOGGERS")  # e.g. "myapp,worker"
-if WHITELIST_LOGGER_PREFIXES:
-    WHITELIST_LOGGER_PREFIXES = [p.strip() for p in WHITELIST_LOGGER_PREFIXES.split(",") if p.strip()]
-else:
-    WHITELIST_LOGGER_PREFIXES = None
-
-_SKIP_REGEXES = [re.compile(p, re.IGNORECASE) for p in SKIP_PATTERNS]
+_SKIP_REGEXES = [re.compile(p, re.IGNORECASE) for p in _SKIP_PATTERNS]
+ANSI_RE = re.compile(r'\x1b\[[0-9;]*m')
 
 
-def _should_skip_message(msg: str) -> bool:
+# ---------- helpers ----------
+def _now_iso():
+    return datetime.utcnow().isoformat(timespec='milliseconds') + 'Z'
+
+
+def _should_skip(msg: str) -> bool:
     if not msg:
         return True
     for rx in _SKIP_REGEXES:
@@ -38,38 +41,30 @@ def _should_skip_message(msg: str) -> bool:
     return False
 
 
-def _now_iso():
-    return datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
+def strip_ansi(s: str) -> str:
+    return ANSI_RE.sub('', s) if s else s
 
 
-def send_socket_log(payload: dict, event: str = "log"):
-    """
-    Helper to emit a structured payload safely to socket.io and optionally print debug.
-    """
+def safe_emit(event: str, payload: dict):
+    """Emit to socketio but never raise an exception."""
     try:
-        sys.__stdout__.write(f"[SocketIO EMIT] {event}: {payload}\n")
         socketio.emit(event, payload)
-    except Exception as e:
-        sys.__stdout__.write(f"[SocketIO EMIT ERROR] {e}\n")
+    except Exception:
+        try:
+            sys.__stdout__.write(f"[socketio emit failed] {event} {payload}\n")
+        except Exception:
+            pass
 
 
+# ---------- logging handler ----------
 class SocketIOLogHandler(logging.Handler):
-    """
-    Logging handler that emits structured logs over socketio.
-    Filters out noisy devserver messages, and supports optional whitelist of logger prefixes.
-    """
-    def __init__(self):
-        super().__init__()
+    """Forward Python logging records to socket.io as 'log' events."""
 
     def emit(self, record: logging.LogRecord):
         try:
             msg = self.format(record)
-            if _should_skip_message(msg):
+            if _should_skip(msg):
                 return
-
-            if WHITELIST_LOGGER_PREFIXES:
-                if not any(record.name.startswith(pref) for pref in WHITELIST_LOGGER_PREFIXES):
-                    return
 
             payload = {
                 "timestamp": _now_iso(),
@@ -80,103 +75,169 @@ class SocketIOLogHandler(logging.Handler):
                 "pathname": getattr(record, "pathname", None),
                 "lineno": getattr(record, "lineno", None),
             }
+            safe_emit('log', payload)
+        except Exception:
+            try:
+                sys.__stdout__.write("SocketIOLogHandler emit error\n")
+            except Exception:
+                pass
 
-            sys.__stdout__.write(f"[DEBUG emit()] Prepared payload: {payload}\n")
-            socketio.emit('log', payload)
-            sys.__stdout__.write(f"[DEBUG emit()] Emitted via socketio.emit\n")
 
-        except Exception as e:
-            sys.__stdout__.write(f"SocketIOLogHandler error: {e}\n")
+# ---------- stdout/stderr shim ----------
+class SocketIOStream:
+    """
+    Replace sys.stdout and sys.stderr with this.
+    Emits:
+      - 'console' (ansi + stripped text) for terminal UI
+      - 'log' (structured) for compatibility
+    """
 
-
-class SocketIOStdout:
-    def __init__(self, socketio_instance):
-        self.socketio = socketio_instance
+    def __init__(self, kind="stdout"):
+        self.kind = kind  # 'stdout' or 'stderr'
 
     def write(self, message):
-        message = message.strip()
-        if message:
-            payload = {
-                'timestamp': datetime.utcnow().isoformat(timespec='milliseconds') + 'Z',
-                'device_name': 'stdout',
-                'level': 'INFO',
-                'message': message
-            }
-            self.socketio.emit('log', payload)
-        sys.__stdout__.write(message + '\n')
+        if message is None:
+            return
+        raw = str(message).rstrip('\n')
+        if raw == '':
+            return
+
+        text = strip_ansi(raw)
+        color = None
+        # quick color detect (optional)
+        if '\x1b[32m' in raw:
+            color = 'green'
+        elif '\x1b[31m' in raw:
+            color = 'red'
+
+        payload_console = {
+            "timestamp": _now_iso(),
+            "device_name": self.kind,
+            "level": "ERROR" if self.kind == "stderr" else "INFO",
+            "message": text,
+            "ansi": raw,
+            "color": color,
+        }
+        # emit console (terminal-style)
+        try:
+            safe_emit('console', payload_console)
+        except Exception:
+            pass
+
+        # also emit structured log for backwards compatibility
+        payload_log = {
+            "timestamp": payload_console["timestamp"],
+            "device_name": self.kind,
+            "logger": self.kind,
+            "level": payload_console["level"],
+            "message": text,
+        }
+        try:
+            safe_emit('log', payload_log)
+        except Exception:
+            pass
+
+        # keep printing to the real stdout/stderr so server console still shows messages
+        try:
+            if self.kind == "stderr":
+                sys.__stderr__.write(raw + '\n')
+            else:
+                sys.__stdout__.write(raw + '\n')
+        except Exception:
+            pass
 
     def flush(self):
-        sys.__stdout__.flush()
+        try:
+            if self.kind == "stderr":
+                sys.__stderr__.flush()
+            else:
+                sys.__stdout__.flush()
+        except Exception:
+            pass
+
+
+# ---------- init ----------
+_initialized = False
 
 
 def init_socketio_logging():
+    """
+    Install the SocketIOLogHandler and replace sys.stdout & sys.stderr.
+    Call once after socketio has been created (app factory).
+    """
+    global _initialized
+    if _initialized:
+        return
     try:
         handler = SocketIOLogHandler()
         handler.setFormatter(logging.Formatter("%(message)s"))
-        root_logger = logging.getLogger()
-        root_logger.addHandler(handler)
-        root_logger.setLevel(logging.DEBUG)
-        sys.stdout = SocketIOStdout(socketio)
-        sys.__stdout__.write("[SocketIO] socketio logging initialized\n")
-        print("[DEBUG] SocketIO logging initialized")  # <-- add this line
-    except Exception as e:
-        sys.__stdout__.write(f"init_socketio_logging error: {e}\n")
+        root = logging.getLogger()
+        root.addHandler(handler)
+        # ensure root captures debug+ info
+        if root.level > logging.DEBUG:
+            root.setLevel(logging.DEBUG)
 
-def stream_subprocess(command, event="terminal_output", device_name=None, encoding="utf-8"):
-    """
-    Spawn a background thread to run a command and stream each stdout line to socketio.
-    Use this to get the *real* terminal/process output.
-    Example: stream_subprocess(["python", "myscript.py"])
-    """
-    def _runner(cmd, ev, dev, enc):
+        # replace stdout and stderr
+        sys.stdout = SocketIOStream("stdout")
+        sys.stderr = SocketIOStream("stderr")
+
+        _initialized = True
         try:
-            start_payload = {
+            sys.__stdout__.write("[logging_handler] socketio logging initialized\n")
+        except Exception:
+            pass
+    except Exception as e:
+        try:
+            sys.__stdout__.write(f"[logging_handler init error] {e}\n")
+        except Exception:
+            pass
+
+
+# ---------- optional: stream a subprocess to socket.io ----------
+def stream_subprocess(command, event="terminal_output", device_name=None):
+    """
+    Spawn a thread to stream subprocess stdout/stderr lines to socket.io event.
+    Returns the Thread object.
+    """
+    def _runner(cmd, ev, dev):
+        try:
+            safe_emit('log', {
                 "timestamp": _now_iso(),
                 "device_name": dev or (cmd[0] if isinstance(cmd, (list, tuple)) else str(cmd)),
                 "level": "INFO",
                 "message": f"[PROCESS START] {' '.join(cmd) if isinstance(cmd, (list,tuple)) else cmd}",
-            }
-            send_socket_log(start_payload, event="log")
+            })
 
-            proc = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                universal_newlines=True,
-                bufsize=1,
-            )
-
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, bufsize=1)
             for raw in iter(proc.stdout.readline, ""):
                 if raw is None:
                     break
                 line = raw.rstrip("\n")
                 if not line:
                     continue
-                payload = {
+                safe_emit(ev, {
                     "timestamp": _now_iso(),
-                    "device_name": dev or (cmd[0] if isinstance(cmd, (list,tuple)) else str(cmd)),
+                    "device_name": dev or (cmd[0] if isinstance(cmd, (list, tuple)) else str(cmd)),
                     "level": "INFO",
                     "message": line,
-                }
-                send_socket_log(payload, event=ev)
+                })
 
             proc.stdout.close()
             rc = proc.wait()
-            end_payload = {
+            safe_emit('log', {
                 "timestamp": _now_iso(),
-                "device_name": dev or (cmd[0] if isinstance(cmd, (list,tuple)) else str(cmd)),
+                "device_name": dev or (cmd[0] if isinstance(cmd, (list, tuple)) else str(cmd)),
                 "level": "INFO" if rc == 0 else "ERROR",
                 "message": f"[PROCESS EXIT] rc={rc}",
-            }
-            send_socket_log(end_payload, event="log")
+            })
         except Exception as e:
-            send_socket_log({
+            safe_emit('log', {
                 "timestamp": _now_iso(),
                 "device_name": dev or "process",
                 "level": "ERROR",
                 "message": f"[PROCESS ERROR] {e}",
-            }, event="log")
+            })
 
-    thread = threading.Thread(target=_runner, args=(command, event, device_name, encoding), daemon=True)
+    thread = threading.Thread(target=_runner, args=(command, event, device_name), daemon=True)
     thread.start()
     return thread

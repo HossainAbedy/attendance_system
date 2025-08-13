@@ -1,4 +1,5 @@
 # tasks.py
+import re
 import json
 import pyodbc
 import time
@@ -91,8 +92,63 @@ def list_jobs(limit=50):
     jobs.sort(key=key, reverse=True)
     return [get_job_status(j['job_id']) for j in jobs[:limit]]
 
+# -----------------------
+# Helper: console emitter
+# -----------------------
+ANSI_RE = re.compile(r'\x1b\[[0-9;]*m')
+COLOR_MAP = {
+    Fore.GREEN: 'green',
+    Fore.YELLOW: 'yellow',
+    Fore.CYAN: 'cyan',
+    Fore.BLUE: 'blue',
+    Fore.MAGENTA: 'magenta',
+    Fore.WHITE: 'white',
+    Fore.RED: 'red',
+}
+
+def strip_ansi(s: str) -> str:
+    return ANSI_RE.sub('', s)
+
+def console_emit(raw_text_with_color: str, level: str = "info", device=None, extra: dict = None):
+    """
+    Print to console (keeps colorama colors) AND emit a structured 'console' payload
+    to socketio for frontend consumption. The emitted text is ANSI-stripped.
+    """
+    # preserve the original colored print for terminal
+    try:
+        print(raw_text_with_color)
+    except Exception:
+        # fallback if printing fails for any reason
+        print(strip_ansi(raw_text_with_color))
+
+    # attempt to detect color name (first matching)
+    color_name = None
+    for code, name in COLOR_MAP.items():
+        if code and code in raw_text_with_color:
+            color_name = name
+            break
+
+    payload = {
+        "type": "console",
+        "level": level,
+        "text": strip_ansi(raw_text_with_color),
+        "color": color_name,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+    }
+    if device is not None:
+        payload["device_id"] = getattr(device, "id", None)
+        payload["device_name"] = getattr(device, "name", None)
+    if extra:
+        payload["extra"] = extra
+
+    # emit but don't let failures break program flow
+    try:
+        socketio.emit("console", payload)
+    except Exception:
+        pass
+
 # ---------------------------------------------------------------------
-# Access DB insert
+# Access DB insert (returns ISO timestamp string for frontend)
 # ---------------------------------------------------------------------
 def insert_into_access_db(record):
     conn_str = (
@@ -121,23 +177,28 @@ def insert_into_access_db(record):
     else:
         checktime_for_emit = str(checktime)
 
+    # emit access_log event (keeps original behavior)
     message = {
         "type": "access",
         "userid": record.get('USERID'),
         "checktime": checktime_for_emit
     }
-
-    # Emit to all connected clients, but don't let emit failures break DB insert flow
     try:
         socketio.emit("access_log", message)
     except Exception:
-        # optional: log the exception here with print() if you want visibility
         pass
 
-    # original console print 
-    print(Fore.GREEN + f"    [ACCESS ✅] USERID={record['USERID']} CHECKTIME={record['CHECKTIME']}")
+    # ORIGINAL terminal print (kept) and ALSO emitted as structured console
+    console_emit(
+        Fore.GREEN + f"    [ACCESS ✅] USERID={record['USERID']} CHECKTIME={record['CHECKTIME']}",
+        level="info",
+    )
+
+    # return iso timestamp so callers (fetch_and_forward_for_device) can use it
+    return checktime_for_emit
+
 # ---------------------------------------------------------------------
-# Core fetch function (unchanged)
+# Core fetch function (unchanged logic, prints replaced with console_emit)
 # ---------------------------------------------------------------------
 def make_event_payload(device, level, message, extra=None):
     return {
@@ -185,13 +246,14 @@ def fetch_and_forward_for_device(device, inspect_only=False):
             "extra": extra or {},
         })     
 
-    print(Fore.YELLOW + f"\n[DEBUG] Connecting to {device.name} ({device.ip_address}:{device.port})")
+    console_emit(Fore.YELLOW + f"\n[DEBUG] Connecting to {device.name} ({device.ip_address}:{device.port})",
+                 level="debug", device=device)
     safe_emit('device_status', make_event_payload(device, 'debug', f"Connecting to {device.ip_address}:{device.port}"))
     emit_log(device, 'debug', f"Connecting to {device.ip_address}:{device.port}")
 
     try:
         conn = zk.connect()
-        print(Fore.GREEN + f"[CONNECTED] {device.name}")
+        console_emit(Fore.GREEN + f"[CONNECTED] {device.name}", level="info", device=device)
         safe_emit('device_status', make_event_payload(device, 'info', "[CONNECTED]"))
         emit_log(device, 'info', "[CONNECTED]")
 
@@ -202,7 +264,8 @@ def fetch_and_forward_for_device(device, inspect_only=False):
         elapsed = time.time() - start_time
 
         # high-level info
-        print(Fore.CYAN + f"[INFO] Retrieved {len(logs)} logs from {device.name} in {elapsed:.2f} seconds")
+        console_emit(Fore.CYAN + f"[INFO] Retrieved {len(logs)} logs from {device.name} in {elapsed:.2f} seconds",
+                     level="info", device=device, extra={"count": len(logs)})
         safe_emit('device_status', make_event_payload(device, 'info', f"Retrieved {len(logs)} logs", {"count": len(logs)}))
         emit_log(device, 'info', f"Retrieved {len(logs)} logs", {"count": len(logs)})
 
@@ -235,11 +298,11 @@ def fetch_and_forward_for_device(device, inspect_only=False):
             }
 
             try:
-                # insert into Access
+                # insert into Access (this returns the ISO timestamp string now)
                 checktime_iso = insert_into_access_db(access_record)
             except Exception as e:
                 # emit an error-level device_status and continue
-                print(Fore.RED + f"    [ACCESS ❌] RID {rid}: {e}")
+                console_emit(Fore.RED + f"    [ACCESS ❌] RID {rid}: {e}", level="error", device=device)
                 err_payload = make_event_payload(device, 'error', f"Access DB insert failed for RID {rid}: {e}", {"rid": rid})
                 safe_emit('device_status', err_payload)
                 emit_log(device, 'error', f"Access DB insert failed for RID {rid}: {e}", {"rid": rid})
@@ -265,6 +328,9 @@ def fetch_and_forward_for_device(device, inspect_only=False):
                 "timestamp": checktime_iso,
                 "status": status_str,
             })
+
+            console_emit(Fore.BLUE + f"    [NEW ✅] RID {rid}, User={rec.user_id}, Time={rec.timestamp}",
+                         level="new", device=device)
 
         access_elapsed = time.time() - access_start
 
@@ -294,13 +360,15 @@ def fetch_and_forward_for_device(device, inspect_only=False):
             "flask_insert_seconds": round(flask_elapsed, 3),
         })
 
-        # log a concise summary to console
-        print(Fore.MAGENTA + f"[ACCESS INSERT TIME] Inserted {new_count} records into Access DB in {access_elapsed:.2f}s from {device.name}")
-        print(Fore.WHITE + f"[FLASK DB INSERT TIME] Inserted {new_count} records into Flask DB in {flask_elapsed:.2f}s from {device.name}")
+        # log a concise summary to console (kept, and now emitted)
+        console_emit(Fore.MAGENTA + f"[ACCESS INSERT TIME] Inserted {new_count} records into Access DB in {access_elapsed:.2f}s from {device.name}",
+                     level="info", device=device, extra={"access_seconds": access_elapsed})
+        console_emit(Fore.WHITE + f"[FLASK DB INSERT TIME] Inserted {new_count} records into Flask DB in {flask_elapsed:.2f}s from {device.name}",
+                     level="info", device=device, extra={"flask_seconds": flask_elapsed})
 
     except Exception as e:
         safe_emit('device_status', make_event_payload(device, 'error', f"Polling failed: {e}"))
-        print(Fore.RED + f"[ERROR] Polling {device.name} failed: {e}")
+        console_emit(Fore.RED + f"[ERROR] Polling {device.name} failed: {e}", level="error", device=device)
         emit_log(device, 'error', f"Polling failed: {e}")
     finally:
         if conn:
@@ -313,14 +381,14 @@ def fetch_and_forward_for_device(device, inspect_only=False):
             except Exception:
                 pass
             safe_emit('device_status', make_event_payload(device, 'info', "[DISCONNECTED]"))
-            print(Fore.RED + f"[DISCONNECTED] {device.name}")
+            console_emit(Fore.RED + f"[DISCONNECTED] {device.name}", level="info", device=device)
 
         if inspect_only and snapshot:
             fn = f"zk_snapshot_{device.name.replace(' ', '_')}_{datetime.now():%Y%m%d_%H%M%S}.json"
             with open(fn, 'w', encoding='utf-8') as f:
                 json.dump(snapshot, f, indent=2, default=str)
             safe_emit('device_status', make_event_payload(device, 'info', f"[SNAPSHOT] saved {len(snapshot)} records to {fn}"))
-            print(Fore.GREEN + f"[SNAPSHOT] saved {len(snapshot)} records to {fn}")
+            console_emit(Fore.GREEN + f"[SNAPSHOT] saved {len(snapshot)} records to {fn}", level="info", device=device)
 
     return new_count
 

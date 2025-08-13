@@ -1,5 +1,5 @@
-// src/components/LiveTerminalAndNotifications.jsx
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { AnsiUp } from 'ansi_up';
 import { io } from 'socket.io-client';
 
 // Material UI
@@ -24,12 +24,11 @@ import Collapse from '@mui/material/Collapse';
 import Tooltip from '@mui/material/Tooltip';
 
 const DEFAULT_MAX_LINES = 2000;
+const ansiUp = new AnsiUp();
 
-/* ---------------- Shared socket manager (one socket per URL) ---------------- */
 function getSharedSocket(url) {
   if (!window.__sharedSockets) window.__sharedSockets = {};
   const key = url || window.location.origin;
-
   if (!window.__sharedSockets[key]) {
     window.__sharedSockets[key] = io(key, {
       transports: ['websocket', 'polling'],
@@ -41,19 +40,17 @@ function getSharedSocket(url) {
   return window.__sharedSockets[key];
 }
 
-/* ---------------- Utilities ---------------- */
-function safeStringify(obj, maxLen = 600) {
+function stripAnsi(s = '') {
+  return String(s).replace(/\x1b\[[0-9;]*m/g, '');
+}
+
+function safeStringify(obj, maxLen = 800) {
   try {
     const s = typeof obj === 'string' ? obj : JSON.stringify(obj, null, 0);
     return s.length > maxLen ? s.slice(0, maxLen) + '…' : s;
   } catch {
     return String(obj);
   }
-}
-
-function stripAnsi(s = '') {
-  // remove ANSI escape sequences (colors)
-  return String(s).replace(/\x1b\[[0-9;]*m/g, '');
 }
 
 function pickTimestamp(payload) {
@@ -67,7 +64,7 @@ function pickTimestamp(payload) {
 }
 
 function pickDevice(payload, fallback) {
-  return payload?.device_name || payload?.device_id || payload?.device || payload?.userid || fallback || 'unknown';
+  return payload?.device_name || payload?.device || payload?.userid || payload?.device_id || fallback || 'stdout';
 }
 
 function pickLevel(payload) {
@@ -76,34 +73,21 @@ function pickLevel(payload) {
   return lvl;
 }
 
-function parseFromText(line) {
-  const plain = stripAnsi(line).trim();
-  let level = null;
-  let device = null;
-
-  const m = plain.match(/^\s*\[([A-Z0-9 _✅]+)\]\s*(.*)/i);
+function parseSimpleTextLine(raw) {
+  const plain = stripAnsi(raw).trim();
+  // try simple bracket prefix parse: [TOKEN] rest...
+  const m = plain.match(/^\s*\[([^\]]+)\]\s*(.*)/);
   if (m) {
-    const token = m[1].toString().toUpperCase();
+    const token = m[1].toUpperCase();
+    const rest = m[2] || '';
+    let level = 'INFO';
     if (token.includes('ERR') || token.includes('ERROR')) level = 'ERROR';
     else if (token.includes('WARN')) level = 'WARN';
     else if (token.includes('DEBUG')) level = 'DEBUG';
     else if (token.includes('ACCESS')) level = 'ACCESS';
-    else if (token.includes('DISCONNECTED')) level = 'WARN';
-    else if (token.includes('SCHEDULER')) level = 'INFO';
-    else level = token.replace(/\s+/g, '_');
-
-    const rest = m[2] || '';
-    const devMatch = rest.match(/([A-Z0-9][A-Za-z0-9\s\-_]{4,50}?(?:Branch|Sub Branch|SUB Branch|SUB|Branch:|Lobby|Branch))/i);
-    if (devMatch) device = devMatch[1].trim();
-    else {
-      const fallbackDev = rest.split(':')[0].split('-')[0].slice(0, 60).trim();
-      if (fallbackDev.length > 2) device = fallbackDev;
-    }
-
-    return { level, device, plain };
+    return { level, plain, rest };
   }
-
-  return { level: null, device: null, plain };
+  return { level: null, plain, rest: '' };
 }
 
 function formatLine(eventName, payload) {
@@ -112,20 +96,20 @@ function formatLine(eventName, payload) {
 
   if (typeof payload === 'string') rawMessage = payload;
   else if (payload && (payload.message || payload.msg || payload.msg_text)) rawMessage = payload.message || payload.msg || payload.msg_text;
-  else rawMessage = safeStringify(payload, 1000);
+  else rawMessage = safeStringify(payload, 1200);
 
-  const parsed = parseFromText(rawMessage);
-  const device = pickDevice(payload, parsed.device);
+  const parsed = parseSimpleTextLine(payload?.message || rawMessage);
+  const device = pickDevice(payload, parsed?.rest || parsed?.device);
   const level = pickLevel(payload) || parsed.level || 'INFO';
-  // store stripped message for display
   const stripped = stripAnsi(parsed.plain || rawMessage).trim();
+
   const text = `${ts} | ${eventName} | ${device} | ${level} | ${stripped}`;
   return { ts, device, level, text, rawMessage, stripped, parsed };
 }
 
-/* ---------------- TerminalConsole ---------------- */
+/* ---------------- TerminalConsole (clean, robust) ---------------- */
 function TerminalConsole({ socketUrl, terminalHeight = '420px', maxLines = DEFAULT_MAX_LINES }) {
-  const [lines, setLines] = useState([]); // {text,eventName,payload,ts,level,device,rawMessage,open}
+  const [lines, setLines] = useState([]);
   const [paused, setPaused] = useState(false);
   const [filter, setFilter] = useState('ALL');
   const [search, setSearch] = useState('');
@@ -133,67 +117,69 @@ function TerminalConsole({ socketUrl, terminalHeight = '420px', maxLines = DEFAU
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
 
-  const pushLines = (newItems) => {
+  const pushLines = useCallback((newItems) => {
     setLines((prev) => {
       const next = [...prev, ...newItems];
-      if (!fullView && next.length > maxLines) {
-        return next.slice(next.length - maxLines);
-      }
+      if (!fullView && next.length > maxLines) return next.slice(next.length - maxLines);
       return next;
     });
-  };
+  }, [fullView, maxLines]);
 
   useEffect(() => {
     const socket = getSharedSocket(socketUrl);
-    if (!socket) return;
+    if (!socket) return undefined;
 
-    const enqueueEvent = (eventName, payload) => {
-      const info = formatLine(eventName, payload);
-      const raw = info.rawMessage ?? '';
-      // split on newlines; keep non-empty pieces (but preserve lines like "[DEBUG] ..." even if preceded by newline)
+    const enqueueEvent = (eventName, payload, rawAnsi = null) => {
+      const norm = (typeof payload === 'string') ? { message: payload } : { ...(payload || {}) };
+      // prefer explicit 'ansi' if provided
+      if (rawAnsi) {
+        norm.ansi = rawAnsi;
+        norm.message = norm.message || stripAnsi(rawAnsi);
+      }
+
+      const info = formatLine(eventName, norm);
+      const raw = info.rawMessage ?? (norm.ansi ?? norm.message ?? '');
       const pieces = String(raw).split(/\r\n|\n/).map((p) => stripAnsi(p).trim()).filter((p) => p.length > 0);
 
       if (pieces.length === 0) {
-        // fallback: push the stripped text (useful for structured payloads)
         pushLines([{
           eventName,
-          payload,
+          payload: norm,
           text: info.text,
           ts: info.ts,
           level: info.level,
           device: info.device,
-          rawMessage: info.rawMessage,
+          rawMessage: norm,
           open: false,
         }]);
       } else if (pieces.length === 1) {
         pushLines([{
           eventName,
-          payload,
+          payload: norm,
           text: info.text,
           ts: info.ts,
           level: info.level,
           device: info.device,
-          rawMessage: info.rawMessage,
+          rawMessage: pieces[0],
           open: false,
         }]);
       } else {
-        // multi-line: create a header then each piece as its own line
         const items = [];
         items.push({
           eventName,
-          payload,
+          payload: norm,
           text: `${info.ts} | ${eventName} | ${info.device} | ${info.level} | (multi-line ${pieces.length} lines)`,
           ts: info.ts,
           level: info.level,
           device: info.device,
-          rawMessage: info.rawMessage,
+          rawMessage: norm,
           open: false,
         });
         pieces.forEach((p) => {
-          const parsed = parseFromText(p);
+          const parsed = parseSimpleTextLine(p);
           items.push({
             eventName,
-            payload,
+            payload: norm,
             text: `${info.ts} | ${eventName} | ${parsed.device || info.device} | ${parsed.level || info.level} | ${p}`,
             ts: info.ts,
             level: parsed.level || info.level,
@@ -204,31 +190,41 @@ function TerminalConsole({ socketUrl, terminalHeight = '420px', maxLines = DEFAU
         });
         pushLines(items);
       }
-      // debug observe incoming event in browser console
-      // eslint-disable-next-line no-console
-      console.debug('[socket event recv]', eventName, payload);
     };
 
-    // explicit listeners (guaranteed)
-    const handleLog = (payload) => {
-      enqueueEvent('log', payload);
+    // handlers
+    const handleConsole = (payload) => {
+      const rawAnsi = payload && (payload.ansi || payload.raw || null);
+      enqueueEvent('console', payload, rawAnsi);
     };
+    const handleLog = (payload) => enqueueEvent('log', payload);
     const handleTerminalOutput = (payload) => {
-      // payload may be { message: "..." } or string
       const p = payload && payload.message ? payload.message : payload;
       enqueueEvent('terminal_output', p);
     };
-    // onAny fallback
+    const handleAccessLog = (payload) => enqueueEvent('access_log', { message: `[ACCESS] USERID=${payload?.userid} CHECKTIME=${payload?.checktime}`, ...payload });
+    const handleDeviceStatus = (payload) => enqueueEvent('device_status', payload);
+    const handleNewLogsBatch = (payload) => enqueueEvent('new_logs_batch', { message: `New logs ${payload?.count ?? (payload?.logs?.length ?? 0)} from ${payload?.device_name || payload?.device_id}`, ...payload });
+    const handleDbInsertTimes = (payload) => enqueueEvent('db_insert_times', { message: `Inserted ${payload?.new_count ?? 0} records (access ${payload?.access_insert_seconds}s, flask ${payload?.flask_insert_seconds}s)`, ...payload });
+
+    // register listeners
+    socket.on('console', handleConsole);
+    socket.on('log', handleLog);
+    socket.on('terminal_output', handleTerminalOutput);
+    socket.on('access_log', handleAccessLog);
+    socket.on('device_status', handleDeviceStatus);
+    socket.on('new_logs_batch', handleNewLogsBatch);
+    socket.on('db_insert_times', handleDbInsertTimes);
+
+    const explicit = new Set(['log', 'console', 'terminal_output', 'access_log', 'device_status', 'new_logs_batch', 'db_insert_times', 'connect', 'disconnect', 'connect_error']);
+
     const onAnyHandler = (eventName, ...args) => {
+      if (explicit.has(eventName)) return;
       const payload = args.length === 1 ? args[0] : args;
       enqueueEvent(eventName, payload);
     };
-
-    socket.on('log', handleLog);
-    socket.on('terminal_output', handleTerminalOutput);
     if (socket.onAny) socket.onAny(onAnyHandler);
 
-    // connection state notifications
     const onConnect = () => enqueueEvent('connect', { message: 'socket connected', timestamp: new Date().toISOString() });
     const onDisconnect = (reason) => enqueueEvent('disconnect', { message: `disconnected: ${reason}`, timestamp: new Date().toISOString() });
     const onConnectError = (err) => enqueueEvent('connect_error', { message: `connect_error: ${err?.message || String(err)}`, timestamp: new Date().toISOString() });
@@ -238,21 +234,25 @@ function TerminalConsole({ socketUrl, terminalHeight = '420px', maxLines = DEFAU
     socket.on('connect_error', onConnectError);
 
     return () => {
+      socket.off('console', handleConsole);
       socket.off('log', handleLog);
       socket.off('terminal_output', handleTerminalOutput);
+      socket.off('access_log', handleAccessLog);
+      socket.off('device_status', handleDeviceStatus);
+      socket.off('new_logs_batch', handleNewLogsBatch);
+      socket.off('db_insert_times', handleDbInsertTimes);
       if (socket.offAny) socket.offAny(onAnyHandler);
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
       socket.off('connect_error', onConnectError);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socketUrl, maxLines, paused, fullView]);
+  }, [socketUrl, maxLines, pushLines]);
 
-  // autoscroll
+  // auto-scroll
   useEffect(() => {
     if (!paused && containerRef.current) {
       const el = containerRef.current;
-      const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+      const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
       if (isNearBottom) bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [lines, paused]);
@@ -271,9 +271,7 @@ function TerminalConsole({ socketUrl, terminalHeight = '420px', maxLines = DEFAU
     URL.revokeObjectURL(url);
   };
 
-  const toggleOpen = (idx) => {
-    setLines((prev) => prev.map((l, i) => (i === idx ? { ...l, open: !l.open } : l)));
-  };
+  const toggleOpen = (idx) => setLines((prev) => prev.map((l, i) => (i === idx ? { ...l, open: !l.open } : l)));
 
   const filtered = lines.filter((l) => {
     if (filter !== 'ALL' && (l.level || '').toString().toUpperCase() !== filter) return false;
@@ -314,64 +312,38 @@ function TerminalConsole({ socketUrl, terminalHeight = '420px', maxLines = DEFAU
             {fullView ? 'Full' : 'Trimmed'}
           </Button>
 
-          <IconButton onClick={() => setPaused((p) => !p)} color="primary" size="small">
-            {paused ? <PlayArrowIcon /> : <PauseIcon />}
-          </IconButton>
+          <IconButton onClick={() => setPaused((p) => !p)} color="primary" size="small">{paused ? <PlayArrowIcon /> : <PauseIcon />}</IconButton>
 
-          <Tooltip title="Clear terminal">
-            <IconButton onClick={clear} color="error" size="small"><ClearIcon /></IconButton>
-          </Tooltip>
-
-          <Tooltip title="Download logs">
-            <IconButton onClick={download} color="success" size="small"><DownloadIcon /></IconButton>
-          </Tooltip>
+          <Tooltip title="Clear terminal"><IconButton onClick={clear} color="error" size="small"><ClearIcon /></IconButton></Tooltip>
+          <Tooltip title="Download logs"><IconButton onClick={download} color="success" size="small"><DownloadIcon /></IconButton></Tooltip>
         </Box>
       </Box>
 
-      <Box
-        ref={containerRef}
-        sx={{
-          flex: 1,
-          overflowY: 'auto',
-          bgcolor: 'common.black',
-          color: 'grey.100',
-          fontFamily: 'monospace',
-          p: 1,
-          borderRadius: 1,
-          lineHeight: '1.3',
-          fontSize: '0.78rem',
-        }}
-      >
+      <Box ref={containerRef} sx={{ flex: 1, overflowY: 'auto', bgcolor: 'common.black', color: 'grey.100', fontFamily: 'monospace', p: 1, borderRadius: 1, lineHeight: '1.3', fontSize: '0.78rem' }}>
         {filtered.map((l, i) => (
           <Box key={i} sx={{ mb: 0.5 }}>
-            <ListItem
-              alignItems="flex-start"
-              onClick={() => toggleOpen(i)}
-              sx={{ cursor: 'pointer', py: 0.2, px: 0 }}
-            >
-              <ListItemText
-                primary={
-                  <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
-                    <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                      [{new Date(l.ts).toLocaleTimeString()}]
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>{l.eventName}</Typography>
-                    <Typography variant="caption" sx={{ color: 'grey.400' }}>{l.device}</Typography>
-                    <Typography variant="caption" sx={{ color: levelColor(l.level), fontWeight: 700 }}>{l.level}</Typography>
-                    <Typography variant="body2" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '60ch' }}>
-                      {l.text.split(' | ').slice(4).join(' | ')}
-                    </Typography>
+            <ListItem alignItems="flex-start" onClick={() => toggleOpen(i)} sx={{ cursor: 'pointer', py: 0.2, px: 0 }}>
+              <ListItemText primary={(
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <Typography variant="caption" sx={{ color: 'grey.500' }}>[{new Date(l.ts).toLocaleTimeString()}]</Typography>
+                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>{l.eventName}</Typography>
+                  <Typography variant="caption" sx={{ color: 'grey.400' }}>{l.device}</Typography>
+                  <Typography variant="caption" sx={{ color: levelColor(l.level), fontWeight: 700 }}>{l.level}</Typography>
+                  <Box sx={{ maxWidth: '60ch', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {l.payload?.ansi ? (
+                      <span dangerouslySetInnerHTML={{ __html: ansiUp.ansi_to_html(l.payload.ansi) }} />
+                    ) : (
+                      <Typography variant="body2">{l.text.split(' | ').slice(4).join(' | ')}</Typography>
+                    )}
                   </Box>
-                }
-              />
+                </Box>
+              )} />
             </ListItem>
 
             <Collapse in={!!l.open} timeout="auto" unmountOnExit>
               <Box sx={{ bgcolor: '#0b0b0b', p: 1, borderRadius: 1, color: 'grey.300', fontSize: '0.75rem' }}>
                 <Typography variant="caption" sx={{ color: 'grey.500' }}>Raw payload:</Typography>
-                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                  {typeof l.rawMessage === 'string' ? l.rawMessage : safeStringify(l.rawMessage, 4000)}
-                </pre>
+                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{typeof l.rawMessage === 'string' ? l.rawMessage : safeStringify(l.rawMessage, 4000)}</pre>
               </Box>
             </Collapse>
             <Divider />
@@ -383,7 +355,7 @@ function TerminalConsole({ socketUrl, terminalHeight = '420px', maxLines = DEFAU
   );
 }
 
-/* ---------------- NotificationsPanel (small & functional) ---------------- */
+/* ---------------- NotificationsPanel (keeps behavior; simplified) ---------------- */
 function NotificationsPanel({ socketUrl, notificationsHeight = '220px' }) {
   const [items, setItems] = useState([]);
   const [unread, setUnread] = useState(0);
@@ -392,17 +364,18 @@ function NotificationsPanel({ socketUrl, notificationsHeight = '220px' }) {
 
   useEffect(() => {
     const socket = getSharedSocket(socketUrl);
-    if (!socket) return;
+    if (!socket) return undefined;
 
     const onAnyHandler = (eventName, ...args) => {
       const payload = args.length === 1 ? args[0] : args;
-      if (eventName === 'new_log' || eventName === 'new_logs_batch' || eventName === 'access_log' || eventName === 'log' || eventName === 'terminal_output') {
+      if (['new_log', 'new_logs_batch', 'access_log', 'log', 'terminal_output', 'console', 'device_status'].includes(eventName)) {
         const id = `${eventName}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
         const title = eventName === 'access_log' ? `Access: ${payload.userid || payload.device_id}` : `${eventName} — ${pickDevice(payload)}`;
         const time = pickTimestamp(payload);
         const note = { id, title, time, payload, read: false };
         setItems((prev) => [note, ...prev].slice(0, 300));
         setUnread((u) => u + 1);
+
         if (eventName === 'new_logs_batch') {
           const b = payload.branch_id ?? payload.device_id ?? 'unknown';
           const count = payload.count ?? (Array.isArray(payload.logs) ? payload.logs.length : 1);
@@ -422,20 +395,9 @@ function NotificationsPanel({ socketUrl, notificationsHeight = '220px' }) {
     };
   }, [socketUrl]);
 
-  const markRead = (id) => {
-    setItems((prev) => prev.map((it) => (it.id === id ? { ...it, read: true } : it)));
-    setUnread((prev) => Math.max(0, prev - 1));
-  };
-  const markAllRead = () => {
-    setItems((prev) => prev.map((it) => ({ ...it, read: true })));
-    setUnread(0);
-  };
-  const clearAll = () => {
-    setItems([]);
-    setUnread(0);
-    setTotalLogs(0);
-    setBranchCounts({});
-  };
+  const markRead = (id) => setItems((prev) => prev.map((it) => (it.id === id ? { ...it, read: true } : it)));
+  const markAllRead = () => { setItems((prev) => prev.map((it) => ({ ...it, read: true }))); setUnread(0); };
+  const clearAll = () => { setItems([]); setUnread(0); setTotalLogs(0); setBranchCounts({}); };
 
   return (
     <Paper elevation={3} sx={{ p: 1, height: notificationsHeight, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -457,9 +419,7 @@ function NotificationsPanel({ socketUrl, notificationsHeight = '220px' }) {
           <Typography variant="caption" color="text.secondary">Per-branch:</Typography>
           <Box component="ul" sx={{ m: 0, pl: 2 }}>
             {Object.keys(branchCounts).length === 0 && <li><Typography variant="caption" color="text.secondary">No data</Typography></li>}
-            {Object.entries(branchCounts).map(([b, c]) => (
-              <li key={b}><Typography variant="caption">{b}: {c}</Typography></li>
-            ))}
+            {Object.entries(branchCounts).map(([b, c]) => (<li key={b}><Typography variant="caption">{b}: {c}</Typography></li>))}
           </Box>
         </Box>
       </Box>
@@ -482,17 +442,11 @@ function NotificationsPanel({ socketUrl, notificationsHeight = '220px' }) {
 }
 
 /* ---------------- Main exported widget ---------------- */
-export default function LiveTerminalAndNotifications({
-  socketUrl,
-  containerWidth = '30%',
-  notificationsHeight = '220px',
-  terminalHeight = '420px',
-  maxLines = DEFAULT_MAX_LINES,
-}) {
+export default function LiveTerminalAndNotifications({ socketUrl, containerWidth = '100%', notificationsHeight = '180px', terminalHeight = '420px', maxLines = DEFAULT_MAX_LINES }) {
   return (
     <Box sx={{ width: containerWidth, minWidth: '260px', display: 'flex', flexDirection: 'column', gap: 1, maxHeight: '92vh', overflow: 'hidden', p: 1 }}>
-      <NotificationsPanel socketUrl={socketUrl} notificationsHeight={notificationsHeight} />
       <TerminalConsole socketUrl={socketUrl} terminalHeight={terminalHeight} maxLines={maxLines} />
+      <NotificationsPanel socketUrl={socketUrl} notificationsHeight={notificationsHeight} />
     </Box>
   );
 }
