@@ -22,6 +22,7 @@ import StatCard from './components/StatCard';
 import BranchesTable from './components/BranchesTable';
 import JobsTable from './components/JobsTable';
 import TopBar from './components/TopBar';
+import BottomBar from './components/BottomBar';
 import DetailsDialog from './components/DetailsDialog';
 import SyncControls from './components/SyncControls';
 import QuickActions from './components/QuickActions';
@@ -65,6 +66,7 @@ export default function App() {
   useEffect(() => {
     if (activeView === 'branches') {
       enqueueSnackbar('Loading branches...', { variant: 'info' });
+      enqueueSnackbar('Branch loaded successfully', { variant: 'success' });
     }
   }, [activeView, enqueueSnackbar]);
 
@@ -133,7 +135,26 @@ export default function App() {
               <Stack spacing={2}>
                 <Card sx={{ minHeight: 120 }}>
                   <CardContent>
-                    <Typography variant="h6" gutterBottom>Sync Controls</Typography>
+                    <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          letterSpacing: 1.5,
+                          background: 'linear-gradient(90deg, #FF6B6B, #C62828)', // red shades
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          textShadow: '0 2px 4px rgba(198,40,40,0.3)',
+                          transition: 'transform 0.2s ease, text-shadow 0.2s ease',
+                          '&:hover': {
+                            transform: 'translateY(-2px)',
+                            textShadow: '0 4px 8px rgba(0,0,0,0.25)',
+                          },
+                        }}
+                      >
+                        Sync Controls
+                      </Typography>
                     <SyncControls actions={actions} state={state} />
                   </CardContent>
                 </Card>
@@ -199,17 +220,24 @@ export default function App() {
               >
                 <CardContent>
                   <Typography
-                    variant="h6"
-                    gutterBottom
-                    sx={{
-                      fontWeight: 700,
-                      color: 'text.primary',
-                      borderBottom: '2px solid',
-                      borderColor: 'primary.main',
-                      pb: 0.5,
-                    }}
-                  >
-                    Overview
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          letterSpacing: 1.5,
+                          background: 'linear-gradient(90deg, #42A5F5, #7E57C2)', // blue to purple
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          textShadow: '0 2px 4px rgba(66,165,245,0.3)',
+                          transition: 'transform 0.2s ease, text-shadow 0.2s ease',
+                          '&:hover': {
+                            transform: 'translateY(-2px)',
+                            textShadow: '0 4px 8px rgba(0,0,0,0.25)',
+                          },
+                        }}
+                      >
+                        Overview
                   </Typography>
 
                   <Box sx={{ mt: 2, display: 'grid', gap: 2 }}>
@@ -218,13 +246,15 @@ export default function App() {
                       value={branches?.length ?? '-'}
                       onClick={openBranchesView}
                       icon={<CloudQueueIcon fontSize="large" sx={{ color: '#fff' }} />}
-                      bgColor="linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%)" // red-orange gradient
+                      bgColor="linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%)"
                       sx={{
                         borderRadius: 2,
                         boxShadow: '0 6px 16px rgba(255,95,109,0.25)',
-                        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                        transition: 'transform 0.15s ease, box-shadow 0.15s ease, border 0.15s ease',
+                        border: activeView === 'branches' ? '3px solid #ff5f6d' : '3px solid transparent',
+                        transform: activeView === 'branches' ? 'scale(1.03)' : 'scale(1)',
                         '&:hover': {
-                          transform: 'translateY(-2px)',
+                          transform: 'scale(1.04)',
                           boxShadow: '0 10px 26px rgba(255,95,109,0.35)',
                         },
                       }}
@@ -235,13 +265,15 @@ export default function App() {
                       value={devicesCount ?? '-'}
                       onClick={handleDevicesStatClick}
                       icon={<DeviceHubIcon fontSize="large" sx={{ color: '#fff' }} />}
-                      bgColor="linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%)" // blue gradient
+                      bgColor="linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%)"
                       sx={{
                         borderRadius: 2,
                         boxShadow: '0 6px 16px rgba(91,134,229,0.25)',
-                        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                        transition: 'transform 0.15s ease, box-shadow 0.15s ease, border 0.15s ease',
+                        border: activeView === 'devices' ? '3px solid #36d1dc' : '3px solid transparent',
+                        transform: activeView === 'devices' ? 'scale(1.03)' : 'scale(1)',
                         '&:hover': {
-                          transform: 'translateY(-2px)',
+                          transform: 'scale(1.04)',
                           boxShadow: '0 10px 26px rgba(91,134,229,0.35)',
                         },
                       }}
@@ -252,13 +284,15 @@ export default function App() {
                       value={logsCount ?? '-'}
                       onClick={() => openLogsView(null)}
                       icon={<SyncIcon fontSize="large" sx={{ color: '#fff' }} />}
-                      bgColor="linear-gradient(135deg, #00b09b 0%, #96c93d 100%)" // green gradient
+                      bgColor="linear-gradient(135deg, #00b09b 0%, #96c93d 100%)"
                       sx={{
                         borderRadius: 2,
                         boxShadow: '0 6px 16px rgba(0,176,155,0.25)',
-                        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                        transition: 'transform 0.15s ease, box-shadow 0.15s ease, border 0.15s ease',
+                        border: activeView === 'logs' ? '3px solid #00b09b' : '3px solid transparent',
+                        transform: activeView === 'logs' ? 'scale(1.03)' : 'scale(1)',
                         '&:hover': {
-                          transform: 'translateY(-2px)',
+                          transform: 'scale(1.04)',
                           boxShadow: '0 10px 26px rgba(0,176,155,0.35)',
                         },
                       }}
@@ -269,7 +303,26 @@ export default function App() {
 
               <Card>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom>Live Activity</Typography>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: 1.5,
+                      background: 'linear-gradient(90deg, #FFB74D, #F57C00)', // orange-yellow gradient
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      textShadow: '0 2px 4px rgba(0,0,0,0.15)',
+                      transition: 'transform 0.2s ease, text-shadow 0.2s ease',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        textShadow: '0 4px 8px rgba(0,0,0,0.25)',
+                      },
+                    }}
+                  >
+                    Live Activity
+                  </Typography>
                   <LiveTerminalAndNotifications
                     socketUrl={SOCKET_URL}
                     containerWidth="100%"
@@ -277,16 +330,36 @@ export default function App() {
                     terminalHeight="420px"
                   />
                 </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>Quick Actions</Typography>
-                  <QuickActions actions={actions} setJobsOpen={setJobsOpen} />
-                </CardContent>
-              </Card>
-            </Box>
+              </Card>  
+            </Box> 
           </Box>
+          <BottomBar  />
+          <Card>
+            <CardContent>
+                <Typography 
+                    variant="h6"
+                      gutterBottom
+                      sx={{
+                         fontWeight: 700,
+                          textTransform: 'uppercase',
+                          letterSpacing: 1.5,
+                          background: 'linear-gradient(90deg, #43A047, #1B5E20)', // green shades
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          textShadow: '0 2px 4px rgba(27,94,32,0.3)',
+                          transition: 'transform 0.2s ease, text-shadow 0.2s ease',
+                          '&:hover': {
+                            transform: 'translateY(-2px)',
+                            textShadow: '0 4px 8px rgba(0,0,0,0.25)',
+                          },
+                        }}
+                >
+                  Quick Actions
+                </Typography>                  
+                <QuickActions actions={actions} setJobsOpen={setJobsOpen} />
+              </CardContent>
+            </Card>
+            <BottomBar  />
         </Container>
 
         <DetailsDialog

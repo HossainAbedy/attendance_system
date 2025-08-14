@@ -289,61 +289,237 @@ function TerminalConsole({ socketUrl, terminalHeight = '420px', maxLines = DEFAU
   }
 
   return (
-    <Paper elevation={3} sx={{ p: 1, height: terminalHeight, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+    <Paper
+      elevation={4}
+      sx={{
+        p: 1.5,
+        height: terminalHeight,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        borderRadius: 2,
+        background: 'linear-gradient(180deg, #1e1e1e 0%, #121212 100%)', // Dark fade
+        boxShadow: '0 6px 18px rgba(0,0,0,0.4)',
+      }}
+    >
+      {/* Header */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 1.5,
+          p: 1,
+          borderRadius: 1,
+          background: 'linear-gradient(90deg, #ff9a9e, #fad0c4)', // Soft pink-orange gradient
+          boxShadow: '0 4px 12px rgba(255,154,158,0.3)',
+        }}
+      >
         <Box>
-          <Typography variant="subtitle2">Terminal</Typography>
-          <Typography variant="caption" color="text.secondary">Realtime logs (click a line to expand raw payload)</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: 700,
+              letterSpacing: 0.5,
+              color: '#fff',
+              textShadow: '0 2px 4px rgba(0,0,0,0.4)',
+            }}
+          >
+            Terminal
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'rgba(255,255,255,0.85)',
+              fontStyle: 'italic',
+            }}
+          >
+            Realtime logs 
+          </Typography>
         </Box>
 
+        {/* Controls */}
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <TextField size="small" placeholder="search..." value={search} onChange={(e) => setSearch(e.target.value)} />
-          <Select size="small" value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <MenuItem value="ALL">ALL</MenuItem>
-            <MenuItem value="DEBUG">DEBUG</MenuItem>
-            <MenuItem value="INFO">INFO</MenuItem>
-            <MenuItem value="NEW">NEW</MenuItem>
-            <MenuItem value="ERROR">ERROR</MenuItem>
-            <MenuItem value="WARN">WARN</MenuItem>
-            <MenuItem value="ACCESS">ACCESS</MenuItem>
+          <TextField
+            size="small"
+            placeholder="Search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            sx={{
+              bgcolor: '#fff',
+              borderRadius: 1,
+              '& .MuiOutlinedInput-root': { fontSize: '0.8rem' },
+            }}
+          />
+          <Select
+            size="small"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            sx={{
+              bgcolor: '#fff',
+              borderRadius: 1,
+              fontSize: '0.8rem',
+            }}
+          >
+            {['ALL', 'DEBUG', 'INFO', 'NEW', 'ERROR', 'WARN', 'ACCESS'].map((opt) => (
+              <MenuItem key={opt} value={opt}>
+                {opt}
+              </MenuItem>
+            ))}
           </Select>
 
-          <Button size="small" variant={fullView ? 'contained' : 'outlined'} onClick={() => setFullView((f) => !f)} title="Toggle Full View">
+          <Button
+            size="small"
+            variant={fullView ? 'contained' : 'outlined'}
+            onClick={() => setFullView((f) => !f)}
+            sx={{
+              textTransform: 'none',
+              fontWeight: 600,
+              borderRadius: 2,
+            }}
+          >
             {fullView ? 'Full' : 'Trimmed'}
           </Button>
 
-          <IconButton onClick={() => setPaused((p) => !p)} color="primary" size="small">{paused ? <PlayArrowIcon /> : <PauseIcon />}</IconButton>
+          <IconButton
+            onClick={() => setPaused((p) => !p)}
+            size="small"
+            sx={{
+              bgcolor: paused ? 'success.main' : 'primary.main',
+              color: '#fff',
+              '&:hover': { opacity: 0.85, bgcolor: paused ? 'success.dark' : 'primary.dark' },
+            }}
+          >
+            {paused ? <PlayArrowIcon /> : <PauseIcon />}
+          </IconButton>
 
-          <Tooltip title="Clear terminal"><IconButton onClick={clear} color="error" size="small"><ClearIcon /></IconButton></Tooltip>
-          <Tooltip title="Download logs"><IconButton onClick={download} color="success" size="small"><DownloadIcon /></IconButton></Tooltip>
+          <Tooltip title="Clear terminal">
+            <IconButton
+              onClick={clear}
+              size="small"
+              sx={{
+                bgcolor: 'error.main',
+                color: '#fff',
+                '&:hover': { bgcolor: 'error.dark' },
+              }}
+            >
+              <ClearIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Download logs">
+            <IconButton
+              onClick={download}
+              size="small"
+              sx={{
+                bgcolor: 'success.main',
+                color: '#fff',
+                '&:hover': { bgcolor: 'success.dark' },
+              }}
+            >
+              <DownloadIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
 
-      <Box ref={containerRef} sx={{ flex: 1, overflowY: 'auto', bgcolor: 'common.black', color: 'grey.100', fontFamily: 'monospace', p: 1, borderRadius: 1, lineHeight: '1.3', fontSize: '0.78rem' }}>
+      {/* Log Body */}
+      <Box
+        ref={containerRef}
+        sx={{
+          flex: 1,
+          overflowY: 'auto',
+          bgcolor: 'common.black',
+          color: 'grey.100',
+          fontFamily: 'monospace',
+          p: 1.2,
+          borderRadius: 1,
+          lineHeight: 1.3,
+          fontSize: '0.78rem',
+          boxShadow: 'inset 0 0 10px rgba(0,0,0,0.6)',
+        }}
+      >
         {filtered.map((l, i) => (
           <Box key={i} sx={{ mb: 0.5 }}>
-            <ListItem alignItems="flex-start" onClick={() => toggleOpen(i)} sx={{ cursor: 'pointer', py: 0.2, px: 0 }}>
-              <ListItemText primary={(
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <Typography variant="caption" sx={{ color: 'grey.500' }}>[{new Date(l.ts).toLocaleTimeString()}]</Typography>
-                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>{l.eventName}</Typography>
-                  <Typography variant="caption" sx={{ color: 'grey.400' }}>{l.device}</Typography>
-                  <Typography variant="caption" sx={{ color: levelColor(l.level), fontWeight: 700 }}>{l.level}</Typography>
-                  <Box sx={{ maxWidth: '60ch', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {l.payload?.ansi ? (
-                      <span dangerouslySetInnerHTML={{ __html: ansiUp.ansi_to_html(l.payload.ansi) }} />
-                    ) : (
-                      <Typography variant="body2">{l.text.split(' | ').slice(4).join(' | ')}</Typography>
-                    )}
+            <ListItem
+              alignItems="flex-start"
+              onClick={() => toggleOpen(i)}
+              sx={{
+                cursor: 'pointer',
+                py: 0.2,
+                px: 0,
+                borderRadius: 1,
+                '&:hover': {
+                  bgcolor: 'rgba(255,255,255,0.05)',
+                },
+              }}
+            >
+              <ListItemText
+                primary={
+                  <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                      [{new Date(l.ts).toLocaleTimeString()}]
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                      {l.eventName}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: 'grey.400' }}>
+                      {l.device}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: levelColor(l.level), fontWeight: 700 }}
+                    >
+                      {l.level}
+                    </Typography>
+                    <Box
+                      sx={{
+                        maxWidth: '60ch',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {l.payload?.ansi ? (
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: ansiUp.ansi_to_html(l.payload.ansi),
+                          }}
+                        />
+                      ) : (
+                        <Typography variant="body2">
+                          {l.text.split(' | ').slice(4).join(' | ')}
+                        </Typography>
+                      )}
+                    </Box>
                   </Box>
-                </Box>
-              )} />
+                }
+              />
             </ListItem>
 
             <Collapse in={!!l.open} timeout="auto" unmountOnExit>
-              <Box sx={{ bgcolor: '#0b0b0b', p: 1, borderRadius: 1, color: 'grey.300', fontSize: '0.75rem' }}>
-                <Typography variant="caption" sx={{ color: 'grey.500' }}>Raw payload:</Typography>
-                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{typeof l.rawMessage === 'string' ? l.rawMessage : safeStringify(l.rawMessage, 4000)}</pre>
+              <Box
+                sx={{
+                  bgcolor: '#0b0b0b',
+                  p: 1,
+                  borderRadius: 1,
+                  color: 'grey.300',
+                  fontSize: '0.75rem',
+                }}
+              >
+                <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                  Raw payload:
+                </Typography>
+                <pre
+                  style={{
+                    margin: 0,
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                  }}
+                >
+                  {typeof l.rawMessage === 'string'
+                    ? l.rawMessage
+                    : safeStringify(l.rawMessage, 4000)}
+                </pre>
               </Box>
             </Collapse>
             <Divider />
@@ -400,39 +576,172 @@ function NotificationsPanel({ socketUrl, notificationsHeight = '220px' }) {
   const clearAll = () => { setItems([]); setUnread(0); setTotalLogs(0); setBranchCounts({}); };
 
   return (
-    <Paper elevation={3} sx={{ p: 1, height: notificationsHeight, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+    <Paper
+      elevation={4}
+      sx={{
+        p: 1.5,
+        height: notificationsHeight,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        borderRadius: 2,
+        background: 'linear-gradient(180deg, #1e1e1e 0%, #121212 100%)', // dark panel fade
+        boxShadow: '0 6px 18px rgba(0,0,0,0.4)',
+      }}
+    >
+      {/* Header */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 1.5,
+          p: 1,
+          borderRadius: 1,
+          background: 'linear-gradient(90deg, #f7971e, #ffd200)', // warm yellow-orange gradient
+          boxShadow: '0 4px 12px rgba(255,210,0,0.3)',
+        }}
+      >
         <Box>
-          <Typography variant="subtitle2">Notifications</Typography>
-          <Typography variant="caption" color="text.secondary">Realtime activity & alerts</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: 700,
+              letterSpacing: 0.5,
+              color: '#fff',
+              textShadow: '0 2px 4px rgba(0,0,0,0.4)',
+            }}
+          >
+            Notifications
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'rgba(255,255,255,0.85)',
+              fontStyle: 'italic',
+            }}
+          >
+            Realtime activity & alerts
+          </Typography>
         </Box>
+
+        {/* Controls */}
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <Badge badgeContent={unread} color="error"><Box sx={{ width: 24 }} /></Badge>
-          <Button size="small" onClick={markAllRead}>Mark all</Button>
-          <Button size="small" color="error" onClick={clearAll}>Clear</Button>
+          <Badge badgeContent={unread} color="error">
+            <Box sx={{ width: 24 }} />
+          </Badge>
+          <Button
+            size="small"
+            onClick={markAllRead}
+            sx={{
+              px: 1.5,
+              borderRadius: 2,
+              textTransform: 'none',
+              fontWeight: 600,
+              bgcolor: 'primary.main',
+              color: '#fff',
+              '&:hover': { bgcolor: 'primary.dark' },
+            }}
+          >
+            Mark all
+          </Button>
+          <Button
+            size="small"
+            color="error"
+            onClick={clearAll}
+            sx={{
+              px: 1.5,
+              borderRadius: 2,
+              textTransform: 'none',
+              fontWeight: 600,
+              bgcolor: 'error.main',
+              color: '#fff',
+              '&:hover': { bgcolor: 'error.dark' },
+            }}
+          >
+            Clear
+          </Button>
         </Box>
       </Box>
 
-      <Box sx={{ px: 1, pb: 1 }}>
-        <Typography variant="body2">Total new logs: <strong>{totalLogs}</strong></Typography>
+      {/* Summary */}
+      <Box
+        sx={{
+          px: 1,
+          pb: 1,
+          bgcolor: 'rgba(255,255,255,0.04)',
+          borderRadius: 1,
+          mb: 1,
+        }}
+      >
+        <Typography variant="body2" sx={{ color: '#fff' }}>
+          Total new logs: <strong>{totalLogs}</strong>
+        </Typography>
         <Box sx={{ mt: 0.5 }}>
-          <Typography variant="caption" color="text.secondary">Per-branch:</Typography>
-          <Box component="ul" sx={{ m: 0, pl: 2 }}>
-            {Object.keys(branchCounts).length === 0 && <li><Typography variant="caption" color="text.secondary">No data</Typography></li>}
-            {Object.entries(branchCounts).map(([b, c]) => (<li key={b}><Typography variant="caption">{b}: {c}</Typography></li>))}
+          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+            Per-branch:
+          </Typography>
+          <Box component="ul" sx={{ m: 0, pl: 2, color: '#ddd' }}>
+            {Object.keys(branchCounts).length === 0 && (
+              <li>
+                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
+                  No data
+                </Typography>
+              </li>
+            )}
+            {Object.entries(branchCounts).map(([b, c]) => (
+              <li key={b}>
+                <Typography variant="caption" sx={{ color: '#fff' }}>
+                  {b}: {c}
+                </Typography>
+              </li>
+            ))}
           </Box>
         </Box>
       </Box>
 
+      {/* Notification list */}
       <Box sx={{ overflow: 'auto', flex: 1 }}>
-        {items.length === 0 && <Typography variant="body2" color="text.secondary">No notifications yet</Typography>}
+        {items.length === 0 && (
+          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)' }}>
+            No notifications yet
+          </Typography>
+        )}
         <List dense disablePadding>
           {items.map((it) => (
             <React.Fragment key={it.id}>
-              <ListItem alignItems="flex-start" secondaryAction={<Button size="small" onClick={() => markRead(it.id)}>Mark</Button>}>
-                <ListItemText primary={it.title} secondary={new Date(it.time).toLocaleString()} primaryTypographyProps={{ noWrap: true }} />
+              <ListItem
+                alignItems="flex-start"
+                sx={{
+                  borderRadius: 1,
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
+                }}
+                secondaryAction={
+                  <Button
+                    size="small"
+                    onClick={() => markRead(it.id)}
+                    sx={{
+                      px: 1.2,
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      bgcolor: 'success.main',
+                      color: '#fff',
+                      '&:hover': { bgcolor: 'success.dark' },
+                    }}
+                  >
+                    Mark
+                  </Button>
+                }
+              >
+                <ListItemText
+                  primary={it.title}
+                  secondary={new Date(it.time).toLocaleString()}
+                  primaryTypographyProps={{ noWrap: true, sx: { color: '#fff' } }}
+                  secondaryTypographyProps={{ sx: { color: 'rgba(255,255,255,0.6)' } }}
+                />
               </ListItem>
-              <Divider component="li" />
+              <Divider component="li" sx={{ borderColor: 'rgba(255,255,255,0.1)' }} />
             </React.Fragment>
           ))}
         </List>

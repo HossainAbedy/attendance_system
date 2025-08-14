@@ -39,18 +39,34 @@ function formatDate(iso) {
   }
 }
 
-function dtLocalToISO(val) {
+// Convert local datetime-local / date values into ISO string (UTC)
+function dtLocalToISO(val, endOfDay = false) {
   if (!val) return null;
-  const dt = new Date(val);
+  let normalized = val;
+
+  // plain date like "2025-08-14"
+  if (/^\d{4}-\d{2}-\d{2}$/.test(val)) {
+    normalized = endOfDay ? `${val}T23:59:59.999` : `${val}T00:00:00.000`;
+  }
+  // datetime-local without seconds "YYYY-MM-DDTHH:MM"
+  else if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(val)) {
+    normalized = endOfDay ? `${val}:59.999` : `${val}:00.000`;
+  }
+  // otherwise assume it's already a full datetime string
+
+  const dt = new Date(normalized); // interprets normalized as local time
   if (isNaN(dt.getTime())) return null;
+
   return dt.toISOString();
 }
 
 function statusColor(s) {
   if (!s) return "rgba(6,95,70,0.08)"; // neutral
   const low = String(s).toLowerCase();
-  if (low.includes("error") || low.includes("fail") || low.includes("denied") || low.includes("unauth")) return "rgba(255,59,48,0.12)";
-  if (low.includes("ok") || low.includes("success") || low.includes("passed") || low.includes("accepted")) return "rgba(16,185,129,0.12)";
+  if (low.includes("error") || low.includes("fail") || low.includes("denied") || low.includes("unauth"))
+    return "rgba(255,59,48,0.12)";
+  if (low.includes("ok") || low.includes("success") || low.includes("passed") || low.includes("accepted"))
+    return "rgba(16,185,129,0.12)";
   return "rgba(6,95,70,0.08)";
 }
 
@@ -63,8 +79,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
   const [perPage, setPerPage] = useState(25);
   const [total, setTotal] = useState(0);
 
-  const [q, setQ] = useState("");
-  const [searchInput, setSearchInput] = useState("");
+  // removed global q/searchInput; we use filters directly
   const [sortDir, setSortDir] = useState("desc");
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -72,78 +87,67 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     timestamp_from: "",
     timestamp_to: "",
     user_id: "",
+    // kept but not shown in header: record_id, device, status
     record_id: "",
     device: "",
     status: "",
+    branch: "",
   });
 
-  const buildParams = useCallback(() => {
+
+  // 1. Build params freshly every time we fetch
+  const buildParamsForRequest = useCallback(() => {
     const params = {
       page: page + 1,
       per_page: perPage,
       sort_by: "timestamp",
       sort_dir: sortDir,
     };
-    if (q && q.length) params.q = q;
-    if (branchId) params.branch_id = branchId;
-    if (deviceId) params.device_id = deviceId;
 
-    const tsFrom = dtLocalToISO(filters.timestamp_from);
-    const tsTo = dtLocalToISO(filters.timestamp_to);
-    if (tsFrom) params.timestamp_from = tsFrom;
-    if (tsTo) params.timestamp_to = tsTo;
+    if (branchId) params.branch_id = branchId;
+    else if (filters.branch) params.branch_id = parseInt(filters.branch, 10);
+
+    const tsFrom = dtLocalToISO(filters.timestamp_from, false);
+    const tsTo = dtLocalToISO(filters.timestamp_to, true);
+
+    if (tsFrom) params.from = tsFrom;   // must match backend
+    if (tsTo) params.to = tsTo;
 
     if (filters.user_id) params.user_id = filters.user_id;
     if (filters.record_id) params.record_id = filters.record_id;
-    if (filters.device) params.device = filters.device;
+    if (filters.device) params.device_id = filters.device; // optional
     if (filters.status) params.status = filters.status;
 
     return params;
-  }, [page, perPage, q, sortDir, branchId, deviceId, filters]);
+  }, [page, perPage, sortDir, branchId, filters]);
 
+
+  // 2. useEffect for fetching
   useEffect(() => {
     let mounted = true;
-    async function load() {
-      setLoading(true);
-      setError(null);
+    setLoading(true);
+    setError(null);
+
+    const fetchLogs = async () => {
       try {
-        const params = buildParams();
+        const params = buildParamsForRequest();
         const res = deviceId ? await getLogsByDevice(deviceId, params) : await getLogs(params);
-        const fetchedItems = Array.isArray(res.data.items) ? res.data.items : [];
         if (!mounted) return;
-        setItems(fetchedItems);
-        setTotal(typeof res.data.total === "number" ? res.data.total : fetchedItems.length);
+
+        setItems(Array.isArray(res.data.items) ? res.data.items : []);
+        setTotal(typeof res.data.total === "number" ? res.data.total : 0);
       } catch (err) {
         if (!mounted) return;
-        setError(err.message || "Failed to load logs");
+        setError(err?.response?.data?.message || err.message || "Failed to load logs");
       } finally {
         if (mounted) setLoading(false);
       }
-    }
-    load();
+    };
+
+    fetchLogs();
+
     return () => { mounted = false; };
-  }, [deviceId, buildParams, refreshKey]);
-
-  function handleSearchKeyDown(e) {
-    if (e.key === "Enter") {
-      setQ(searchInput.trim());
-      setPage(0);
-    }
-  }
-
-  function handleClearSearch() {
-    setSearchInput("");
-    setQ("");
-    setPage(0);
-    setFilters({
-      timestamp_from: "",
-      timestamp_to: "",
-      user_id: "",
-      record_id: "",
-      device: "",
-      status: "",
-    });
-  }
+  }, [deviceId, page, perPage, sortDir, refreshKey, branchId, filters]); // now filters included
 
   function handleChangePage(_e, newPage) {
     setPage(newPage);
@@ -160,18 +164,14 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     setPage(0);
   }
 
-  function handleRefresh() {
-    setRefreshKey((k) => k + 1);
-  }
-
   function handleFilterChange(field, value) {
     setFilters((f) => ({ ...f, [field]: value }));
   }
 
+  // Apply filters: reset page and reload
   function handleApplyFilters() {
-    setQ(searchInput.trim());
     setPage(0);
-    setRefreshKey((k) => k + 1);
+    setRefreshKey(k => k + 1); // triggers useEffect to fetch latest filters
   }
 
   function handleClearFilters() {
@@ -182,12 +182,25 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
       record_id: "",
       device: "",
       status: "",
+      branch: "",
     });
     setPage(0);
-    setRefreshKey((k) => k + 1);
+    setRefreshKey(k => k + 1);
   }
 
+  function handleRefresh() {
+    setRefreshKey(k => k + 1);
+  }
+
+
   const paginatedItems = items; // backend already paginates
+
+  // Helper to trigger apply on Enter (works for header fields)
+  function handleKeyDownApply(e) {
+    if (e.key === "Enter") {
+      handleApplyFilters();
+    }
+  }
 
   return (
     <Paper sx={{ borderRadius: 2, boxShadow: '0 10px 30px rgba(2,6,23,0.06)', overflow: 'hidden' }}>
@@ -203,38 +216,51 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
             </Typography>
           </Box>
 
+          {/* SEARCH LOCATION: From/To / User ID / Branch / Apply / Clear / Refresh */}
           <Stack direction="row" spacing={1} alignItems="center">
-            <Tooltip title="Back">
-              <IconButton onClick={onBack} size="small" sx={{ color: '#fff' }}>
-                <ArrowBackIcon />
-              </IconButton>
-            </Tooltip>
+            <TextField
+              size="small"
+              type="datetime-local"
+              label="From"
+              value={filters.timestamp_from}
+              onChange={(e) => handleFilterChange("timestamp_from", e.target.value)}
+              onKeyDown={handleKeyDownApply}
+              InputLabelProps={{ shrink: true }}
+              sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: 1 }}
+              InputProps={{ sx: { color: '#fff' } }}
+            />
 
             <TextField
               size="small"
-              placeholder="Search (global)"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={handleSearchKeyDown}
+              type="datetime-local"
+              label="To"
+              value={filters.timestamp_to}
+              onChange={(e) => handleFilterChange("timestamp_to", e.target.value)}
+              onKeyDown={handleKeyDownApply}
+              InputLabelProps={{ shrink: true }}
+              sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: 1 }}
+              InputProps={{ sx: { color: '#fff' } }}
+            />
+
+            <TextField
+              size="small"
+              placeholder="User ID"
+              value={filters.user_id}
+              onChange={(e) => handleFilterChange("user_id", e.target.value)}
+              onKeyDown={handleKeyDownApply}
               sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: 1, input: { color: '#fff' } }}
               InputProps={{ sx: { color: '#fff' } }}
             />
 
-            <FormControl size="small" sx={{ minWidth: 90 }}>
-              <InputLabel id="rows-label" sx={{ color: 'rgba(255,255,255,0.9)' }}>Rows</InputLabel>
-              <Select
-                labelId="rows-label"
-                value={perPage}
-                label="Rows"
-                onChange={handleChangeRowsPerPage}
-                sx={{ color: '#fff' }}
-              >
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={25}>25</MenuItem>
-                <MenuItem value={50}>50</MenuItem>
-                <MenuItem value={100}>100</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              size="small"
+              placeholder="Branch"
+              value={filters.branch}
+              onChange={(e) => handleFilterChange("branch", e.target.value)}
+              onKeyDown={handleKeyDownApply}
+              sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: 1, input: { color: '#fff' } }}
+              InputProps={{ sx: { color: '#fff' } }}
+            />
 
             <FormControl size="small" sx={{ minWidth: 120 }}>
               <InputLabel id="sort-label" sx={{ color: 'rgba(255,255,255,0.9)' }}>Sort</InputLabel>
@@ -248,19 +274,25 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
               variant="outlined"
               size="small"
               startIcon={<FilterListIcon />}
-              onClick={handleApplyFilters}
+              onClick={handleApplyFilters}  // this should update refreshKey
               sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.12)', textTransform: 'none' }}
             >
-              Apply
+              
             </Button>
 
             <Button variant="outlined" size="small" onClick={handleClearFilters} sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.08)', textTransform: 'none' }}>
-              Clear
+              C
             </Button>
 
             <Button variant="contained" size="small" startIcon={<RefreshIcon />} onClick={handleRefresh} sx={{ textTransform: 'none' }}>
-              Refresh
+              
             </Button>
+
+            <Tooltip title="Back">
+              <IconButton onClick={onBack} size="small" sx={{ color: '#fff' }}>
+                <ArrowBackIcon />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </Box>
       </Box>
@@ -290,66 +322,6 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
                     <TableCell sx={{ fontWeight: 700 }}>Record ID</TableCell>
                     <TableCell sx={{ fontWeight: 700 }}>Device</TableCell>
                     <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-                  </TableRow>
-
-                  {/* filters row */}
-                  <TableRow>
-                    <TableCell>
-                      <Stack direction="column" spacing={1}>
-                        <TextField
-                          size="small"
-                          type="datetime-local"
-                          label="From"
-                          value={filters.timestamp_from}
-                          onChange={(e) => handleFilterChange("timestamp_from", e.target.value)}
-                          InputLabelProps={{ shrink: true }}
-                        />
-                        <TextField
-                          size="small"
-                          type="datetime-local"
-                          label="To"
-                          value={filters.timestamp_to}
-                          onChange={(e) => handleFilterChange("timestamp_to", e.target.value)}
-                          InputLabelProps={{ shrink: true }}
-                        />
-                      </Stack>
-                    </TableCell>
-
-                    <TableCell>
-                      <TextField
-                        size="small"
-                        placeholder="User ID"
-                        value={filters.user_id}
-                        onChange={(e) => handleFilterChange("user_id", e.target.value)}
-                      />
-                    </TableCell>
-
-                    <TableCell>
-                      <TextField
-                        size="small"
-                        placeholder="Record ID"
-                        value={filters.record_id}
-                        onChange={(e) => handleFilterChange("record_id", e.target.value)}
-                      />
-                    </TableCell>
-
-                    <TableCell>
-                      <TextField
-                        size="small"
-                        placeholder="Device"
-                        value={filters.device}
-                        onChange={(e) => handleFilterChange("device", e.target.value)}
-                      />
-                    </TableCell>
-
-                    <TableCell>
-                      <TextField
-                        size="small"
-                        placeholder="Status"
-                        value={filters.status}
-                        onChange={(e) => handleFilterChange("status", e.target.value)}
-                      />
-                    </TableCell>
                   </TableRow>
                 </TableHead>
 

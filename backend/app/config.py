@@ -3,7 +3,7 @@ import os
 class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv(
         'DATABASE_URL',
-        'mysql+pymysql://root:root@localhost/attendance_db'
+        'mysql+pymysql://root:root@localhost/attendance_db_test'
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     POLL_INTERVAL = 5  # in seconds

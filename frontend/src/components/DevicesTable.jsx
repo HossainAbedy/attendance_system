@@ -274,18 +274,138 @@ export default function DevicesTable({
       </Box>
 
       {/* Device Form Dialog */}
-      <Dialog open={formOpen} onClose={() => setFormOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>{formMode === 'add' ? 'Add Device' : 'Edit Device'}</DialogTitle>
-        <DialogContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
-            <TextField label="Name" value={formData.name} onChange={e => setFormData(s => ({ ...s, name: e.target.value }))} fullWidth />
-            <TextField label="IP Address" value={formData.ip_address} onChange={e => setFormData(s => ({ ...s, ip_address: e.target.value }))} fullWidth />
-            <TextField label="Port" value={String(formData.port)} onChange={e => setFormData(s => ({ ...s, port: Number(e.target.value) }))} fullWidth />
-            <TextField label="Serial No" value={formData.serial_no} onChange={e => setFormData(s => ({ ...s, serial_no: e.target.value }))} fullWidth />
+      <Dialog
+        open={formOpen}
+        onClose={() => setFormOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            overflow: 'hidden',
+            boxShadow: '0 22px 60px rgba(2,6,23,0.35)',
+            border: '1px solid',
+            borderColor: 'divider',
+            bgcolor: 'background.paper',
+          },
+        }}
+        BackdropProps={{
+          sx: { backgroundColor: 'rgba(2,6,23,0.55)', backdropFilter: 'blur(3px)' },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            py: 2,
+            px: 2.5,
+            color: '#fff',
+            fontWeight: 700,
+            letterSpacing: 0.2,
+            background: 'linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
+          {formMode === 'add' ? 'Add Device' : 'Edit Device'}
+        </DialogTitle>
+
+        <DialogContent
+          sx={{
+            px: 2.5,
+            py: 2.5,
+            background:
+              'radial-gradient(1200px 400px at 0% -10%, rgba(78,70,229,0.04), transparent 40%), radial-gradient(800px 300px at 100% 120%, rgba(142,45,226,0.05), transparent 40%)',
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <TextField
+              label="Name"
+              value={formData.name}
+              onChange={(e) => setFormData((s) => ({ ...s, name: e.target.value }))}
+              fullWidth
+              InputLabelProps={{ sx: { fontWeight: 600 } }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: 'divider' },
+                  '&:hover fieldset': { borderColor: 'primary.light' },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main',
+                    boxShadow: '0 0 0 3px rgba(74,0,224,0.12)',
+                  },
+                },
+              }}
+            />
+            <TextField
+              label="IP Address"
+              value={formData.ip_address}
+              onChange={(e) => setFormData((s) => ({ ...s, ip_address: e.target.value }))}
+              fullWidth
+              InputLabelProps={{ sx: { fontWeight: 600 } }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: 'divider' },
+                  '&:hover fieldset': { borderColor: 'primary.light' },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main',
+                    boxShadow: '0 0 0 3px rgba(74,0,224,0.12)',
+                  },
+                },
+              }}
+            />
+            <TextField
+              label="Port"
+              value={String(formData.port)}
+              onChange={(e) => setFormData((s) => ({ ...s, port: Number(e.target.value) }))}
+              fullWidth
+              InputLabelProps={{ sx: { fontWeight: 600 } }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: 'divider' },
+                  '&:hover fieldset': { borderColor: 'primary.light' },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main',
+                    boxShadow: '0 0 0 3px rgba(74,0,224,0.12)',
+                  },
+                },
+              }}
+            />
+            <TextField
+              label="Serial No"
+              value={formData.serial_no}
+              onChange={(e) => setFormData((s) => ({ ...s, serial_no: e.target.value }))}
+              fullWidth
+              InputLabelProps={{ sx: { fontWeight: 600 } }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                  '& fieldset': { borderColor: 'divider' },
+                  '&:hover fieldset': { borderColor: 'primary.light' },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main',
+                    boxShadow: '0 0 0 3px rgba(74,0,224,0.12)',
+                  },
+                },
+              }}
+            />
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setFormOpen(false)}>Cancel</Button>
+
+        <DialogActions sx={{ px: 2.5, py: 2, gap: 1.5 }}>
+          <Button
+            onClick={() => setFormOpen(false)}
+            variant="outlined"
+            sx={{
+              borderRadius: 2,
+              borderColor: 'divider',
+              color: 'text.primary',
+              '&:hover': { bgcolor: 'grey.50' },
+            }}
+          >
+            Cancel
+          </Button>
           <Button
             onClick={async () => {
               try {
@@ -295,7 +415,21 @@ export default function DevicesTable({
               }
             }}
             variant="contained"
+            disableElevation
             disabled={submitting}
+            sx={{
+              borderRadius: 2,
+              px: 2.5,
+              background: 'linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%)',
+              color: '#fff',
+              boxShadow: '0 10px 24px rgba(74,0,224,0.28)',
+              transition: 'transform .15s ease, box-shadow .15s ease',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+                boxShadow: '0 16px 32px rgba(74,0,224,0.38)',
+                background: 'linear-gradient(90deg, #7b1fe0 0%, #3b00d0 100%)',
+              },
+            }}
           >
             {formMode === 'add' ? 'Create' : 'Save'}
           </Button>
@@ -303,13 +437,56 @@ export default function DevicesTable({
       </Dialog>
 
       {/* Delete Device Dialog */}
-      <Dialog open={deleting.open} onClose={() => setDeleting({ open: false, id: null, name: '' })}>
-        <DialogTitle>Delete Device</DialogTitle>
-        <DialogContent>
-          <Typography>Are you sure you want to delete device "{deleting.name}"?</Typography>
+      <Dialog
+        open={deleting.open}
+        onClose={() => setDeleting({ open: false, id: null, name: '' })}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            overflow: 'hidden',
+            boxShadow: '0 22px 60px rgba(2,6,23,0.35)',
+            border: '1px solid',
+            borderColor: 'divider',
+            bgcolor: 'background.paper',
+          },
+        }}
+        BackdropProps={{
+          sx: { backgroundColor: 'rgba(2,6,23,0.55)', backdropFilter: 'blur(3px)' },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            py: 2,
+            px: 2.5,
+            color: '#fff',
+            fontWeight: 700,
+            background: 'linear-gradient(90deg, #ef4444 0%, #b91c1c 100%)',
+          }}
+        >
+          Delete Device
+        </DialogTitle>
+
+        <DialogContent sx={{ px: 2.5, py: 2.5 }}>
+          <Typography>
+            Are you sure you want to delete device "<strong>{deleting.name}</strong>"?
+          </Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleting({ open: false, id: null, name: '' })}>Cancel</Button>
+
+        <DialogActions sx={{ px: 2.5, py: 2, gap: 1.5 }}>
+          <Button
+            onClick={() => setDeleting({ open: false, id: null, name: '' })}
+            variant="outlined"
+            sx={{
+              borderRadius: 2,
+              borderColor: 'divider',
+              color: 'text.primary',
+              '&:hover': { bgcolor: 'grey.50' },
+            }}
+          >
+            Cancel
+          </Button>
           <Button
             onClick={async () => {
               try {
@@ -320,7 +497,21 @@ export default function DevicesTable({
             }}
             color="error"
             variant="contained"
+            disableElevation
             disabled={submitting}
+            sx={{
+              borderRadius: 2,
+              px: 2.5,
+              background: 'linear-gradient(90deg, #ef4444 0%, #b91c1c 100%)',
+              color: '#fff',
+              boxShadow: '0 10px 24px rgba(239,68,68,0.28)',
+              transition: 'transform .15s ease, box-shadow .15s ease',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+                boxShadow: '0 16px 32px rgba(239,68,68,0.38)',
+                background: 'linear-gradient(90deg, #dc2626 0%, #991b1b 100%)',
+              },
+            }}
           >
             Delete
           </Button>
