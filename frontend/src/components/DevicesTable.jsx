@@ -12,7 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SyncIcon from '@mui/icons-material/Sync';
 import PingIcon from '@mui/icons-material/Cloud';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { useSnackbar } from 'notistack';
+import { deleteDeviceLogs,pingDevice } from '../api';
 
 export default function DevicesTable({
   devices = [],
@@ -112,6 +114,37 @@ export default function DevicesTable({
     }
   };
 
+  // Delete ALL logs for a device (frontend confirmation + call)
+  const handleDeleteLogs = async (deviceId, deviceName) => {
+    if (!deviceId) return;
+
+    // lightweight confirmation (keeps current UI simple)
+    const ok = window.confirm(
+      `Delete ALL logs for device "${deviceName}" (ID: ${deviceId})?\n\nThis action cannot be undone.`
+    );
+    if (!ok) return;
+
+    setSubmitting(true);
+    try {
+      // deleteDeviceLogs sets ?confirm=1 by default
+      const res = await deleteDeviceLogs(deviceId);
+      // Axios success -> status 200
+      if (res && res.status >= 200 && res.status < 300) {
+        const deleted = res.data?.deleted ?? 'Logs deleted';
+        enqueueSnackbar(`${deleted}`, { variant: 'success' });
+      } else {
+        enqueueSnackbar('Failed to delete logs', { variant: 'error' });
+      }
+    } catch (err) {
+      console.error('deleteDeviceLogs error', err);
+      const message = err?.response?.data?.message || err?.message || 'Delete logs failed';
+      enqueueSnackbar(message, { variant: 'error' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+
   const handleChangePage = (_e, newPage) => setPage(newPage);
 
   const paginated = devices.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -170,13 +203,14 @@ export default function DevicesTable({
 
                   <TableCell align="right">
                     <Stack direction="row" spacing={1} justifyContent="flex-end">
-                      <Tooltip title="Fetch device (get logs)">
+                      <Tooltip title={branchId ? "Fetch device (get logs)"  : "Fetch is not possible from this view"}>
                         <IconButton
                           size="small"
+                          disabled={!branchId} // disable when branchId is null/undefined/0
                           onClick={async () => {
                             try {
                               if (!onFetch) return;
-                              await onFetch(d.id); // device-level fetch
+                              await onFetch(branchId); // device-level fetch
                               enqueueSnackbar('Fetch enqueued', { variant: 'success' });
                             } catch (err) {
                               console.error(err);
@@ -190,22 +224,25 @@ export default function DevicesTable({
                       </Tooltip>
 
                       <Tooltip title="Ping device">
-                        <IconButton
-                          size="small"
-                          onClick={async () => {
-                            try {
-                              if (!onPoll) return;
-                              await onPoll(d.id);
-                              enqueueSnackbar('Ping OK', { variant: 'success' });
-                            } catch (err) {
-                              console.error(err);
-                              enqueueSnackbar('Ping failed', { variant: 'error' });
-                            }
-                          }}
-                          sx={{ color: 'deepskyblue', '&:hover': { bgcolor: 'deepskyblue', color: 'white' } }}
-                        >
-                          <PingIcon fontSize="small" />
-                        </IconButton>
+                        <span>
+                          <IconButton
+                            size="small"
+                            onClick={async () => {
+                              if (!d.id) return;
+
+                              const res = await pingDevice(d.id);
+                              if (res.online) {
+                                enqueueSnackbar("Device is online ✅", { variant: "success" });
+                              } else {
+                                enqueueSnackbar("Device is offline ❌", { variant: "error" });
+                              }
+                            }}
+                            // disabled={!branchId}
+                            sx={{ color: "deepskyblue", "&:hover": { bgcolor: "deepskyblue", color: "white" } }}
+                          >
+                            <PingIcon fontSize="small" />
+                          </IconButton>
+                        </span>
                       </Tooltip>
 
                       <Tooltip title="Edit device">
@@ -213,6 +250,25 @@ export default function DevicesTable({
                           <EditIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
+
+                      <Tooltip title="Delete all logs for device">
+                        <IconButton
+                          size="small"
+                          onClick={async () => {
+                            try {
+                              await handleDeleteLogs(d.id, d.name);
+                            } catch (err) {
+                              console.error(err);
+                              enqueueSnackbar('Delete logs failed', { variant: 'error' });
+                            }
+                          }}
+                          sx={{ color: 'orange', '&:hover': { bgcolor: 'orange', color: 'white' } }}
+                          disabled={submitting}
+                        >
+                          <DeleteSweepIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+
 
                       <Tooltip title="Delete device">
                         <IconButton

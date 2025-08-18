@@ -25,6 +25,9 @@ export const ENDPOINTS = {
   logs: '/api/logs',
   logsByDevice: (deviceId) => `/api/logs/device/${deviceId}`,
 
+  // DELETE all logs for a device
+  deleteLogsByDevice: (deviceId) => `/api/logs/device/${deviceId}/logs`,
+
   // Sync endpoints
   syncRoot: '/api/sync/',
   syncOneLegacy: '/api/sync/one',
@@ -40,6 +43,19 @@ export const api = axios.create({
   timeout: 15000,
 });
 
+// Ping device and return a simple online/offline result
+export const pingDevice = async (deviceId) => {
+  if (!deviceId) return { online: false };
+
+  try {
+    const res = await api.post(ENDPOINTS.pollDevice(deviceId));
+    return res.data; // { online: true/false }
+  } catch (err) {
+    console.error("Ping API error:", err);
+    return { online: false };
+  }
+};
+
 /**
  * Convenience helpers
  */
@@ -50,19 +66,28 @@ export const deleteBranch = (branchId) => api.delete(ENDPOINTS.branch(branchId))
 
 // IMPORTANT: Removed getBranchDevices and branchDevices endpoint - not supported by backend
 
-export const createDevice = (branchId, payload) =>
-  api.post(`/api/devices/${branchId}/devices`, payload);
-
+export const createDevice = (branchId, payload) =>api.post(`/api/devices/${branchId}/devices`, payload);
 export const getDevice = (deviceId) => api.get(ENDPOINTS.device(deviceId));
 export const updateDevice = (deviceId, payload) => api.put(ENDPOINTS.device(deviceId), payload);
 export const deleteDevice = (deviceId) => api.delete(ENDPOINTS.device(deviceId));
 
-export const pingDevice = (deviceId) => api.post(ENDPOINTS.pollDevice(deviceId));
 export const pollDeviceLegacy = (deviceId) => api.post(ENDPOINTS.pollDeviceLegacy(deviceId));
-
 export const getLogs = (params) => api.get(ENDPOINTS.logs, { params });
 export const getLogsByDevice = (deviceId, params) =>
   api.get(ENDPOINTS.logsByDevice(deviceId), { params });
+
+/**
+ * Delete ALL attendance logs for a device.
+ * Server requires confirmation: ?confirm=1
+ *
+ * @param {number|string} deviceId
+ * @param {{ confirm?: boolean }} opts
+ * @returns {Promise<AxiosResponse>}
+ */
+export const deleteDeviceLogs = (deviceId, { confirm = true } = {}) => {
+  const q = confirm ? '?confirm=1' : '';
+  return api.delete(`${ENDPOINTS.deleteLogsByDevice(deviceId)}${q}`);
+};
 
 export const startSyncAll = () => api.post(ENDPOINTS.syncRoot);
 export const startSyncOneLegacy = () => api.post(ENDPOINTS.syncOneLegacy);
@@ -95,6 +120,7 @@ export default {
   pollDeviceLegacy,
   getLogs,
   getLogsByDevice,
+  deleteDeviceLogs,
   startSyncAll,
   startSyncOneLegacy,
   startScheduler,

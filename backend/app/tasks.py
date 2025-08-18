@@ -148,57 +148,45 @@ def console_emit(raw_text_with_color: str, level: str = "info", device=None, ext
         pass
 
 # ---------------------------------------------------------------------
-# Access DB insert (returns ISO timestamp string for frontend)
+# Helpers for Access DB (batch-friendly)
 # ---------------------------------------------------------------------
-def insert_into_access_db(record):
+def open_access_conn():
+    """
+    Open a pyodbc connection to Access DB. autocommit=False so we control
+    commit/rollback as one unit per device poll.
+    """
     conn_str = (
         r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};"
         f"DBQ={ACCESS_DB_PATH};"
     )
-    conn = pyodbc.connect(conn_str)
+    return pyodbc.connect(conn_str, autocommit=False)
+
+
+def fetch_existing_access_keys(conn, sn=None):
+    """
+    Returns a set of keys that identify records already present in Access DB
+    to avoid duplicate insertion attempts.
+
+    Key format used here: (str(USERID), str(CHECKTIME), str(sn))
+    """
     cur = conn.cursor()
-    sql = (
-        f"INSERT INTO {ACCESS_TABLE} ("
-        "USERID, CHECKTIME, CHECKTYPE, VERIFYCODE, SENSORID, WorkCode, sn) "
-        "VALUES (?,?,?,?,?,?,?)"
-    )
-    cur.execute(sql, (
-        record['USERID'], record['CHECKTIME'], record['CHECKTYPE'],
-        record['VERIFYCODE'], record['SENSORID'], record['WorkCode'], record['sn']
-    ))
-    conn.commit()
-    cur.close()
-    conn.close()
-
-    # Prepare a JSON-safe timestamp
-    checktime = record.get('CHECKTIME')
-    if hasattr(checktime, 'isoformat'):
-        checktime_for_emit = checktime.isoformat()
+    if sn:
+        sql = f"SELECT USERID, CHECKTIME, sn FROM {ACCESS_TABLE} WHERE sn = ?"
+        cur.execute(sql, (sn,))
     else:
-        checktime_for_emit = str(checktime)
+        sql = f"SELECT USERID, CHECKTIME, sn FROM {ACCESS_TABLE}"
+        cur.execute(sql)
+    rows = cur.fetchall()
+    cur.close()
 
-    # emit access_log event (keeps original behavior)
-    message = {
-        "type": "access",
-        "userid": record.get('USERID'),
-        "checktime": checktime_for_emit
-    }
-    try:
-        socketio.emit("access_log", message)
-    except Exception:
-        pass
+    keys = set()
+    for r in rows:
+        keys.add((str(r[0]), str(r[1]), str(r[2])))
+    return keys
 
-    # ORIGINAL terminal print (kept) and ALSO emitted as structured console
-    console_emit(
-        Fore.GREEN + f"    [ACCESS ✅] USERID={record['USERID']} CHECKTIME={record['CHECKTIME']}",
-        level="info",
-    )
-
-    # return iso timestamp so callers (fetch_and_forward_for_device) can use it
-    return checktime_for_emit
 
 # ---------------------------------------------------------------------
-# Core fetch function (unchanged logic, prints replaced with console_emit)
+# Event payload helper (kept for parity)
 # ---------------------------------------------------------------------
 def make_event_payload(device, level, message, extra=None):
     return {
@@ -211,11 +199,14 @@ def make_event_payload(device, level, message, extra=None):
     }
 
 
+# ---------------------------------------------------------------------
+# Main: fetch and forward for device (batch Access, local save, restored prints)
+# ---------------------------------------------------------------------
 def fetch_and_forward_for_device(device, inspect_only=False):
     """
-    Poll a single device, insert new logs into Access DB and Flask DB.
-    Emit only aggregated notifications to socket.io to avoid flooding the client.
-    Returns number of new logs inserted.
+    Poll a single device, insert new logs into Access DB (batched) and Flask DB.
+    Restores your [NEW ✅] and [ACCESS ✅] console_emit lines.
+    Returns number of new logs inserted into Flask DB for this device.
     """
     zk = ZK(
         device.ip_address,
@@ -226,36 +217,16 @@ def fetch_and_forward_for_device(device, inspect_only=False):
         ommit_ping=False
     )
     conn = None
+    access_conn = None
     snapshot = []
     new_count = 0
 
-    def safe_emit(event, payload):
-        try:
-            socketio.emit(event, payload)
-        except Exception:
-            # swallow emit exceptions so DB work is not affected
-            pass
-    
-    def emit_log(device, level, message, extra=None):
-        safe_emit('log', {
-            "device_id": device.id,
-            "device_name": device.name,
-            "timestamp": datetime.utcnow().isoformat() + "Z",
-            "level": level,
-            "message": message,
-            "extra": extra or {},
-        })     
-
     console_emit(Fore.YELLOW + f"\n[DEBUG] Connecting to {device.name} ({device.ip_address}:{device.port})",
                  level="debug", device=device)
-    safe_emit('device_status', make_event_payload(device, 'debug', f"Connecting to {device.ip_address}:{device.port}"))
-    emit_log(device, 'debug', f"Connecting to {device.ip_address}:{device.port}")
 
     try:
         conn = zk.connect()
         console_emit(Fore.GREEN + f"[CONNECTED] {device.name}", level="info", device=device)
-        safe_emit('device_status', make_event_payload(device, 'info', "[CONNECTED]"))
-        emit_log(device, 'info', "[CONNECTED]")
 
         conn.disable_device()
 
@@ -263,52 +234,50 @@ def fetch_and_forward_for_device(device, inspect_only=False):
         logs = conn.get_attendance()
         elapsed = time.time() - start_time
 
-        # high-level info
         console_emit(Fore.CYAN + f"[INFO] Retrieved {len(logs)} logs from {device.name} in {elapsed:.2f} seconds",
                      level="info", device=device, extra={"count": len(logs)})
-        safe_emit('device_status', make_event_payload(device, 'info', f"Retrieved {len(logs)} logs", {"count": len(logs)}))
-        emit_log(device, 'info', f"Retrieved {len(logs)} logs", {"count": len(logs)})
 
-        # fetch existing record ids from flask db
+        # fetch existing record ids from Flask DB (avoid re-saving same record)
         existing = {rid for (rid,) in db.session.query(AttendanceLog.record_id)
                     .filter_by(device_id=device.id).all()}
+
+        # Try to open Access DB once for this device/thread
+        try:
+            access_conn = open_access_conn()
+            existing_access = fetch_existing_access_keys(access_conn, sn=(device.serial_no or device.name))
+        except Exception as e:
+            access_conn = None
+            existing_access = set()
+            console_emit(Fore.RED + f"    [ACCESS WARN] Could not open Access DB: {e}",
+                         level="error", device=device)
 
         access_start = time.time()
         flask_start = time.time()
         flask_log_entries = []
 
-        # collect new logs for batch emit later
-        new_logs_for_device = []  # list of dicts {rid,user_id,timestamp,status}
+        # For batching into Access: list of tuples matching the INSERT placeholders
+        access_insert_tuples = []
+        # Map rid -> (checktime_iso, user_id, status_str) for building summary and emits
+        rec_meta = {}
+
+        # Keep track of items pending Access insertion so we can emit ACCESS ✅ after success
+        pending_access = {}  # rid -> {"user_id": .., "checktime": ..}
 
         for rec in logs:
             rid = getattr(rec, 'uid', None)
-            if rid is None or rid in existing:
+            if rid is None:
+                continue
+
+            # Skip if already present in local Flask DB
+            if rid in existing:
                 continue
 
             status_str = str(rec.status) if isinstance(rec.status, int) else getattr(rec.status, 'name', str(rec.status))
 
-            access_record = {
-                'USERID':     rec.user_id,
-                'CHECKTIME':  rec.timestamp,
-                'CHECKTYPE':  status_str,
-                'VERIFYCODE': 1,
-                'SENSORID':   '1',
-                'WorkCode':   '0',
-                'sn':         device.serial_no or device.name
-            }
+            # normalised key to compare with existing_access
+            key = (str(rec.user_id), str(rec.timestamp), str(device.serial_no or device.name))
 
-            try:
-                # insert into Access (this returns the ISO timestamp string now)
-                checktime_iso = insert_into_access_db(access_record)
-            except Exception as e:
-                # emit an error-level device_status and continue
-                console_emit(Fore.RED + f"    [ACCESS ❌] RID {rid}: {e}", level="error", device=device)
-                err_payload = make_event_payload(device, 'error', f"Access DB insert failed for RID {rid}: {e}", {"rid": rid})
-                safe_emit('device_status', err_payload)
-                emit_log(device, 'error', f"Access DB insert failed for RID {rid}: {e}", {"rid": rid})
-                continue
-
-            # prepare flask ORM object (do not commit per-item — we bulk save later)
+            # prepare flask ORM object (we will bulk save later regardless of Access outcome)
             log_entry = AttendanceLog(
                 device_id=device.id,
                 record_id=rid,
@@ -318,58 +287,153 @@ def fetch_and_forward_for_device(device, inspect_only=False):
             )
             flask_log_entries.append(log_entry)
 
+            # snapshot entry for inspection / debugging
+            access_record = {
+                'USERID':     rec.user_id,
+                'CHECKTIME':  rec.timestamp,
+                'CHECKTYPE':  status_str,
+                'VERIFYCODE': 1,
+                'SENSORID':   '1',
+                'WorkCode':   '0',
+                'sn':         device.serial_no or device.name
+            }
             snapshot.append(access_record)
+
+            # If Access already has it, emit ACCESS ✅ now (preserve original message)
+            if key in existing_access:
+                console_emit(
+                    Fore.GREEN + f"    [ACCESS ✅] USERID={rec.user_id} CHECKTIME={rec.timestamp}",
+                    level="info", device=device
+                )
+                checktime_iso = rec.timestamp.isoformat() if hasattr(rec.timestamp, 'isoformat') else str(rec.timestamp)
+                rec_meta[rid] = (checktime_iso, rec.user_id, status_str)
+            else:
+                # queue tuple for batch insertion into Access
+                access_insert_tuples.append((
+                    rec.user_id, rec.timestamp, status_str, 1, '1', '0', device.serial_no or device.name
+                ))
+                # remember pending access inserts so we can emit success later
+                pending_access[rid] = {
+                    "user_id": rec.user_id,
+                    "checktime": rec.timestamp
+                }
+                checktime_iso = rec.timestamp.isoformat() if hasattr(rec.timestamp, 'isoformat') else str(rec.timestamp)
+                rec_meta[rid] = (checktime_iso, rec.user_id, status_str)
+
             new_count += 1
 
-            # aggregate for frontend notification (no per-item emit)
-            new_logs_for_device.append({
-                "rid": rid,
-                "user_id": rec.user_id,
-                "timestamp": checktime_iso,
-                "status": status_str,
-            })
+            # ORIGINAL [NEW ✅] message restored (we now print when we accepted the record locally)
+            console_emit(
+                Fore.BLUE + f"    [NEW ✅] RID {rid}, User={rec.user_id}, Time={rec.timestamp}",
+                level="new", device=device
+            )
 
-            console_emit(Fore.BLUE + f"    [NEW ✅] RID {rid}, User={rec.user_id}, Time={rec.timestamp}",
-                         level="new", device=device)
+        # Batch insert into Access DB (if we have any to insert)
+        inserted_ok_count = 0
+        if access_conn and access_insert_tuples:
+            cur = access_conn.cursor()
+            insert_sql = (
+                f"INSERT INTO {ACCESS_TABLE} "
+                "(USERID, CHECKTIME, CHECKTYPE, VERIFYCODE, SENSORID, WorkCode, sn) "
+                "VALUES (?,?,?,?,?,?,?)"
+            )
+            try:
+                # Attempt bulk insert first - faster
+                cur.executemany(insert_sql, access_insert_tuples)
+                access_conn.commit()
+                inserted_ok_count = len(access_insert_tuples)
+
+                # emit ACCESS ✅ for each pending_access we just wrote
+                for rid, info in list(pending_access.items()):
+                    console_emit(
+                        Fore.GREEN + f"    [ACCESS ✅] USERID={info['user_id']} CHECKTIME={info['checktime']}",
+                        level="info", device=device
+                    )
+                    # remove from pending map since handled
+                    pending_access.pop(rid, None)
+
+            except Exception as bulk_err:
+                # Bulk failed (possible duplicate in the batch or constraint). Fallback to per-row with duplicate handling.
+                console_emit(Fore.YELLOW + f"    [ACCESS BULK WARN] Bulk insert failed: {bulk_err}. Falling back to per-row inserts.",
+                             level="warning", device=device)
+                access_conn.rollback()
+
+                # Per-row fallback (we emit ACCESS ✅ on successful row inserts; duplicates are logged/ignored)
+                for t in access_insert_tuples:
+                    try:
+                        cur.execute(insert_sql, t)
+                        access_conn.commit()
+                        inserted_ok_count += 1
+
+                        # Emit ACCESS ✅ for this tuple (we don't have the RID directly here).
+                        # Use the tuple values (user_id, checktime) to display the message.
+                        user_id, checktime = t[0], t[1]
+                        console_emit(
+                            Fore.GREEN + f"    [ACCESS ✅] USERID={user_id} CHECKTIME={checktime}",
+                            level="info", device=device
+                        )
+
+                        # remove any matching pending_access entry(s)
+                        # best-effort: find rid(s) with same user_id & checktime
+                        to_remove = []
+                        for prid, info in pending_access.items():
+                            if str(info['user_id']) == str(user_id) and str(info['checktime']) == str(checktime):
+                                to_remove.append(prid)
+                        for pr in to_remove:
+                            pending_access.pop(pr, None)
+
+                    except Exception as row_err:
+                        msg = str(row_err).lower()
+                        if "duplicate" in msg or "unique" in msg or "constraint" in msg:
+                            access_conn.rollback()
+                            console_emit(Fore.YELLOW + f"    [ACCESS DUP] Duplicate row ignored: USERID={t[0]} CHECKTIME={t[1]} sn={t[6]}",
+                                         level="debug", device=device)
+                            # remove matching pending_access as it's effectively present
+                            to_remove = []
+                            for prid, info in pending_access.items():
+                                if str(info['user_id']) == str(t[0]) and str(info['checktime']) == str(t[1]):
+                                    to_remove.append(prid)
+                            for pr in to_remove:
+                                pending_access.pop(pr, None)
+                        else:
+                            access_conn.rollback()
+                            console_emit(Fore.RED + f"    [ACCESS ERROR] Failed to insert row USERID={t[0]} CHECKTIME={t[1]}: {row_err}",
+                                         level="error", device=device)
+
+                # end per-row fallback
+            finally:
+                cur.close()
 
         access_elapsed = time.time() - access_start
 
         # commit flask DB once for this device
         if flask_log_entries:
-            db.session.bulk_save_objects(flask_log_entries)
-            db.session.commit()
+            try:
+                db.session.bulk_save_objects(flask_log_entries)
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                console_emit(Fore.RED + f"[FLASK DB ERROR] Bulk save failed: {e}", level="error", device=device)
         flask_elapsed = time.time() - flask_start
 
-        # Emit aggregated batch of new logs for this device (frontend-friendly)
-        if new_logs_for_device:
-            safe_emit('new_logs_batch', {
-                "device_id": device.id,
-                "device_name": device.name,
-                # include branch_id if device has it (some models do)
-                "branch_id": getattr(device, 'branch_id', None),
-                "count": len(new_logs_for_device),
-                "logs": new_logs_for_device
+        # Build aggregated new_logs_for_device using rec_meta (kept for internal use or future emits)
+        new_logs_for_device = []
+        for rid, (checktime_iso, user_id, status_str) in rec_meta.items():
+            new_logs_for_device.append({
+                "rid": rid,
+                "user_id": user_id,
+                "timestamp": checktime_iso,
+                "status": status_str,
             })
 
-        # Emit DB insertion times (access / flask) — useful for perf/notifications
-        safe_emit('db_insert_times', {
-            "device_id": device.id,
-            "device_name": device.name,
-            "new_count": new_count,
-            "access_insert_seconds": round(access_elapsed, 3),
-            "flask_insert_seconds": round(flask_elapsed, 3),
-        })
-
-        # log a concise summary to console (kept, and now emitted)
-        console_emit(Fore.MAGENTA + f"[ACCESS INSERT TIME] Inserted {new_count} records into Access DB in {access_elapsed:.2f}s from {device.name}",
+        # Keep only console emits (no socket.io). Print concise summary (including Access success count).
+        console_emit(Fore.MAGENTA + f"[ACCESS INSERT TIME] Insert attempts: {len(access_insert_tuples)}, successful: {inserted_ok_count} records into Access DB in {access_elapsed:.2f}s from {device.name}",
                      level="info", device=device, extra={"access_seconds": access_elapsed})
-        console_emit(Fore.WHITE + f"[FLASK DB INSERT TIME] Inserted {new_count} records into Flask DB in {flask_elapsed:.2f}s from {device.name}",
+        console_emit(Fore.WHITE + f"[FLASK DB INSERT TIME] Insert attempts: {len(flask_log_entries)}, committed: {len(flask_log_entries)} records into Flask DB in {flask_elapsed:.2f}s from {device.name}",
                      level="info", device=device, extra={"flask_seconds": flask_elapsed})
 
     except Exception as e:
-        safe_emit('device_status', make_event_payload(device, 'error', f"Polling failed: {e}"))
         console_emit(Fore.RED + f"[ERROR] Polling {device.name} failed: {e}", level="error", device=device)
-        emit_log(device, 'error', f"Polling failed: {e}")
     finally:
         if conn:
             try:
@@ -380,14 +444,18 @@ def fetch_and_forward_for_device(device, inspect_only=False):
                 conn.disconnect()
             except Exception:
                 pass
-            safe_emit('device_status', make_event_payload(device, 'info', "[DISCONNECTED]"))
             console_emit(Fore.RED + f"[DISCONNECTED] {device.name}", level="info", device=device)
+
+        if access_conn:
+            try:
+                access_conn.close()
+            except Exception:
+                pass
 
         if inspect_only and snapshot:
             fn = f"zk_snapshot_{device.name.replace(' ', '_')}_{datetime.now():%Y%m%d_%H%M%S}.json"
             with open(fn, 'w', encoding='utf-8') as f:
                 json.dump(snapshot, f, indent=2, default=str)
-            safe_emit('device_status', make_event_payload(device, 'info', f"[SNAPSHOT] saved {len(snapshot)} records to {fn}"))
             console_emit(Fore.GREEN + f"[SNAPSHOT] saved {len(snapshot)} records to {fn}", level="info", device=device)
 
     return new_count
