@@ -14,7 +14,7 @@ import PingIcon from '@mui/icons-material/Cloud';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { useSnackbar } from 'notistack';
-import { deleteDeviceLogs,pingDevice } from '../api';
+import { deleteDeviceTodayLogs,deleteDeviceLogs,pingDevice } from '../api';
 
 export default function DevicesTable({
   devices = [],
@@ -114,11 +114,10 @@ export default function DevicesTable({
     }
   };
 
-  // Delete ALL logs for a device (frontend confirmation + call)
+  // Delete All Logs
   const handleDeleteLogs = async (deviceId, deviceName) => {
     if (!deviceId) return;
 
-    // lightweight confirmation (keeps current UI simple)
     const ok = window.confirm(
       `Delete ALL logs for device "${deviceName}" (ID: ${deviceId})?\n\nThis action cannot be undone.`
     );
@@ -126,23 +125,53 @@ export default function DevicesTable({
 
     setSubmitting(true);
     try {
-      // deleteDeviceLogs sets ?confirm=1 by default
       const res = await deleteDeviceLogs(deviceId);
-      // Axios success -> status 200
       if (res && res.status >= 200 && res.status < 300) {
-        const deleted = res.data?.deleted ?? 'Logs deleted';
-        enqueueSnackbar(`${deleted}`, { variant: 'success' });
+        enqueueSnackbar(`${res.data?.deleted ?? "Logs deleted"}`, { variant: "success" });
       } else {
-        enqueueSnackbar('Failed to delete logs', { variant: 'error' });
+        enqueueSnackbar("Failed to delete logs", { variant: "error" });
       }
     } catch (err) {
-      console.error('deleteDeviceLogs error', err);
-      const message = err?.response?.data?.message || err?.message || 'Delete logs failed';
-      enqueueSnackbar(message, { variant: 'error' });
+      console.error("deleteDeviceLogs error", err);
+      enqueueSnackbar(err?.response?.data?.message || err?.message || "Delete logs failed", {
+        variant: "error",
+      });
     } finally {
       setSubmitting(false);
     }
   };
+
+  // Delete Today's Logs
+  const handleDeleteTodayLogs = async (deviceId, deviceName) => {
+    if (!deviceId) return;
+
+    const ok = window.confirm(
+      `Delete TODAY's logs for device "${deviceName}" (ID: ${deviceId})?`
+    );
+    if (!ok) return;
+
+    setSubmitting(true);
+    try {
+      const res = await deleteDeviceTodayLogs(deviceId);
+      if (res && res.status >= 200 && res.status < 300) {
+        enqueueSnackbar(
+          `Deleted ${res.data?.deleted_today} logs for today (${res.data?.date})`,
+          { variant: "success" }
+        );
+      } else {
+        enqueueSnackbar("Failed to delete today's logs", { variant: "error" });
+      }
+    } catch (err) {
+      console.error("deleteDeviceTodayLogs error", err);
+      enqueueSnackbar(
+        err?.response?.data?.message || err?.message || "Delete today's logs failed",
+        { variant: "error" }
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
 
 
   const handleChangePage = (_e, newPage) => setPage(newPage);
@@ -269,6 +298,23 @@ export default function DevicesTable({
                         </IconButton>
                       </Tooltip>
 
+                      <Tooltip title="Delete today's logs for device">
+                        <IconButton
+                          size="small"
+                          onClick={async () => {
+                            try {
+                              await handleDeleteTodayLogs(d.id, d.name);
+                            } catch (err) {
+                              console.error(err);
+                              enqueueSnackbar("Delete today's logs failed", { variant: 'error' });
+                            }
+                          }}
+                          sx={{ color: 'blue', '&:hover': { bgcolor: 'blue', color: 'white' } }}
+                          disabled={submitting}
+                        >
+                          <DeleteSweepIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
 
                       <Tooltip title="Delete device">
                         <IconButton

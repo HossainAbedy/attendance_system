@@ -1,5 +1,7 @@
 # backend/app/__init__.py
-import sys
+import sys  
+from datetime import datetime
+from flask import Response
 from flask import Flask, jsonify, request, current_app
 from flask_cors import CORS
 from .config import Config
@@ -9,16 +11,20 @@ from .views.logs import bp as logs_bp
 from .views.sync import bp as sync_bp
 from .logging_handler import init_socketio_logging
 
-# ABSOLUTE import (tasks.py lives in the backend/app/ folder)
-from app.tasks import (
+# scheduler controls (moved out of tasks.py)
+from app.scheduler import (
     start_recurring_scheduler,
     stop_recurring_scheduler,
     start_poll_all_job,
     start_poll_branch_job,
-    get_job_status,
-    list_jobs,
     start_scheduler_job,
     stop_scheduler_job,
+)
+
+# keep registry/read helpers in tasks.py (so API endpoints can call them)
+from app.tasks import (
+    get_job_status,
+    list_jobs,
 )
 
 def create_app(config_class=Config):
@@ -39,6 +45,11 @@ def create_app(config_class=Config):
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
     app.register_blueprint(logs_bp, url_prefix='/api/logs')
     app.register_blueprint(sync_bp, url_prefix='/api/sync')
+
+    @app.route("/")
+    def home():
+        return Response(f"<h1>Attendance System Scheduler<h5><h3>Backend Running ✅</h3><p>UTC: {datetime.utcnow():%Y-%m-%d %H:%M:%SZ}</p>", mimetype="text/html")
+
     
     @app.route("/api/sync/start", methods=["POST"])
     def start_recurring():

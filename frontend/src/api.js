@@ -25,6 +25,9 @@ export const ENDPOINTS = {
   logs: '/api/logs',
   logsByDevice: (deviceId) => `/api/logs/device/${deviceId}`,
 
+  // Delete only today's logs for a device
+  deleteTodayLogsByDevice: (deviceId) => `/api/logs/device/${deviceId}/logs/today`,
+
   // DELETE all logs for a device
   deleteLogsByDevice: (deviceId) => `/api/logs/device/${deviceId}/logs`,
 
@@ -75,6 +78,19 @@ export const pollDeviceLegacy = (deviceId) => api.post(ENDPOINTS.pollDeviceLegac
 export const getLogs = (params) => api.get(ENDPOINTS.logs, { params });
 export const getLogsByDevice = (deviceId, params) =>
   api.get(ENDPOINTS.logsByDevice(deviceId), { params });
+
+/**
+ * Delete only today's logs for a device.
+ * Server requires confirmation: ?confirm=1
+ *
+ * @param {number|string} deviceId
+ * @param {{ confirm?: boolean }} opts
+ * @returns {Promise<AxiosResponse>}
+ */
+export const deleteDeviceTodayLogs = (deviceId, { confirm = true } = {}) => {
+  const q = confirm ? '?confirm=1' : '';
+  return api.delete(`${ENDPOINTS.deleteTodayLogsByDevice(deviceId)}${q}`);
+};
 
 /**
  * Delete ALL attendance logs for a device.

@@ -1,6 +1,7 @@
 # views/sync.py
 from flask import Blueprint, jsonify, current_app
-from ..tasks import start_poll_all_job, start_poll_branch_job, get_job_status, stop_recurring_scheduler
+from ..scheduler import start_poll_all_job, start_poll_branch_job, stop_recurring_scheduler
+from ..tasks import get_job_status
 from ..models import Branch
 
 bp = Blueprint('sync', __name__)

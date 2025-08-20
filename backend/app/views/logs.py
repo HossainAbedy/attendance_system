@@ -2,7 +2,7 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy import or_, cast, String, desc, asc, func
 from sqlalchemy.orm import joinedload
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from typing import Optional, Tuple, Dict, Any
 
 from ..models import Device, AttendanceLog
@@ -319,6 +319,51 @@ def delete_logs_for_device(device_id: int):
             "device_id": device_id,
             "device_name": device.name,
             "deleted": deleted
+        }), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "internal", "message": str(e)}), 500
+    
+@bp.route("/device/<int:device_id>/logs/today", methods=["DELETE"])
+def delete_today_logs_for_device(device_id: int):
+    """
+    Delete only today's logs (00:00 → 23:59:59) for the given device.
+    Requires ?confirm=1 to actually delete.
+    """
+    try:
+        # confirm device exists
+        device = Device.query.get_or_404(device_id)
+
+        # safety confirmation
+        confirm = request.args.get("confirm", default="0")
+        if str(confirm).lower() not in ("1", "true", "yes"):
+            return jsonify({
+                "error": "confirmation_required",
+                "message": "To confirm deletion, call this endpoint with ?confirm=1"
+            }), 400
+
+        # calculate today's start and end (server local time)
+        today = datetime.now().date()
+        start_dt = datetime(today.year, today.month, today.day, 0, 0, 0)
+        end_dt = start_dt + timedelta(days=1)
+
+        # fast delete
+        q = AttendanceLog.__table__.delete().where(
+            (AttendanceLog.device_id == device_id) &
+            (AttendanceLog.timestamp >= start_dt) &
+            (AttendanceLog.timestamp < end_dt)
+        )
+        res = db.session.execute(q)
+        db.session.commit()
+
+        deleted = res.rowcount if res.rowcount is not None else 0
+
+        return jsonify({
+            "device_id": device_id,
+            "device_name": device.name,
+            "deleted_today": deleted,
+            "date": today.isoformat()
         }), 200
 
     except Exception as e:
