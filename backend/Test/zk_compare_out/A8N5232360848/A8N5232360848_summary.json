@@ -1,0 +1,12 @@
+{
+  "device_sn": "A8N5232360848",
+  "date": "2025-08-21",
+  "zk_rows_filtered": 0,
+  "app_access_rows": 0,
+  "existing_access_rows": 0,
+  "only_zk": 0,
+  "only_app": 0,
+  "only_existing": 0,
+  "in_zk_and_app": 0,
+  "in_zk_and_existing": 0
+}

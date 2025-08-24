@@ -1,0 +1,1967 @@
+
+===== ZK SYNC RUN START: 2025-08-24 17:43:58 =====
+[35m[SCHEDULER] Dispatching polling for devices… (log: logs\zk_sync_20250824_174358.log)
+[33m
+[DEBUG] Connecting to K40 Lobby Principal Branch (172.19.102.231:4370)
+[33m
+[DEBUG] Connecting to K40 Lobby Hemayetpur  Branch (172.19.103.231:4370)
+[33m
+[DEBUG] Connecting to K40 Lobby Bhatiary  Branch (172.19.104.231:4370)
+[33m
+[DEBUG] Connecting to K40 Lobby Khulna Branch (172.19.106.231:4370)[33m
+[DEBUG] Connecting to K40 Lobby Agrabad  Branch (172.19.105.231:4370)
+
+[33m
+[DEBUG] Connecting to K40 Lobby Katakhali Branch (172.19.107.231:4370)[33m
+[DEBUG] Connecting to K40 Lobby Keraniganj Branch (172.19.108.231:4370)[33m
+[DEBUG] Connecting to K40 Lobby Uttara Branch (172.19.109.231:4370)[33m
+[DEBUG] Connecting to K40 Lobby Gulshan Branch (172.19.110.231:4370)
+
+[33m
+[DEBUG] Connecting to K40 Lobby Velanagar Branch (172.19.111.231:4370)
+
+
+[32m[CONNECTED] K40 Lobby Hemayetpur  Branch
+[32m[CONNECTED] K40 Lobby Principal Branch
+[32m[CONNECTED] K40 Lobby Bhatiary  Branch
+[32m[CONNECTED] K40 Lobby Agrabad  Branch
+[32m[CONNECTED] K40 Lobby Uttara Branch
+[32m[CONNECTED] K40 Lobby Keraniganj Branch
+[32m[CONNECTED] K40 Lobby Velanagar Branch
+[32m[CONNECTED] K40 Lobby Khulna Branch
+[32m[CONNECTED] K40 Lobby Gulshan Branch
+[32m[CONNECTED] K40 Lobby Katakhali Branch
+[36m[INFO] Retrieved 2323 logs from K40 Lobby Hemayetpur  Branch in 0.87 seconds
+[36m[INFO] Retrieved 2434 logs from K40 Lobby Bhatiary  Branch in 0.86 seconds
+[36m[INFO] Retrieved 4431 logs from K40 Lobby Keraniganj Branch in 1.33 seconds
+[36m[INFO] Retrieved 3889 logs from K40 Lobby Agrabad  Branch in 1.41 seconds
+[36m[INFO] Retrieved 3778 logs from K40 Lobby Katakhali Branch in 1.46 seconds
+[36m[INFO] Retrieved 6250 logs from K40 Lobby Khulna Branch in 2.08 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:03]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Katakhali Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:03]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Katakhali Branch
+[31m[DISCONNECTED] K40 Lobby Katakhali Branch
+[34m[SCHEDULER] K40 Lobby Katakhali Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Imamganj Branch (172.19.112.231:4370)
+[36m[INFO] Retrieved 7696 logs from K40 Lobby Gulshan Branch in 2.28 seconds
+[32m[CONNECTED] K40 Lobby Imamganj Branch
+[36m[INFO] Retrieved 8833 logs from K40 Lobby Velanagar Branch in 2.54 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:04]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Gulshan Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:04]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Gulshan Branch
+[31m[DISCONNECTED] K40 Lobby Gulshan Branch
+[36m[INFO] Retrieved 11100 logs from K40 Lobby Principal Branch in 2.98 seconds
+[34m[SCHEDULER] K40 Lobby Gulshan Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Ashulia Branch (172.19.113.231:4370)
+[32m[CONNECTED] K40 Lobby Ashulia Branch
+[36m[INFO] Retrieved 10179 logs from K40 Lobby Uttara Branch in 3.18 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:04]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Hemayetpur  Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:04]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Hemayetpur  Branch
+[31m[DISCONNECTED] K40 Lobby Hemayetpur  Branch
+[34m[SCHEDULER] K40 Lobby Hemayetpur  Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Dhanmondi Branch (172.19.114.231:4370)
+[32m[CONNECTED] K40 Lobby Dhanmondi Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:05]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Uttara Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:05]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Uttara Branch
+[36m[INFO] Retrieved 4661 logs from K40 Lobby Imamganj Branch in 1.74 seconds
+[31m[DISCONNECTED] K40 Lobby Uttara Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Sylhet Branch (172.19.116.231:4370)
+[34m[SCHEDULER] K40 Lobby Uttara Branch: 0 new logs
+[32m[CONNECTED] K40 Lobby Sylhet Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:05]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Imamganj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:05]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Imamganj Branch
+[31m[DISCONNECTED] K40 Lobby Imamganj Branch
+[34m[SCHEDULER] K40 Lobby Imamganj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Jubliroad Sub Branch (172.19.117.231:4370)
+[32m[CONNECTED] K40 Lobby Jubliroad Sub Branch
+[36m[INFO] Retrieved 4122 logs from K40 Lobby Ashulia Branch in 1.65 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:06]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bhatiary  Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:06]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bhatiary  Branch
+[31m[DISCONNECTED] K40 Lobby Bhatiary  Branch
+[34m[SCHEDULER] K40 Lobby Bhatiary  Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Bogura Branch (172.19.118.231:4370)
+[36m[INFO] Retrieved 1991 logs from K40 Lobby Sylhet Branch in 0.82 seconds
+[32m[CONNECTED] K40 Lobby Bogura Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:06]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Keraniganj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:06]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Keraniganj Branch
+[31m[DISCONNECTED] K40 Lobby Keraniganj Branch
+[34m[SCHEDULER] K40 Lobby Keraniganj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Mawna Branch (172.19.119.231:4370)
+[36m[INFO] Retrieved 2169 logs from K40 Lobby Jubliroad Sub Branch in 0.85 seconds
+[32m[CONNECTED] K40 Lobby Mawna Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:07]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Agrabad  Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:07]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Agrabad  Branch
+[31m[DISCONNECTED] K40 Lobby Agrabad  Branch
+[34m[SCHEDULER] K40 Lobby Agrabad  Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Islampur Branch (172.19.120.231:4370)
+[32m[CONNECTED] K40 Lobby Islampur Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:07]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Sylhet Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:07]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Sylhet Branch
+[31m[DISCONNECTED] K40 Lobby Sylhet Branch
+[34m[SCHEDULER] K40 Lobby Sylhet Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Modhunaghat Branch (172.19.121.231:4370)
+[36m[INFO] Retrieved 5753 logs from K40 Lobby Dhanmondi Branch in 2.30 seconds
+[32m[CONNECTED] K40 Lobby Modhunaghat Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:07]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Velanagar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:07]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Velanagar Branch
+[31m[DISCONNECTED] K40 Lobby Velanagar Branch
+[34m[SCHEDULER] K40 Lobby Velanagar Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Shyamnagar Branch (172.19.122.231:4370)
+[32m[CONNECTED] K40 Lobby Shyamnagar Branch
+[36m[INFO] Retrieved 1925 logs from K40 Lobby Mawna Branch in 1.02 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:08]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Ashulia Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:08]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Ashulia Branch
+[31m[DISCONNECTED] K40 Lobby Ashulia Branch
+[34m[SCHEDULER] K40 Lobby Ashulia Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Gazipur Branch (172.19.123.231:4370)
+[36m[INFO] Retrieved 2689 logs from K40 Lobby Islampur Branch in 0.98 seconds
+[32m[CONNECTED] K40 Lobby Gazipur Branch
+[36m[INFO] Retrieved 1688 logs from K40 Lobby Modhunaghat Branch in 0.77 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:08]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Dhanmondi Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:08]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Dhanmondi Branch
+[31m[DISCONNECTED] K40 Lobby Dhanmondi Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Moynamoti Branch (172.19.124.231:4370)
+[34m[SCHEDULER] K40 Lobby Dhanmondi Branch: 0 new logs
+[36m[INFO] Retrieved 918 logs from K40 Lobby Shyamnagar Branch in 0.65 seconds
+[32m[CONNECTED] K40 Lobby Moynamoti Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:08]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Modhunaghat Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:08]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Modhunaghat Branch
+[31m[DISCONNECTED] K40 Lobby Modhunaghat Branch
+[34m[SCHEDULER] K40 Lobby Modhunaghat Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Banglabazar Branch (172.19.125.231:4370)
+[36m[INFO] Retrieved 7605 logs from K40 Lobby Bogura Branch in 2.44 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:09]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Principal Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:09]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Principal Branch
+[31m[DISCONNECTED] K40 Lobby Principal Branch
+[34m[SCHEDULER] K40 Lobby Principal Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Banani Branch (172.19.126.231:4370)
+[32m[CONNECTED] K40 Lobby Banani Branch
+[36m[INFO] Retrieved 2174 logs from K40 Lobby Moynamoti Branch in 0.84 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:09]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Jubliroad Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:09]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Jubliroad Sub Branch
+[31m[DISCONNECTED] K40 Lobby Jubliroad Sub Branch
+[34m[SCHEDULER] K40 Lobby Jubliroad Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Chuknagar  Branch (172.19.127.231:4370)
+[32m[CONNECTED] K40 Lobby Banglabazar Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:09]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Khulna Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:09]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Khulna Branch
+[31m[DISCONNECTED] K40 Lobby Khulna Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Madhobdi Branch (172.19.128.231:4370)
+[34m[SCHEDULER] K40 Lobby Khulna Branch: 0 new logs
+[32m[CONNECTED] K40 Lobby Madhobdi Branch
+[36m[INFO] Retrieved 6197 logs from K40 Lobby Gazipur Branch in 1.89 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:10]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Moynamoti Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:10]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Moynamoti Branch
+[31m[DISCONNECTED] K40 Lobby Moynamoti Branch
+[34m[SCHEDULER] K40 Lobby Moynamoti Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Barishal Branch (172.19.129.231:4370)
+[32m[CONNECTED] K40 Lobby Barishal Branch
+[36m[INFO] Retrieved 2302 logs from K40 Lobby Banglabazar Branch in 0.93 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:10]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Mawna Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:10]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Mawna Branch
+[31m[DISCONNECTED] K40 Lobby Mawna Branch
+[34m[SCHEDULER] K40 Lobby Mawna Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Sarbolakkhona Branch (172.19.130.231:4370)
+[32m[CONNECTED] K40 Lobby Chuknagar  Branch
+[32m[CONNECTED] K40 Lobby Sarbolakkhona Branch
+[36m[INFO] Retrieved 5012 logs from K40 Lobby Banani Branch in 1.71 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:11]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bogura Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:11]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bogura Branch
+[31m[DISCONNECTED] K40 Lobby Bogura Branch
+[34m[SCHEDULER] K40 Lobby Bogura Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Rajshahi Branch (172.19.131.231:4370)
+[34m    [NEW ✅] RID 5012, User=86, Time=2025-08-24 15:42:41
+[32m[CONNECTED] K40 Lobby Rajshahi Branch
+[36m[INFO] Retrieved 3677 logs from K40 Lobby Madhobdi Branch in 1.26 seconds
+[32m    [ACCESS ✅] USERID=86 CHECKTIME=2025-08-24 15:42:41
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:11]
+Insert attempts: 1,
+successful: 1 records
+into Access DB in 0.03s
+from K40 Lobby Banani Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:11]
+Insert attempts: 1,
+committed: 1 records
+into Flask DB in 0.01s
+from K40 Lobby Banani Branch
+[31m[DISCONNECTED] K40 Lobby Banani Branch
+[34m[SCHEDULER] K40 Lobby Banani Branch: 1 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Nababpur Branch (172.19.132.231:4370)
+[32m[CONNECTED] K40 Lobby Nababpur Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:11]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Banglabazar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:11]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Banglabazar Branch
+[31m[DISCONNECTED] K40 Lobby Banglabazar Branch
+[34m[SCHEDULER] K40 Lobby Banglabazar Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Mirpur Branch (172.19.133.230:4370)
+[32m[CONNECTED] K40 Lobby Mirpur Branch
+[36m[INFO] Retrieved 2858 logs from K40 Lobby Sarbolakkhona Branch in 1.07 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:12]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Madhobdi Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:12]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Madhobdi Branch
+[31m[DISCONNECTED] K40 Lobby Madhobdi Branch
+[34m[SCHEDULER] K40 Lobby Madhobdi Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Shibu Market Branch (172.19.134.231:4370)
+[32m[CONNECTED] K40 Lobby Shibu Market Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:12]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Sarbolakkhona Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:12]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Sarbolakkhona Branch
+[36m[INFO] Retrieved 6737 logs from K40 Lobby Barishal Branch in 2.04 seconds
+[31m[DISCONNECTED] K40 Lobby Sarbolakkhona Branch
+[34m[SCHEDULER] K40 Lobby Sarbolakkhona Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Ghonapara Branch (172.19.135.231:4370)
+[32m[CONNECTED] K40 Lobby Ghonapara Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:12]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Islampur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:12]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Islampur Branch
+[31m[DISCONNECTED] K40 Lobby Islampur Branch
+[34m[SCHEDULER] K40 Lobby Islampur Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Digraj Branch (172.19.136.231:4370)
+[32m[CONNECTED] K40 Lobby Digraj Branch
+[36m[INFO] Retrieved 4958 logs from K40 Lobby Chuknagar  Branch in 2.24 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:13]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Shyamnagar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:13]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Shyamnagar Branch
+[31m[DISCONNECTED] K40 Lobby Shyamnagar Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Bijoynagar Branch (172.19.137.231:4370)
+[34m[SCHEDULER] K40 Lobby Shyamnagar Branch: 0 new logs
+[36m[INFO] Retrieved 2792 logs from K40 Lobby Shibu Market Branch in 0.94 seconds
+[32m[CONNECTED] K40 Lobby Bijoynagar Branch
+[36m[INFO] Retrieved 6110 logs from K40 Lobby Nababpur Branch in 1.88 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:13]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Barishal Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:13]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Barishal Branch
+[36m[INFO] Retrieved 2477 logs from K40 Lobby Ghonapara Branch in 0.85 seconds
+[31m[DISCONNECTED] K40 Lobby Barishal Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Narayangonj Branch (172.19.138.231:4370)
+[34m[SCHEDULER] K40 Lobby Barishal Branch: 0 new logs
+[32m[CONNECTED] K40 Lobby Narayangonj Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:13]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Ghonapara Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:13]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Ghonapara Branch
+[36m[INFO] Retrieved 5430 logs from K40 Lobby Mirpur Branch in 2.00 seconds
+[36m[INFO] Retrieved 6752 logs from K40 Lobby Rajshahi Branch in 2.57 seconds
+[31m[DISCONNECTED] K40 Lobby Ghonapara Branch
+[34m[SCHEDULER] K40 Lobby Ghonapara Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Fatikchari Branch (172.19.139.231:4370)
+[36m[INFO] Retrieved 2783 logs from K40 Lobby Digraj Branch in 1.02 seconds
+[32m[CONNECTED] K40 Lobby Fatikchari Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:14]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Chuknagar  Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:14]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Chuknagar  Branch
+[31m[DISCONNECTED] K40 Lobby Chuknagar  Branch
+[34m[SCHEDULER] K40 Lobby Chuknagar  Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Baburhat Branch (172.19.140.231:4370)
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:14]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Shibu Market Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:14]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Shibu Market Branch
+[36m[INFO] Retrieved 1422 logs from K40 Lobby Fatikchari Branch in 0.70 seconds
+[31m[DISCONNECTED] K40 Lobby Shibu Market Branch
+[34m[SCHEDULER] K40 Lobby Shibu Market Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Rangpur Branch (172.19.141.231:4370)
+[32m[CONNECTED] K40 Lobby Rangpur Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:15]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Gazipur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:15]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Gazipur Branch
+[31m[DISCONNECTED] K40 Lobby Gazipur Branch
+[34m[SCHEDULER] K40 Lobby Gazipur Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Jessore Branch (172.19.142.231:4370)
+[32m[CONNECTED] K40 Lobby Jessore Branch
+[36m[INFO] Retrieved 6726 logs from K40 Lobby Bijoynagar Branch in 2.06 seconds
+[36m[INFO] Retrieved 4959 logs from K40 Lobby Narayangonj Branch in 1.72 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:15]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Mirpur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:15]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Mirpur Branch
+[31m[DISCONNECTED] K40 Lobby Mirpur Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Takerhat Branch (172.19.143.231:4370)
+[34m[SCHEDULER] K40 Lobby Mirpur Branch: 0 new logs
+[32m[CONNECTED] K40 Lobby Takerhat Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:15]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Rajshahi Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:15]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Rajshahi Branch
+[31m[DISCONNECTED] K40 Lobby Rajshahi Branch
+[34m[SCHEDULER] K40 Lobby Rajshahi Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Nasirabad Branch (172.19.144.231:4370)
+[32m[CONNECTED] K40 Lobby Nasirabad Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:16]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Narayangonj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:16]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Narayangonj Branch
+[31m[DISCONNECTED] K40 Lobby Narayangonj Branch
+[34m[SCHEDULER] K40 Lobby Narayangonj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Bhomra Branch (172.19.145.231:4370)
+[32m[CONNECTED] K40 Lobby Bhomra Branch
+[32m[CONNECTED] K40 Lobby Baburhat Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:16]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Digraj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:16]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Digraj Branch
+[31m[DISCONNECTED] K40 Lobby Digraj Branch
+[34m[SCHEDULER] K40 Lobby Digraj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Morrelganj Branch (172.19.146.231:4370)
+[36m[INFO] Retrieved 5433 logs from K40 Lobby Rangpur Branch in 1.56 seconds
+[36m[INFO] Retrieved 2153 logs from K40 Lobby Takerhat Branch in 0.87 seconds
+[32m[CONNECTED] K40 Lobby Morrelganj Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:17]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Nababpur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:17]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Nababpur Branch
+[31m[DISCONNECTED] K40 Lobby Nababpur Branch
+[34m[SCHEDULER] K40 Lobby Nababpur Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Hasnabad Branch (172.19.147.231:4370)
+[32m[CONNECTED] K40 Lobby Hasnabad Branch
+[36m[INFO] Retrieved 2877 logs from K40 Lobby Nasirabad Branch in 1.08 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:17]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Fatikchari Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:17]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Fatikchari Branch
+[36m[INFO] Retrieved 7920 logs from K40 Lobby Jessore Branch in 2.11 seconds
+[31m[DISCONNECTED] K40 Lobby Fatikchari Branch
+[34m[SCHEDULER] K40 Lobby Fatikchari Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Kharabad Branch (172.19.148.231:4370)
+[36m[INFO] Retrieved 2675 logs from K40 Lobby Morrelganj Branch in 1.02 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:17]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Jessore Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:17]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Jessore Branch
+[31m[DISCONNECTED] K40 Lobby Jessore Branch
+[34m[SCHEDULER] K40 Lobby Jessore Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Chalakchar Branch (172.19.149.231:4370)
+[32m[CONNECTED] K40 Lobby Chalakchar Branch
+[36m[INFO] Retrieved 1951 logs from K40 Lobby Hasnabad Branch in 0.89 seconds
+[36m[INFO] Retrieved 5221 logs from K40 Lobby Bhomra Branch in 1.80 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:18]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bijoynagar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:18]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bijoynagar Branch
+[31m[DISCONNECTED] K40 Lobby Bijoynagar Branch
+[34m[SCHEDULER] K40 Lobby Bijoynagar Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Panthapath Branch (172.19.150.231:4370)
+[32m[CONNECTED] K40 Lobby Panthapath Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:18]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bhomra Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:18]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bhomra Branch
+[31m[DISCONNECTED] K40 Lobby Bhomra Branch
+[34m[SCHEDULER] K40 Lobby Bhomra Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Mouchak Branch (172.19.151.231:4370)
+[32m[CONNECTED] K40 Lobby Kharabad Branch
+[32m[CONNECTED] K40 Lobby Mouchak Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:18]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Nasirabad Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:18]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Nasirabad Branch
+[31m[DISCONNECTED] K40 Lobby Nasirabad Branch
+[34m[SCHEDULER] K40 Lobby Nasirabad Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Maligram Branch (172.19.152.231:4370)
+[36m[INFO] Retrieved 2064 logs from K40 Lobby Chalakchar Branch in 0.92 seconds
+[32m[CONNECTED] K40 Lobby Maligram Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:19]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Hasnabad Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:19]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Hasnabad Branch
+[31m[DISCONNECTED] K40 Lobby Hasnabad Branch
+[34m[SCHEDULER] K40 Lobby Hasnabad Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Chittagong EPZ Branch (172.19.153.231:4370)
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:19]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Morrelganj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:19]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Morrelganj Branch
+[36m[INFO] Retrieved 886 logs from K40 Lobby Maligram Branch in 0.54 seconds
+[31m[DISCONNECTED] K40 Lobby Morrelganj Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Dinajpur Branch (172.19.154.231:4370)
+[34m[SCHEDULER] K40 Lobby Morrelganj Branch: 0 new logs
+[32m[CONNECTED] K40 Lobby Dinajpur Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:19]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Takerhat Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:19]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Takerhat Branch
+[36m[INFO] Retrieved 4671 logs from K40 Lobby Panthapath Branch in 1.48 seconds
+[36m[INFO] Retrieved 3482 logs from K40 Lobby Mouchak Branch in 1.19 seconds
+[31m[DISCONNECTED] K40 Lobby Takerhat Branch
+[34m[SCHEDULER] K40 Lobby Takerhat Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby KDA Branch (172.19.155.231:4370)
+[32m[CONNECTED] K40 Lobby KDA Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:20]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Panthapath Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:20]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Panthapath Branch
+[31m[DISCONNECTED] K40 Lobby Panthapath Branch
+[34m[SCHEDULER] K40 Lobby Panthapath Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Nator Branch (172.19.156.231:4370)
+[32m[CONNECTED] K40 Lobby Nator Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:20]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Rangpur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:20]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Rangpur Branch
+[31m[DISCONNECTED] K40 Lobby Rangpur Branch
+[34m[SCHEDULER] K40 Lobby Rangpur Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Feni Branch (172.19.157.231:4370)
+[32m[CONNECTED] K40 Lobby Feni Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:21]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Mouchak Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:21]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Mouchak Branch
+[36m[INFO] Retrieved 3613 logs from K40 Lobby Dinajpur Branch in 1.36 seconds
+[36m[INFO] Retrieved 2925 logs from K40 Lobby KDA Branch in 1.05 seconds
+[31m[DISCONNECTED] K40 Lobby Mouchak Branch
+[34m[SCHEDULER] K40 Lobby Mouchak Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Kushtia Branch (172.19.158.231:4370)
+[36m[INFO] Retrieved 2295 logs from K40 Lobby Baburhat Branch in 4.18 seconds
+[32m[CONNECTED] K40 Lobby Kushtia Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:21]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Dinajpur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:21]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Dinajpur Branch
+[31m[DISCONNECTED] K40 Lobby Dinajpur Branch
+[34m[SCHEDULER] K40 Lobby Dinajpur Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Labanchora Branch (172.19.159.231:4370)
+[36m[INFO] Retrieved 2666 logs from K40 Lobby Feni Branch in 0.90 seconds
+[32m[CONNECTED] K40 Lobby Labanchora Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:21]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby KDA Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:21]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby KDA Branch
+[36m[INFO] Retrieved 4727 logs from K40 Lobby Nator Branch in 1.52 seconds
+[31m[DISCONNECTED] K40 Lobby KDA Branch
+[34m[SCHEDULER] K40 Lobby KDA Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Khatunganj Branch (172.19.160.231:4370)
+[32m[CONNECTED] K40 Lobby Khatunganj Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:22]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Feni Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:22]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Feni Branch
+[31m[DISCONNECTED] K40 Lobby Feni Branch
+[34m[SCHEDULER] K40 Lobby Feni Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Pragati Sharani Branch (172.19.161.231:4370)
+[32m[CONNECTED] K40 Lobby Pragati Sharani Branch
+[36m[INFO] Retrieved 4657 logs from K40 Lobby Kushtia Branch in 1.39 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:22]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Nator Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:22]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Nator Branch
+[31m[DISCONNECTED] K40 Lobby Nator Branch
+[34m[SCHEDULER] K40 Lobby Nator Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Amin Bazar Branch (172.19.162.231:4370)
+[32m[CONNECTED] K40 Lobby Amin Bazar Branch
+[31m[ERROR] Polling K40 Lobby Chittagong EPZ Branch failed: can't reach device (ping 172.19.153.231)
+[34m[SCHEDULER] K40 Lobby Chittagong EPZ Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Banaripara Branch (172.19.163.231:4370)
+[36m[INFO] Retrieved 2201 logs from K40 Lobby Khatunganj Branch in 0.92 seconds
+[32m[CONNECTED] K40 Lobby Banaripara Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:23]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Kushtia Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:23]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Kushtia Branch
+[31m[DISCONNECTED] K40 Lobby Kushtia Branch
+[34m[SCHEDULER] K40 Lobby Kushtia Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Faltita Branch (172.19.164.231:4370)
+[32m[CONNECTED] K40 Lobby Faltita Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:23]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Khatunganj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:23]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Khatunganj Branch
+[31m[DISCONNECTED] K40 Lobby Khatunganj Branch
+[34m[SCHEDULER] K40 Lobby Khatunganj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby AddaBazar Branch (172.19.165.231:4370)
+[32m[CONNECTED] K40 Lobby AddaBazar Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:23]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Chalakchar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:23]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Chalakchar Branch
+[36m[INFO] Retrieved 1935 logs from K40 Lobby Pragati Sharani Branch in 1.25 seconds
+[31m[DISCONNECTED] K40 Lobby Chalakchar Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Jibannagar Branch (172.19.166.231:4370)
+[34m[SCHEDULER] K40 Lobby Chalakchar Branch: 0 new logs
+[36m[INFO] Retrieved 3058 logs from K40 Lobby Amin Bazar Branch in 1.03 seconds
+[32m[CONNECTED] K40 Lobby Jibannagar Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:24]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Pragati Sharani Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:24]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Pragati Sharani Branch
+[31m[DISCONNECTED] K40 Lobby Pragati Sharani Branch
+[34m[SCHEDULER] K40 Lobby Pragati Sharani Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Abdullahpur Branch (172.19.167.231:4370)
+[32m[CONNECTED] K40 Lobby Abdullahpur Branch
+[36m[INFO] Retrieved 3085 logs from K40 Lobby Faltita Branch in 1.04 seconds
+[36m[INFO] Retrieved 2916 logs from K40 Lobby Banaripara Branch in 1.27 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:24]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Amin Bazar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:24]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Amin Bazar Branch
+[31m[DISCONNECTED] K40 Lobby Amin Bazar Branch
+[34m[SCHEDULER] K40 Lobby Amin Bazar Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Bhulta Branch (172.19.168.231:4370)
+[32m[CONNECTED] K40 Lobby Bhulta Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:24]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Faltita Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:24]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Faltita Branch
+[36m[INFO] Retrieved 2968 logs from K40 Lobby Jibannagar Branch in 1.00 seconds
+[31m[DISCONNECTED] K40 Lobby Faltita Branch
+[34m[SCHEDULER] K40 Lobby Faltita Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Myemensingh Branch (172.19.169.231:4370)
+[32m[CONNECTED] K40 Lobby Myemensingh Branch
+[36m[INFO] Retrieved 2591 logs from K40 Lobby Abdullahpur Branch in 0.97 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:25]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Jibannagar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:25]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Jibannagar Branch
+[31m[DISCONNECTED] K40 Lobby Jibannagar Branch
+[34m[SCHEDULER] K40 Lobby Jibannagar Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Birganj Branch (172.19.170.231:4370)
+[36m[INFO] Retrieved 2639 logs from K40 Lobby AddaBazar Branch in 1.84 seconds
+[32m[CONNECTED] K40 Lobby Birganj Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:25]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Abdullahpur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:25]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Abdullahpur Branch
+[36m[INFO] Retrieved 2795 logs from K40 Lobby Bhulta Branch in 0.96 seconds
+[31m[DISCONNECTED] K40 Lobby Abdullahpur Branch
+[34m[SCHEDULER] K40 Lobby Abdullahpur Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Nazipur Branch (172.19.171.231:4370)
+[32m[CONNECTED] K40 Lobby Nazipur Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:25]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby AddaBazar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:25]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby AddaBazar Branch
+[31m[DISCONNECTED] K40 Lobby AddaBazar Branch
+[34m[SCHEDULER] K40 Lobby AddaBazar Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Mehendiganj Branch (172.19.172.231:4370)
+[36m[INFO] Retrieved 2411 logs from K40 Lobby Myemensingh Branch in 0.92 seconds
+[32m[CONNECTED] K40 Lobby Mehendiganj Branch
+[36m[INFO] Retrieved 1627 logs from K40 Lobby Birganj Branch in 0.70 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:26]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Banaripara Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:26]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Banaripara Branch
+[31m[DISCONNECTED] K40 Lobby Banaripara Branch
+[34m[SCHEDULER] K40 Lobby Banaripara Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Cumilla Branch (172.19.173.231:4370)
+[32m[CONNECTED] K40 Lobby Cumilla Branch
+[34m    [NEW ✅] RID 1627, User=879, Time=2025-08-24 16:44:37
+[32m    [ACCESS ✅] USERID=879 CHECKTIME=2025-08-24 16:44:37
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:26]
+Insert attempts: 1,
+successful: 1 records
+into Access DB in 0.00s
+from K40 Lobby Birganj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:26]
+Insert attempts: 1,
+committed: 1 records
+into Flask DB in 0.00s
+from K40 Lobby Birganj Branch
+[31m[DISCONNECTED] K40 Lobby Birganj Branch
+[34m[SCHEDULER] K40 Lobby Birganj Branch: 1 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Bhola Branch (172.19.174.231:4370)
+[32m[CONNECTED] K40 Lobby Bhola Branch
+[36m[INFO] Retrieved 3577 logs from K40 Lobby Nazipur Branch in 1.20 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:27]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bhulta Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:27]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bhulta Branch
+[31m[DISCONNECTED] K40 Lobby Bhulta Branch
+[34m[SCHEDULER] K40 Lobby Bhulta Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Bashundhara Branch (172.19.175.231:4370)
+[36m[INFO] Retrieved 1762 logs from K40 Lobby Mehendiganj Branch in 1.04 seconds
+[32m[CONNECTED] K40 Lobby Bashundhara Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:27]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Nazipur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:27]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Nazipur Branch
+[31m[DISCONNECTED] K40 Lobby Nazipur Branch
+[34m[SCHEDULER] K40 Lobby Nazipur Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Gopalgonj Branch (172.19.176.231:4370)
+[32m[CONNECTED] K40 Lobby Gopalgonj Branch
+[36m[INFO] Retrieved 6705 logs from K40 Lobby Labanchora Branch in 5.72 seconds
+[36m[INFO] Retrieved 3604 logs from K40 Lobby Cumilla Branch in 1.25 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:27]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Mehendiganj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:27]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Mehendiganj Branch
+[31m[DISCONNECTED] K40 Lobby Mehendiganj Branch
+[34m[SCHEDULER] K40 Lobby Mehendiganj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Jatrabari Sub Branch (172.19.177.231:4370)
+[36m[INFO] Retrieved 2671 logs from K40 Lobby Bhola Branch in 1.02 seconds
+[32m[CONNECTED] K40 Lobby Jatrabari Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:28]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Myemensingh Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:28]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Myemensingh Branch
+[31m[DISCONNECTED] K40 Lobby Myemensingh Branch
+[34m[SCHEDULER] K40 Lobby Myemensingh Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby BabuBazar Sub Branch (172.19.178.231:4370)
+[32m[CONNECTED] K40 Lobby BabuBazar Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:28]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Cumilla Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:28]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Cumilla Branch
+[31m[DISCONNECTED] K40 Lobby Cumilla Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Rayenda Bazar Sub Branch (172.19.179.231:4370)
+[34m[SCHEDULER] K40 Lobby Cumilla Branch: 0 new logs
+[32m[CONNECTED] K40 Lobby Rayenda Bazar Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:28]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bhola Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:28]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bhola Branch
+[31m[DISCONNECTED] K40 Lobby Bhola Branch
+[34m[SCHEDULER] K40 Lobby Bhola Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Rupatali Sub Branch (172.19.180.231:4370)
+[36m[INFO] Retrieved 1973 logs from K40 Lobby Gopalgonj Branch in 1.30 seconds
+[32m[CONNECTED] K40 Lobby Rupatali Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:29]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Maligram Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:29]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Maligram Branch
+[31m[DISCONNECTED] K40 Lobby Maligram Branch
+[34m[SCHEDULER] K40 Lobby Maligram Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Ramgonj Branch (172.19.181.231:4370)
+[36m[INFO] Retrieved 6418 logs from K40 Lobby Bashundhara Branch in 1.89 seconds
+[36m[INFO] Retrieved 1161 logs from K40 Lobby Rayenda Bazar Sub Branch in 0.54 seconds
+[32m[CONNECTED] K40 Lobby Ramgonj Branch
+[34m    [NEW ✅] RID 1972, User=1311, Time=2025-08-24 17:33:32
+[34m    [NEW ✅] RID 1973, User=1619, Time=2025-08-24 17:38:50
+[32m    [ACCESS ✅] USERID=1311 CHECKTIME=2025-08-24 17:33:32
+[32m    [ACCESS ✅] USERID=1619 CHECKTIME=2025-08-24 17:38:50
+[36m[INFO] Retrieved 4341 logs from K40 Lobby Jatrabari Sub Branch in 1.53 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:29]
+Insert attempts: 2,
+successful: 2 records
+into Access DB in 0.00s
+from K40 Lobby Gopalgonj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:29]
+Insert attempts: 2,
+committed: 2 records
+into Flask DB in 0.01s
+from K40 Lobby Gopalgonj Branch
+[31m[DISCONNECTED] K40 Lobby Gopalgonj Branch
+[34m[SCHEDULER] K40 Lobby Gopalgonj Branch: 2 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Kaligonj Branch (172.19.182.231:4370)
+[32m[CONNECTED] K40 Lobby Kaligonj Branch
+[34m    [NEW ✅] RID 4337, User=1221, Time=2025-08-24 15:49:14
+[34m    [NEW ✅] RID 4338, User=1221, Time=2025-08-24 16:10:37
+[34m    [NEW ✅] RID 4339, User=1591, Time=2025-08-24 16:26:24
+[34m    [NEW ✅] RID 4340, User=1591, Time=2025-08-24 16:26:38
+[34m    [NEW ✅] RID 4341, User=1221, Time=2025-08-24 17:35:40
+[32m    [ACCESS ✅] USERID=1221 CHECKTIME=2025-08-24 15:49:14
+[32m    [ACCESS ✅] USERID=1221 CHECKTIME=2025-08-24 16:10:37
+[32m    [ACCESS ✅] USERID=1591 CHECKTIME=2025-08-24 16:26:24
+[32m    [ACCESS ✅] USERID=1591 CHECKTIME=2025-08-24 16:26:38
+[32m    [ACCESS ✅] USERID=1221 CHECKTIME=2025-08-24 17:35:40
+[36m[INFO] Retrieved 4906 logs from K40 Lobby BabuBazar Sub Branch in 1.56 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:29]
+Insert attempts: 5,
+successful: 5 records
+into Access DB in 0.00s
+from K40 Lobby Jatrabari Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:29]
+Insert attempts: 5,
+committed: 5 records
+into Flask DB in 0.01s
+from K40 Lobby Jatrabari Sub Branch
+[31m[DISCONNECTED] K40 Lobby Jatrabari Sub Branch
+[34m[SCHEDULER] K40 Lobby Jatrabari Sub Branch: 5 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Palashbari Branch (172.19.183.231:4370)
+[32m[CONNECTED] K40 Lobby Palashbari Branch
+[36m[INFO] Retrieved 1449 logs from K40 Lobby Rupatali Sub Branch in 1.10 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:30]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby BabuBazar Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:30]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby BabuBazar Sub Branch
+[31m[DISCONNECTED] K40 Lobby BabuBazar Sub Branch
+[34m[SCHEDULER] K40 Lobby BabuBazar Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Mohakhali Branch (172.19.184.231:4370)
+[32m[CONNECTED] K40 Lobby Mohakhali Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:30]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Labanchora Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:30]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Labanchora Branch
+[36m[INFO] Retrieved 1105 logs from K40 Lobby Palashbari Branch in 0.64 seconds
+[36m[INFO] Retrieved 3328 logs from K40 Lobby Kaligonj Branch in 1.24 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:31]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Baburhat Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:31]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Baburhat Branch
+[31m[DISCONNECTED] K40 Lobby Labanchora Branch
+[34m[SCHEDULER] K40 Lobby Labanchora Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Bhandaria Branch (172.19.185.231:4370)
+[31m[DISCONNECTED] K40 Lobby Baburhat Branch
+[34m[SCHEDULER] K40 Lobby Baburhat Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Lohagara Branch (172.19.186.231:4370)
+[32m[CONNECTED] K40 Lobby Bhandaria Branch
+[32m[CONNECTED] K40 Lobby Lohagara Branch
+[36m[INFO] Retrieved 3276 logs from K40 Lobby Ramgonj Branch in 1.97 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:31]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Kaligonj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:31]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Kaligonj Branch
+[31m[DISCONNECTED] K40 Lobby Kaligonj Branch
+[34m[SCHEDULER] K40 Lobby Kaligonj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Benapole Branch (172.19.187.231:4370)
+[32m[CONNECTED] K40 Lobby Benapole Branch
+[36m[INFO] Retrieved 3585 logs from K40 Lobby Mohakhali Branch in 1.28 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:31]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Palashbari Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:31]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Palashbari Branch
+[31m[DISCONNECTED] K40 Lobby Palashbari Branch
+[34m[SCHEDULER] K40 Lobby Palashbari Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Panchar Sub Branch (172.19.188.231:4370)
+[36m[INFO] Retrieved 1339 logs from K40 Lobby Lohagara Branch in 0.69 seconds
+[32m[CONNECTED] K40 Lobby Panchar Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:32]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Mohakhali Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:32]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Mohakhali Branch
+[31m[DISCONNECTED] K40 Lobby Mohakhali Branch
+[34m[SCHEDULER] K40 Lobby Mohakhali Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Muladi Sub Branch (172.19.189.231:4370)
+[32m[CONNECTED] K40 Lobby Muladi Sub Branch
+[36m[INFO] Retrieved 2820 logs from K40 Lobby Bhandaria Branch in 1.13 seconds
+[36m[INFO] Retrieved 2071 logs from K40 Lobby Benapole Branch in 0.79 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:32]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bashundhara Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:32]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bashundhara Branch
+[31m[DISCONNECTED] K40 Lobby Bashundhara Branch
+[34m[SCHEDULER] K40 Lobby Bashundhara Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Hatirpool Sub Branch (172.19.190.231:4370)
+[32m[CONNECTED] K40 Lobby Hatirpool Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:32]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Benapole Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:32]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Benapole Branch
+[31m[DISCONNECTED] K40 Lobby Benapole Branch
+[34m[SCHEDULER] K40 Lobby Benapole Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Yousuf Market Sub Branch (172.19.191.231:4370)
+[32m[CONNECTED] K40 Lobby Yousuf Market Sub Branch
+[36m[INFO] Retrieved 1720 logs from K40 Lobby Panchar Sub Branch in 0.92 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:33]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Rayenda Bazar Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:33]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Rayenda Bazar Sub Branch
+[31m[DISCONNECTED] K40 Lobby Rayenda Bazar Sub Branch
+[34m[SCHEDULER] K40 Lobby Rayenda Bazar Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Laxmipur Sub Branch (172.19.192.231:4370)
+[36m[INFO] Retrieved 2408 logs from K40 Lobby Muladi Sub Branch in 0.87 seconds
+[32m[CONNECTED] K40 Lobby Laxmipur Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:33]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Panchar Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:33]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Panchar Sub Branch
+[31m[DISCONNECTED] K40 Lobby Panchar Sub Branch
+[34m[SCHEDULER] K40 Lobby Panchar Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Dupchanchia Sub Branch (172.19.193.231:4370)
+[32m[CONNECTED] K40 Lobby Dupchanchia Sub Branch
+[36m[INFO] Retrieved 1245 logs from K40 Lobby Yousuf Market Sub Branch in 0.63 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:33]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bhandaria Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:33]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bhandaria Branch
+[31m[DISCONNECTED] K40 Lobby Bhandaria Branch
+[36m[INFO] Retrieved 3258 logs from K40 Lobby Hatirpool Sub Branch in 1.19 seconds
+[33m
+[DEBUG] Connecting to K40 Lobby Khan Jahan Ali Mazar Sub Branch (172.19.194.231:4370)
+[34m[SCHEDULER] K40 Lobby Bhandaria Branch: 0 new logs
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:34]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Rupatali Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:34]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Rupatali Sub Branch
+[31m[DISCONNECTED] K40 Lobby Rupatali Sub Branch
+[34m[SCHEDULER] K40 Lobby Rupatali Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Gopalpur Sub Branch (172.19.195.231:4370)
+[36m[INFO] Retrieved 1389 logs from K40 Lobby Dupchanchia Sub Branch in 0.69 seconds
+[32m[CONNECTED] K40 Lobby Gopalpur Sub Branch
+[36m[INFO] Retrieved 1864 logs from K40 Lobby Laxmipur Sub Branch in 1.14 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:34]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Ramgonj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:34]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Ramgonj Branch
+[31m[DISCONNECTED] K40 Lobby Ramgonj Branch
+[34m[SCHEDULER] K40 Lobby Ramgonj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Thermax Sub Branch (172.19.196.231:4370)
+[32m[CONNECTED] K40 Lobby Thermax Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:34]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Lohagara Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:34]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Lohagara Branch
+[36m[INFO] Retrieved 639 logs from K40 Lobby Gopalpur Sub Branch in 0.51 seconds
+[31m[DISCONNECTED] K40 Lobby Lohagara Branch
+[34m[SCHEDULER] K40 Lobby Lohagara Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Trunkroad Sub Branch (172.19.197.231:4370)
+[32m[CONNECTED] K40 Lobby Trunkroad Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:35]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Laxmipur Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:35]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Laxmipur Sub Branch
+[31m[DISCONNECTED] K40 Lobby Laxmipur Sub Branch
+[34m[SCHEDULER] K40 Lobby Laxmipur Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Pirganj Sub Branch (172.19.198.231:4370)
+[32m[CONNECTED] K40 Lobby Pirganj Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:35]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Yousuf Market Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:35]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Yousuf Market Sub Branch
+[31m[DISCONNECTED] K40 Lobby Yousuf Market Sub Branch
+[34m[SCHEDULER] K40 Lobby Yousuf Market Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Barua Sub Branch (172.19.199.231:4370)
+[32m[CONNECTED] K40 Lobby Barua Sub Branch
+[36m[INFO] Retrieved 1716 logs from K40 Lobby Trunkroad Sub Branch in 0.71 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:35]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Gopalpur Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:35]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Gopalpur Sub Branch
+[31m[DISCONNECTED] K40 Lobby Gopalpur Sub Branch
+[34m[SCHEDULER] K40 Lobby Gopalpur Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Satkhira Branch (172.19.200.231:4370)
+[32m[CONNECTED] K40 Lobby Satkhira Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:36]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Hatirpool Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:36]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Hatirpool Sub Branch
+[31m[DISCONNECTED] K40 Lobby Hatirpool Sub Branch
+[34m[SCHEDULER] K40 Lobby Hatirpool Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Bagerhat Sub Branch (172.19.201.231:4370)
+[32m[CONNECTED] K40 Lobby Bagerhat Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:36]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Trunkroad Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:36]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Trunkroad Sub Branch
+[31m[DISCONNECTED] K40 Lobby Trunkroad Sub Branch
+[34m[SCHEDULER] K40 Lobby Trunkroad Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Dania Sub Branch (172.19.202.231:4370)
+[36m[INFO] Retrieved 2955 logs from K40 Lobby Thermax Sub Branch in 1.77 seconds
+[36m[INFO] Retrieved 2780 logs from K40 Lobby Barua Sub Branch in 0.96 seconds
+[32m[CONNECTED] K40 Lobby Dania Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:36]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Dupchanchia Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:36]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Dupchanchia Sub Branch
+[31m[DISCONNECTED] K40 Lobby Dupchanchia Sub Branch
+[34m[SCHEDULER] K40 Lobby Dupchanchia Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Khatungonj Branch (172.19.203.231:4370)
+[36m[INFO] Retrieved 1677 logs from K40 Lobby Satkhira Branch in 0.86 seconds
+[32m[CONNECTED] K40 Lobby Khatungonj Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:37]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Thermax Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:37]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Thermax Sub Branch
+[31m[DISCONNECTED] K40 Lobby Thermax Sub Branch
+[34m[SCHEDULER] K40 Lobby Thermax Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Kalaroa Sub Branch (172.19.204.231:4370)
+[36m[INFO] Retrieved 2978 logs from K40 Lobby Bagerhat Sub Branch in 1.00 seconds
+[31m[ERROR] Polling K40 Lobby Khan Jahan Ali Mazar Sub Branch failed: can't reach device (ping 172.19.194.231)
+[33m
+[DEBUG] Connecting to K40 Lobby Mongla Sub Branch (172.19.205.231:4370)
+[34m[SCHEDULER] K40 Lobby Khan Jahan Ali Mazar Sub Branch: 0 new logs
+[32m[CONNECTED] K40 Lobby Kalaroa Sub Branch
+[34m    [NEW ✅] RID 2408, User=1309, Time=2025-08-24 17:33:53
+[32m    [ACCESS ✅] USERID=1309 CHECKTIME=2025-08-24 17:33:53
+[32m[CONNECTED] K40 Lobby Mongla Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:37]
+Insert attempts: 1,
+successful: 1 records
+into Access DB in 0.00s
+from K40 Lobby Muladi Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:37]
+Insert attempts: 1,
+committed: 1 records
+into Flask DB in 0.01s
+from K40 Lobby Muladi Sub Branch
+[31m[DISCONNECTED] K40 Lobby Muladi Sub Branch
+[34m[SCHEDULER] K40 Lobby Muladi Sub Branch: 1 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Tejgaon Link Road Branch (172.19.206.231:4370)
+[36m[INFO] Retrieved 1329 logs from K40 Lobby Pirganj Sub Branch in 2.24 seconds
+[32m[CONNECTED] K40 Lobby Tejgaon Link Road Branch
+[36m[INFO] Retrieved 2303 logs from K40 Lobby Khatungonj Branch in 0.92 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:37]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bagerhat Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:37]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bagerhat Sub Branch
+[31m[DISCONNECTED] K40 Lobby Bagerhat Sub Branch
+[34m[SCHEDULER] K40 Lobby Bagerhat Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Indira Road Sub Branch (172.19.207.231:4370)
+[32m[CONNECTED] K40 Lobby Indira Road Sub Branch
+[36m[INFO] Retrieved 1104 logs from K40 Lobby Mongla Sub Branch in 0.51 seconds
+[36m[INFO] Retrieved 2135 logs from K40 Lobby Kalaroa Sub Branch in 0.78 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:38]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Khatungonj Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:38]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Khatungonj Branch
+[31m[DISCONNECTED] K40 Lobby Khatungonj Branch
+[34m[SCHEDULER] K40 Lobby Khatungonj Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Fakirhat sub Branch (172.19.208.231:4370)
+[32m[CONNECTED] K40 Lobby Fakirhat sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:38]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Barua Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:38]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Barua Sub Branch
+[31m[DISCONNECTED] K40 Lobby Barua Sub Branch
+[34m[SCHEDULER] K40 Lobby Barua Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Tanbazar Branch (172.19.209.231:4370)
+[32m[CONNECTED] K40 Lobby Tanbazar Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:39]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Kalaroa Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:39]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Kalaroa Sub Branch
+[31m[DISCONNECTED] K40 Lobby Kalaroa Sub Branch
+[34m[SCHEDULER] K40 Lobby Kalaroa Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Narshingdi Branch (172.19.210.231:4370)
+[32m[CONNECTED] K40 Lobby Narshingdi Branch
+[36m[INFO] Retrieved 1838 logs from K40 Lobby Fakirhat sub Branch in 0.79 seconds
+[36m[INFO] Retrieved 3772 logs from K40 Lobby Indira Road Sub Branch in 1.27 seconds
+[36m[INFO] Retrieved 5145 logs from K40 Lobby Tejgaon Link Road Branch in 1.65 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:39]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Mongla Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:39]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Mongla Sub Branch
+[31m[DISCONNECTED] K40 Lobby Mongla Sub Branch
+[34m[SCHEDULER] K40 Lobby Mongla Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Darus Salam Branch (172.19.211.231:4370)
+[32m[CONNECTED] K40 Lobby Darus Salam Branch
+[36m[INFO] Retrieved 1672 logs from K40 Lobby Tanbazar Branch in 0.86 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:39]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Tejgaon Link Road Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:39]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Tejgaon Link Road Branch
+[31m[DISCONNECTED] K40 Lobby Tejgaon Link Road Branch
+[34m[SCHEDULER] K40 Lobby Tejgaon Link Road Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Cox Bazar Branch (172.19.212.231:4370)
+[32m[CONNECTED] K40 Lobby Cox Bazar Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:40]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Indira Road Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:40]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Indira Road Sub Branch
+[31m[DISCONNECTED] K40 Lobby Indira Road Sub Branch
+[34m[SCHEDULER] K40 Lobby Indira Road Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Bhairab Branch (172.19.213.231:4370)
+[32m[CONNECTED] K40 Lobby Bhairab Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:40]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Fakirhat sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:40]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Fakirhat sub Branch
+[31m[DISCONNECTED] K40 Lobby Fakirhat sub Branch
+[34m[SCHEDULER] K40 Lobby Fakirhat sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Pirojpur Sub Branch (172.19.214.231:4370)
+[36m[INFO] Retrieved 4183 logs from K40 Lobby Narshingdi Branch in 1.36 seconds
+[32m[CONNECTED] K40 Lobby Pirojpur Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:40]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Tanbazar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:40]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Tanbazar Branch
+[31m[DISCONNECTED] K40 Lobby Tanbazar Branch
+[34m[SCHEDULER] K40 Lobby Tanbazar Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Shahi Eidgah Sub Branch (172.19.215.231:4370)
+[32m[CONNECTED] K40 Lobby Shahi Eidgah Sub Branch
+[36m[INFO] Retrieved 17662 logs from K40 Lobby Dania Sub Branch in 4.51 seconds
+[36m[INFO] Retrieved 3335 logs from K40 Lobby Cox Bazar Branch in 1.20 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:41]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Pirganj Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:41]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Pirganj Sub Branch
+[36m[INFO] Retrieved 5931 logs from K40 Lobby Darus Salam Branch in 1.76 seconds
+[31m[DISCONNECTED] K40 Lobby Pirganj Sub Branch
+[34m[SCHEDULER] K40 Lobby Pirganj Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Charfeshon Branch (172.19.216.231:4370)
+[32m[CONNECTED] K40 Lobby Charfeshon Branch
+[34m    [NEW ✅] RID 17655, User=962, Time=2025-08-24 15:19:22
+[34m    [NEW ✅] RID 17656, User=962, Time=2025-08-24 15:29:01
+[34m    [NEW ✅] RID 17657, User=962, Time=2025-08-24 15:50:36
+[34m    [NEW ✅] RID 17658, User=962, Time=2025-08-24 16:05:24
+[34m    [NEW ✅] RID 17659, User=962, Time=2025-08-24 16:14:59
+[34m    [NEW ✅] RID 17660, User=1115, Time=2025-08-24 16:41:14
+[34m    [NEW ✅] RID 17661, User=1115, Time=2025-08-24 16:45:42
+[34m    [NEW ✅] RID 17662, User=1115, Time=2025-08-24 17:40:34
+[32m    [ACCESS ✅] USERID=962 CHECKTIME=2025-08-24 15:19:22
+[32m    [ACCESS ✅] USERID=962 CHECKTIME=2025-08-24 15:29:01
+[32m    [ACCESS ✅] USERID=962 CHECKTIME=2025-08-24 15:50:36
+[32m    [ACCESS ✅] USERID=962 CHECKTIME=2025-08-24 16:05:24
+[32m    [ACCESS ✅] USERID=962 CHECKTIME=2025-08-24 16:14:59
+[32m    [ACCESS ✅] USERID=1115 CHECKTIME=2025-08-24 16:41:14
+[32m    [ACCESS ✅] USERID=1115 CHECKTIME=2025-08-24 16:45:42
+[32m    [ACCESS ✅] USERID=1115 CHECKTIME=2025-08-24 17:40:34
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:41]
+Insert attempts: 8,
+successful: 8 records
+into Access DB in 0.01s
+from K40 Lobby Dania Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:41]
+Insert attempts: 8,
+committed: 8 records
+into Flask DB in 0.01s
+from K40 Lobby Dania Sub Branch
+[36m[INFO] Retrieved 2845 logs from K40 Lobby Pirojpur Sub Branch in 1.11 seconds
+[31m[DISCONNECTED] K40 Lobby Dania Sub Branch
+[34m[SCHEDULER] K40 Lobby Dania Sub Branch: 8 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Hossainpur Branch (172.19.217.231:4370)
+[36m[INFO] Retrieved 2084 logs from K40 Lobby Shahi Eidgah Sub Branch in 0.91 seconds
+[32m[CONNECTED] K40 Lobby Hossainpur Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:42]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Narshingdi Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:42]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Narshingdi Branch
+[36m[INFO] Retrieved 3184 logs from K40 Lobby Bhairab Branch in 1.72 seconds
+[31m[DISCONNECTED] K40 Lobby Narshingdi Branch
+[33m
+[DEBUG] Connecting to K40 Lobby Sherpur Sub Branch (172.19.218.231:4370)
+[34m[SCHEDULER] K40 Lobby Narshingdi Branch: 0 new logs
+[32m[CONNECTED] K40 Lobby Sherpur Sub Branch
+[36m[INFO] Retrieved 1704 logs from K40 Lobby Charfeshon Branch in 0.79 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:42]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Cox Bazar Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:42]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Cox Bazar Branch
+[31m[DISCONNECTED] K40 Lobby Cox Bazar Branch
+[34m[SCHEDULER] K40 Lobby Cox Bazar Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Boteswor SUB Branch (172.19.219.231:4370)
+[32m[CONNECTED] K40 Lobby Boteswor SUB Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:42]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Shahi Eidgah Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:42]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Shahi Eidgah Sub Branch
+[31m[DISCONNECTED] K40 Lobby Shahi Eidgah Sub Branch
+[34m[SCHEDULER] K40 Lobby Shahi Eidgah Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Aftabganj Sub Branch (172.19.220.231:4370)
+[36m[INFO] Retrieved 2196 logs from K40 Lobby Hossainpur Branch in 1.04 seconds
+[32m[CONNECTED] K40 Lobby Aftabganj Sub Branch
+[36m[INFO] Retrieved 1679 logs from K40 Lobby Sherpur Sub Branch in 0.80 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:43]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Pirojpur Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:43]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Pirojpur Sub Branch
+[31m[DISCONNECTED] K40 Lobby Pirojpur Sub Branch
+[34m[SCHEDULER] K40 Lobby Pirojpur Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Padua Bazar Sub Branch (172.19.221.231:4370)
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:43]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Sherpur Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:43]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Sherpur Sub Branch
+[31m[DISCONNECTED] K40 Lobby Sherpur Sub Branch
+[34m[SCHEDULER] K40 Lobby Sherpur Sub Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Tangail Branch  (172.19.222.231:4370)
+[32m[CONNECTED] K40 Lobby Padua Bazar Sub Branch
+[32m[CONNECTED] K40 Lobby Tangail Branch 
+[36m[INFO] Retrieved 1037 logs from K40 Lobby Aftabganj Sub Branch in 0.60 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:43]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Satkhira Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:43]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Satkhira Branch
+[31m[DISCONNECTED] K40 Lobby Satkhira Branch
+[34m[SCHEDULER] K40 Lobby Satkhira Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Birampur Sub Branch (172.19.223.231:4370)
+[32m[CONNECTED] K40 Lobby Birampur Sub Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:44]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Bhairab Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:44]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Bhairab Branch
+[36m[INFO] Retrieved 3813 logs from K40 Lobby Kharabad Branch in 25.22 seconds
+[31m[DISCONNECTED] K40 Lobby Bhairab Branch
+[34m[SCHEDULER] K40 Lobby Bhairab Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Mirpur Vault Room Branch (172.19.133.231:4370)
+[36m[INFO] Retrieved 1458 logs from K40 Lobby Tangail Branch  in 0.69 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:44]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Darus Salam Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:44]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Darus Salam Branch
+[31m[DISCONNECTED] K40 Lobby Darus Salam Branch
+[34m[SCHEDULER] K40 Lobby Darus Salam Branch: 0 new logs
+[33m
+[DEBUG] Connecting to K40 Lobby Palashbari Branch (EXT) Branch (172.19.183.232:4370)
+[36m[INFO] Retrieved 1546 logs from K40 Lobby Birampur Sub Branch in 0.72 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:44]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Hossainpur Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:44]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Hossainpur Branch
+[31m[DISCONNECTED] K40 Lobby Hossainpur Branch
+[34m[SCHEDULER] K40 Lobby Hossainpur Branch: 0 new logs
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:44]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Tangail Branch 
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:44]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Tangail Branch 
+[36m[INFO] Retrieved 1217 logs from K40 Lobby Boteswor SUB Branch in 2.04 seconds
+[31m[DISCONNECTED] K40 Lobby Tangail Branch 
+[34m[SCHEDULER] K40 Lobby Tangail Branch : 0 new logs
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:45]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Charfeshon Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:45]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Charfeshon Branch
+[31m[DISCONNECTED] K40 Lobby Charfeshon Branch
+[34m[SCHEDULER] K40 Lobby Charfeshon Branch: 0 new logs
+[34m    [NEW ✅] RID 3813, User=439, Time=2025-08-24 15:24:14
+[32m    [ACCESS ✅] USERID=439 CHECKTIME=2025-08-24 15:24:14
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:45]
+Insert attempts: 1,
+successful: 1 records
+into Access DB in 0.03s
+from K40 Lobby Kharabad Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:45]
+Insert attempts: 1,
+committed: 1 records
+into Flask DB in 0.00s
+from K40 Lobby Kharabad Branch
+[36m[INFO] Retrieved 1483 logs from K40 Lobby Padua Bazar Sub Branch in 2.18 seconds
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:46]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Aftabganj Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:46]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Aftabganj Sub Branch
+[31m[DISCONNECTED] K40 Lobby Aftabganj Sub Branch
+[34m[SCHEDULER] K40 Lobby Aftabganj Sub Branch: 0 new logs
+[31m[DISCONNECTED] K40 Lobby Kharabad Branch
+[34m[SCHEDULER] K40 Lobby Kharabad Branch: 1 new logs
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:46]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Padua Bazar Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:46]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Padua Bazar Sub Branch
+[31m[DISCONNECTED] K40 Lobby Padua Bazar Sub Branch
+[34m[SCHEDULER] K40 Lobby Padua Bazar Sub Branch: 0 new logs
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:46]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Boteswor SUB Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:46]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Boteswor SUB Branch
+[35m[ACCESS INSERT TIME:2025-08-24 17:44:47]
+Insert attempts: 0,
+successful: 0 records
+into Access DB in 0.00s
+from K40 Lobby Birampur Sub Branch
+[37m[FLASK DB INSERT TIME:2025-08-24 17:44:47]
+Insert attempts: 0,
+committed: 0 records
+into Flask DB in 0.00s
+from K40 Lobby Birampur Sub Branch
+[31m[DISCONNECTED] K40 Lobby Birampur Sub Branch
+[34m[SCHEDULER] K40 Lobby Birampur Sub Branch: 0 new logs
+[31m[DISCONNECTED] K40 Lobby Boteswor SUB Branch
+[34m[SCHEDULER] K40 Lobby Boteswor SUB Branch: 0 new logs
+[31m[ERROR] Polling K40 Lobby Palashbari Branch (EXT) Branch failed: can't reach device (ping 172.19.183.232)
+[34m[SCHEDULER] K40 Lobby Palashbari Branch (EXT) Branch: 0 new logs
+[31m[ERROR] Polling K40 Lobby Mirpur Vault Room Branch failed: timed out
+[34m[SCHEDULER] K40 Lobby Mirpur Vault Room Branch: 0 new logs
+[36m[SCHEDULER] Completed polling 123 devices. Total new logs: 19. Run time: 63.02s
+
+RUN_SUMMARY_JSON: {"start": "2025-08-24T17:43:58.857600", "end": "2025-08-24T17:45:04.238640", "devices_polled": 123, "new_logs": 19, "elapsed_seconds": 63.019, "exceptions": [], "logfile": "logs\\zk_sync_20250824_174358.log"}
+
+===== ZK SYNC RUN STOP: 2025-08-24 17:45:04 (elapsed 65.38s) =====
+
