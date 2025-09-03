@@ -9,6 +9,7 @@ from .extensions import db, migrate, socketio
 from .views.devices import bp as devices_bp
 from .views.logs import bp as logs_bp
 from .views.sync import bp as sync_bp
+from .views.admin import bp as admin_bp
 from .logging_handler import init_socketio_logging
 
 # scheduler controls (moved out of tasks.py)
@@ -20,8 +21,6 @@ from app.scheduler import (
     start_scheduler_job,
     stop_scheduler_job,
 )
-
-# keep registry/read helpers in tasks.py (so API endpoints can call them)
 from app.tasks import (
     get_job_status,
     list_jobs,
@@ -45,11 +44,11 @@ def create_app(config_class=Config):
     app.register_blueprint(devices_bp, url_prefix='/api/devices')
     app.register_blueprint(logs_bp, url_prefix='/api/logs')
     app.register_blueprint(sync_bp, url_prefix='/api/sync')
+    app.register_blueprint(admin_bp, url_prefix='/api/admin')
 
     @app.route("/")
     def home():
         return Response(f"<h1>Attendance System Scheduler<h5><h3>Backend Running ✅</h3><p>UTC: {datetime.utcnow():%Y-%m-%d %H:%M:%SZ}</p>", mimetype="text/html")
-
     
     @app.route("/api/sync/start", methods=["POST"])
     def start_recurring():

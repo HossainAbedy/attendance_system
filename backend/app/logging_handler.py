@@ -1,17 +1,10 @@
-# logging_handler.py
-"""
-Minimal Socket.IO logging bridge.
-- Call init_socketio_logging() once after socketio is created.
-- Replaces sys.stdout/sys.stderr so print()/errors are forwarded as 'console' and 'log'.
-- Installs a logging.Handler that forwards Python logging records as 'log'.
-"""
-
+# app/logging_handler.py
 import logging
 import sys
 import re
 import threading
-import subprocess
 from datetime import datetime
+from collections import deque
 from .extensions import socketio  # must be initialized before calling init_socketio_logging
 
 # ---------- small config ----------
@@ -26,11 +19,11 @@ _SKIP_PATTERNS = [
 _SKIP_REGEXES = [re.compile(p, re.IGNORECASE) for p in _SKIP_PATTERNS]
 ANSI_RE = re.compile(r'\x1b\[[0-9;]*m')
 
-
-# ---------- helpers ----------
 def _now_iso():
     return datetime.utcnow().isoformat(timespec='milliseconds') + 'Z'
 
+def strip_ansi(s: str) -> str:
+    return ANSI_RE.sub('', s) if s else s
 
 def _should_skip(msg: str) -> bool:
     if not msg:
@@ -40,13 +33,7 @@ def _should_skip(msg: str) -> bool:
             return True
     return False
 
-
-def strip_ansi(s: str) -> str:
-    return ANSI_RE.sub('', s) if s else s
-
-
 def safe_emit(event: str, payload: dict):
-    """Emit to socketio but never raise an exception."""
     try:
         socketio.emit(event, payload)
     except Exception:
@@ -55,23 +42,36 @@ def safe_emit(event: str, payload: dict):
         except Exception:
             pass
 
+# dedupe cache
+_DEDUPE_LOCK = threading.Lock()
+_LAST_MSGS = deque(maxlen=200)
 
-# ---------- logging handler ----------
+def _is_duplicate(msg: str, window_seconds: float = 0.5) -> bool:
+    now = datetime.utcnow()
+    with _DEDUPE_LOCK:
+        # purge older than 10s
+        while _LAST_MSGS and (now - _LAST_MSGS[0][1]).total_seconds() > 10:
+            _LAST_MSGS.popleft()
+        for text, ts in reversed(_LAST_MSGS):
+            if text == msg and (now - ts).total_seconds() <= window_seconds:
+                return True
+        _LAST_MSGS.append((msg, now))
+    return False
+
 class SocketIOLogHandler(logging.Handler):
-    """Forward Python logging records to socket.io as 'log' events."""
-
     def emit(self, record: logging.LogRecord):
         try:
             msg = self.format(record)
             if _should_skip(msg):
                 return
-
+            if _is_duplicate(msg):
+                return
             payload = {
                 "timestamp": _now_iso(),
                 "device_name": getattr(record, "device_name", record.name or "system"),
                 "logger": record.name,
                 "level": record.levelname,
-                "message": msg,
+                "message": strip_ansi(msg),
                 "pathname": getattr(record, "pathname", None),
                 "lineno": getattr(record, "lineno", None),
             }
@@ -82,18 +82,9 @@ class SocketIOLogHandler(logging.Handler):
             except Exception:
                 pass
 
-
-# ---------- stdout/stderr shim ----------
 class SocketIOStream:
-    """
-    Replace sys.stdout and sys.stderr with this.
-    Emits:
-      - 'console' (ansi + stripped text) for terminal UI
-      - 'log' (structured) for compatibility
-    """
-
     def __init__(self, kind="stdout"):
-        self.kind = kind  # 'stdout' or 'stderr'
+        self.kind = kind
 
     def write(self, message):
         if message is None:
@@ -101,30 +92,20 @@ class SocketIOStream:
         raw = str(message).rstrip('\n')
         if raw == '':
             return
-
         text = strip_ansi(raw)
-        color = None
-        # quick color detect (optional)
-        if '\x1b[32m' in raw:
-            color = 'green'
-        elif '\x1b[31m' in raw:
-            color = 'red'
-
+        if _is_duplicate(text):
+            return
         payload_console = {
             "timestamp": _now_iso(),
             "device_name": self.kind,
             "level": "ERROR" if self.kind == "stderr" else "INFO",
             "message": text,
             "ansi": raw,
-            "color": color,
         }
-        # emit console (terminal-style)
         try:
             safe_emit('console', payload_console)
         except Exception:
             pass
-
-        # also emit structured log for backwards compatibility
         payload_log = {
             "timestamp": payload_console["timestamp"],
             "device_name": self.kind,
@@ -136,8 +117,6 @@ class SocketIOStream:
             safe_emit('log', payload_log)
         except Exception:
             pass
-
-        # keep printing to the real stdout/stderr so server console still shows messages
         try:
             if self.kind == "stderr":
                 sys.__stderr__.write(raw + '\n')
@@ -155,16 +134,9 @@ class SocketIOStream:
         except Exception:
             pass
 
-
-# ---------- init ----------
 _initialized = False
 
-
 def init_socketio_logging():
-    """
-    Install the SocketIOLogHandler and replace sys.stdout & sys.stderr.
-    Call once after socketio has been created (app factory).
-    """
     global _initialized
     if _initialized:
         return
@@ -173,14 +145,10 @@ def init_socketio_logging():
         handler.setFormatter(logging.Formatter("%(message)s"))
         root = logging.getLogger()
         root.addHandler(handler)
-        # ensure root captures debug+ info
         if root.level > logging.DEBUG:
             root.setLevel(logging.DEBUG)
-
-        # replace stdout and stderr
         sys.stdout = SocketIOStream("stdout")
         sys.stderr = SocketIOStream("stderr")
-
         _initialized = True
         try:
             sys.__stdout__.write("[logging_handler] socketio logging initialized\n")
@@ -191,53 +159,3 @@ def init_socketio_logging():
             sys.__stdout__.write(f"[logging_handler init error] {e}\n")
         except Exception:
             pass
-
-
-# ---------- optional: stream a subprocess to socket.io ----------
-def stream_subprocess(command, event="terminal_output", device_name=None):
-    """
-    Spawn a thread to stream subprocess stdout/stderr lines to socket.io event.
-    Returns the Thread object.
-    """
-    def _runner(cmd, ev, dev):
-        try:
-            safe_emit('log', {
-                "timestamp": _now_iso(),
-                "device_name": dev or (cmd[0] if isinstance(cmd, (list, tuple)) else str(cmd)),
-                "level": "INFO",
-                "message": f"[PROCESS START] {' '.join(cmd) if isinstance(cmd, (list,tuple)) else cmd}",
-            })
-
-            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, bufsize=1)
-            for raw in iter(proc.stdout.readline, ""):
-                if raw is None:
-                    break
-                line = raw.rstrip("\n")
-                if not line:
-                    continue
-                safe_emit(ev, {
-                    "timestamp": _now_iso(),
-                    "device_name": dev or (cmd[0] if isinstance(cmd, (list, tuple)) else str(cmd)),
-                    "level": "INFO",
-                    "message": line,
-                })
-
-            proc.stdout.close()
-            rc = proc.wait()
-            safe_emit('log', {
-                "timestamp": _now_iso(),
-                "device_name": dev or (cmd[0] if isinstance(cmd, (list, tuple)) else str(cmd)),
-                "level": "INFO" if rc == 0 else "ERROR",
-                "message": f"[PROCESS EXIT] rc={rc}",
-            })
-        except Exception as e:
-            safe_emit('log', {
-                "timestamp": _now_iso(),
-                "device_name": dev or "process",
-                "level": "ERROR",
-                "message": f"[PROCESS ERROR] {e}",
-            })
-
-    thread = threading.Thread(target=_runner, args=(command, event, device_name), daemon=True)
-    thread.start()
-    return thread

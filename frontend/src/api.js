@@ -8,6 +8,10 @@ export const SOCKET_URL = 'http://localhost:5000';
  * Backend routes
  */
 export const ENDPOINTS = {
+  // admin / export endpoint (admin blueprint)
+  exportEnddb: '/api/admin/export/enddb',
+  // ... rest of endpoints
+
   // Branches (list + create)
   branches: '/api/devices',
 
@@ -57,6 +61,15 @@ export const pingDevice = async (deviceId) => {
     console.error("Ping API error:", err);
     return { online: false };
   }
+};
+
+export const triggerExportToEnddb = (opts = {}) => {
+  const payload = {};
+  if (opts.lookback_days !== undefined && opts.lookback_days !== null) {
+    payload.lookback_days = Number(opts.lookback_days);
+  }
+  const cfg = { timeout: opts.timeout || 60000 };
+  return api.post(ENDPOINTS.exportEnddb, payload, cfg);
 };
 
 /**
@@ -123,6 +136,7 @@ export async function getAllDevices() {
 export default {
   api,
   ENDPOINTS,
+  triggerExportToEnddb,
   getBranches,
   createBranch,
   updateBranch,

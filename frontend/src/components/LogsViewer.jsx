@@ -24,6 +24,8 @@ import {
   TableContainer,
   Tooltip,
 } from "@mui/material";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -79,7 +81,6 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
   const [perPage, setPerPage] = useState(25);
   const [total, setTotal] = useState(0);
 
-  // removed global q/searchInput; we use filters directly
   const [sortDir, setSortDir] = useState("desc");
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -87,15 +88,13 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     timestamp_from: "",
     timestamp_to: "",
     user_id: "",
-    // kept but not shown in header: record_id, device, status
     record_id: "",
     device: "",
     status: "",
     branch: "",
   });
 
-
-  // 1. Build params freshly every time we fetch
+  // Build params for backend request
   const buildParamsForRequest = useCallback(() => {
     const params = {
       page: page + 1,
@@ -110,19 +109,18 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     const tsFrom = dtLocalToISO(filters.timestamp_from, false);
     const tsTo = dtLocalToISO(filters.timestamp_to, true);
 
-    if (tsFrom) params.from = tsFrom;   // must match backend
+    if (tsFrom) params.from = tsFrom; // backend expects 'from'
     if (tsTo) params.to = tsTo;
 
     if (filters.user_id) params.user_id = filters.user_id;
     if (filters.record_id) params.record_id = filters.record_id;
-    if (filters.device) params.device_id = filters.device; // optional
+    if (filters.device) params.device_id = filters.device;
     if (filters.status) params.status = filters.status;
 
     return params;
   }, [page, perPage, sortDir, branchId, filters]);
 
-
-  // 2. useEffect for fetching
+  // Fetch logs when dependencies change
   useEffect(() => {
     let mounted = true;
     setLoading(true);
@@ -134,11 +132,15 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
         const res = deviceId ? await getLogsByDevice(deviceId, params) : await getLogs(params);
         if (!mounted) return;
 
-        setItems(Array.isArray(res.data.items) ? res.data.items : []);
-        setTotal(typeof res.data.total === "number" ? res.data.total : 0);
+        // axios response -> data
+        const data = res.data || {};
+        setItems(Array.isArray(data.items) ? data.items : []);
+        setTotal(typeof data.total === "number" ? data.total : (data.total ? Number(data.total) : 0));
       } catch (err) {
         if (!mounted) return;
         setError(err?.response?.data?.message || err.message || "Failed to load logs");
+        setItems([]);
+        setTotal(0);
       } finally {
         if (mounted) setLoading(false);
       }
@@ -147,7 +149,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     fetchLogs();
 
     return () => { mounted = false; };
-  }, [deviceId, page, perPage, sortDir, refreshKey, branchId, filters]); // now filters included
+  }, [deviceId, page, perPage, sortDir, refreshKey, branchId, filters, buildParamsForRequest]);
 
   function handleChangePage(_e, newPage) {
     setPage(newPage);
@@ -171,7 +173,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
   // Apply filters: reset page and reload
   function handleApplyFilters() {
     setPage(0);
-    setRefreshKey(k => k + 1); // triggers useEffect to fetch latest filters
+    setRefreshKey(k => k + 1);
   }
 
   function handleClearFilters() {
@@ -192,10 +194,8 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
     setRefreshKey(k => k + 1);
   }
 
+  const paginatedItems = items; // backend provides paging
 
-  const paginatedItems = items; // backend already paginates
-
-  // Helper to trigger apply on Enter (works for header fields)
   function handleKeyDownApply(e) {
     if (e.key === "Enter") {
       handleApplyFilters();
@@ -207,6 +207,11 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
       {/* Header */}
       <Box sx={{ px: 2, py: 1.25, background: 'linear-gradient(90deg,#0ea5a4 0%,#2563eb 100%)', color: '#fff' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Tooltip title="Back">
+            <IconButton onClick={onBack} size="small" sx={{ color: '#fff' }} aria-label="Back">
+              <ArrowBackIcon />
+            </IconButton>
+          </Tooltip>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
               {deviceId ? `Logs — Device ${deviceId}` : branchId ? `Logs — Branch ${branchId}` : "Logs"}
@@ -216,7 +221,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
             </Typography>
           </Box>
 
-          {/* SEARCH LOCATION: From/To / User ID / Branch / Apply / Clear / Refresh */}
+          {/* Filters / Controls */}
           <Stack direction="row" spacing={1} alignItems="center">
             <TextField
               size="small"
@@ -244,7 +249,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
 
             <TextField
               size="small"
-              placeholder="User ID"
+              placeholder="User ID / Badge"
               value={filters.user_id}
               onChange={(e) => handleFilterChange("user_id", e.target.value)}
               onKeyDown={handleKeyDownApply}
@@ -261,7 +266,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
               sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: 1, input: { color: '#fff' } }}
               InputProps={{ sx: { color: '#fff' } }}
             />
-
+        
             <FormControl size="small" sx={{ minWidth: 120 }}>
               <InputLabel id="sort-label" sx={{ color: 'rgba(255,255,255,0.9)' }}>Sort</InputLabel>
               <Select labelId="sort-label" value={sortDir} label="Sort" onChange={handleSortChange} sx={{ color: '#fff' }}>
@@ -271,28 +276,37 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
             </FormControl>
 
             <Button
-              variant="outlined"
+              variant="contained"
               size="small"
               startIcon={<FilterListIcon />}
-              onClick={handleApplyFilters}  // this should update refreshKey
-              sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.12)', textTransform: 'none' }}
+              onClick={handleApplyFilters}
+              sx={{ textTransform: 'none' }}
+              aria-label="Apply filters"
             >
               
             </Button>
 
-            <Button variant="outlined" size="small" onClick={handleClearFilters} sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.08)', textTransform: 'none' }}>
-              C
+            <Button
+              variant="contained"
+              size="small"
+              startIcon={<ClearIcon />}
+              onClick={handleClearFilters}
+              sx={{ textTransform: 'none' }}
+              aria-label="Clear filters"
+            >
+        
             </Button>
 
-            <Button variant="contained" size="small" startIcon={<RefreshIcon />} onClick={handleRefresh} sx={{ textTransform: 'none' }}>
-              
-            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              startIcon={<RefreshIcon />}
+              onClick={handleRefresh}
+              sx={{ textTransform: 'none' }}
+              aria-label="Refresh"
+            >
 
-            <Tooltip title="Back">
-              <IconButton onClick={onBack} size="small" sx={{ color: '#fff' }}>
-                <ArrowBackIcon />
-              </IconButton>
-            </Tooltip>
+            </Button>
           </Stack>
         </Box>
       </Box>
@@ -305,7 +319,7 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
           </Box>
         ) : error ? (
           <Box sx={{ p: 2 }}>
-            <Typography color="error">Error loading logs: {error}</Typography>
+            <Typography color="error">Error loading logs: {String(error)}</Typography>
           </Box>
         ) : paginatedItems.length === 0 ? (
           <Box sx={{ p: 2 }}>
@@ -328,9 +342,9 @@ export default function LogsViewer({ branchId = null, deviceId = null, onBack = 
                 <TableBody>
                   {paginatedItems.map((l) => {
                     const ts = l.timestamp ?? l.ts ?? l.time;
-                    const user = l.user_id ?? l.user ?? "-";
+                    const user = l.user_id ?? l.device_userid ?? l.user ?? "-";
                     const record = l.record_id ?? l.record ?? "-";
-                    const deviceName = (l.device && (l.device.name ?? l.device.id)) || l.device_name || l.device_id || "-";
+                    const deviceName = (l.device && (l.device.name ?? l.device.id)) || l.device_name || l.access_device || l.device_id || "-";
                     const status = l.status ?? l.level ?? "-";
 
                     return (

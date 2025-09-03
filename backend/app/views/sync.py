@@ -3,7 +3,6 @@ from flask import Blueprint, jsonify, current_app
 from ..scheduler import start_poll_all_job, start_poll_branch_job, stop_recurring_scheduler
 from ..tasks import get_job_status
 from ..models import Branch
-
 bp = Blueprint('sync', __name__)
 
 @bp.route('/', methods=['POST'])

@@ -36,7 +36,8 @@ except Exception:
     # Minimal no-op prune implementation (keeps scheduler safe if prune is referenced)
     def prune_old_jobs(ttl_seconds=None):
         return
-# TTL (can still be overridden via env)
+
+# TTL (can still be overridden via env/config)
 _JOB_TTL_SECONDS = int(os.environ.get("JOB_TTL_SECONDS", 24 * 3600))
 
 _scheduler = None
@@ -85,6 +86,83 @@ def _resolve_app(maybe_proxy_or_app):
     except Exception:
         # last resort: return the original object
         return maybe_proxy_or_app
+
+
+# Export job globals (use same registry)
+_EXPORT_LOCK = threading.Lock()   # protects concurrent exporter runs
+
+def start_export_job(app, batch_size=1000, background=True):
+    """
+    Start an export job that calls export_attendance_direct (exporter).
+    Runs in a daemon thread when background=True.
+    """
+    real_app = _resolve_app(app)
+    job_id = str(uuid.uuid4())
+    payload = {
+        'job_id': job_id,
+        'type': 'export_enddb',
+        'status': 'running',
+        'started_at': _now_iso(),
+        'finished_at': None,
+        'total': 1,
+        'done': 0,
+        'results': [],
+        'error': None
+    }
+    _set_job(job_id, payload)
+
+    def _worker(resolved_app, job_id_inner, batch_size_inner):
+        try:
+            with resolved_app.app_context():
+                # import the exporter function name you have in exporter.py
+                from .exporter import export_attendance_direct
+                # Acquire simple export lock so two exports can't run at once
+                got = _EXPORT_LOCK.acquire(blocking=False)
+                if not got:
+                    raise RuntimeError("Export already running")
+                try:
+                    lookback = resolved_app.config.get("EXPORT_LOOKBACK_DAYS", None)
+                    res = export_attendance_direct(batch_size=batch_size_inner, lookback_days=lookback, dry_run=False)
+                finally:
+                    _EXPORT_LOCK.release()
+
+                # Print summary to console/log (and keep it in job registry)
+                try:
+                    exported_count = int(res.get("exported", 0))
+                    skipped = int(res.get("skipped_existing", 0)) if res.get("skipped_existing") is not None else 0
+                    errors = int(res.get("errors", 0)) if res.get("errors") is not None else 0
+                    print(Fore.CYAN + f"[EXPORT JOB RESULT] exported={exported_count} skipped_existing={skipped} errors={errors}")
+                except Exception:
+                    print(Fore.CYAN + f"[EXPORT JOB RESULT] {res}")
+
+                # update job
+                with _JOB_LOCK:
+                    job = _JOB_REGISTRY.get(job_id_inner)
+                    if job:
+                        job['results'].append(res)
+                        job['done'] = 1
+                        job['status'] = 'finished'
+                        job['finished_at'] = _now_iso()
+        except Exception as e:
+            tb = traceback.format_exc()
+            with _JOB_LOCK:
+                job = _JOB_REGISTRY.get(job_id_inner)
+                if job:
+                    job['status'] = 'failed'
+                    job['error'] = tb
+                    job['finished_at'] = _now_iso()
+            print(Fore.RED + f"[EXPORT JOB ERROR] {e}\n{tb}")
+
+    if background:
+        thr = threading.Thread(target=_worker, args=(real_app, job_id, batch_size), daemon=True)
+        thr.start()
+        print(Fore.CYAN + f"[EXPORT JOB STARTED] id={job_id} (background)")
+        return job_id
+    else:
+        # run inline and return summary
+        _worker(real_app, job_id, batch_size)
+        with _JOB_LOCK:
+            return _JOB_REGISTRY.get(job_id)
 
 
 # -------------------------
@@ -312,8 +390,6 @@ def start_poll_branch_job(app, branch_id):
 
 # -------------------------
 # Helpers used by job starters: _run_poll_devices_job
-# (This function is expected to exist previously in tasks.py. If you already
-# have it in tasks.py keep it there and import it here, otherwise implement it here.)
 # -------------------------
 try:
     # Try to import the helper from tasks (preferred, avoids duplication)
@@ -461,7 +537,6 @@ def _poll_all_for_scheduler(app):
     This orchestration captures per-run stdout/stderr into a timestamped log file,
     and runs the device polling across a ThreadPool (just like your original).
     """
-    # start run capture (redirects stdout/stderr so all prints are saved)
     logfile = start_run_capture(app)
     print(Fore.MAGENTA + f"[SCHEDULER] Dispatching polling for devices… (log: {logfile})")
 
@@ -484,20 +559,40 @@ def _poll_all_for_scheduler(app):
     devices_count = len(devices)
     exceptions = []
 
-    with ThreadPoolExecutor(max_workers=max_workers) as pool:
-        futures = {pool.submit(run_with_app_context, dev, real_app): dev for dev in devices}
-        for future in as_completed(futures):
-            dev = futures[future]
-            try:
-                count = future.result()
-                total_new += int(count or 0)
-                print(Fore.BLUE + f"[SCHEDULER] {dev.name}: {count} new logs")
-            except Exception as e:
-                exceptions.append((getattr(dev, "name", None), str(e)))
-                print(Fore.RED + f"[SCHEDULER ERROR] {dev.name}: {e}")
+    try:
+        with ThreadPoolExecutor(max_workers=max_workers) as pool:
+            futures = {pool.submit(run_with_app_context, dev, real_app): dev for dev in devices}
+            for future in as_completed(futures):
+                dev = futures[future]
+                try:
+                    count = future.result()
+                    total_new += int(count or 0)
+                    print(Fore.BLUE + f"[SCHEDULER] {dev.name}: {count} new logs")
+                except Exception as e:
+                    exceptions.append((getattr(dev, "name", None), str(e)))
+                    print(Fore.RED + f"[SCHEDULER ERROR] {dev.name}: {e}")
+    except Exception as e:
+        tb = traceback.format_exc()
+        print(Fore.RED + f"[SCHEDULER RUN ERROR] {e}\n{tb}")
+        exceptions.append(("scheduler_run", str(e)))
 
     run_end = time.time()
     run_elapsed = run_end - run_start
+
+    # --- <<< EXPORT: offload to export job (non-blocking) & robust handling) >>> ---
+    try:
+        if real_app.config.get("EXPORT_AFTER_POLL", True):
+            try:
+                # start export in background (uses _EXPORT_LOCK to avoid concurrent exports)
+                start_export_job(real_app, batch_size=real_app.config.get("EXPORT_BATCH_SIZE", 1000), background=True)
+                print(Fore.CYAN + "[EXPORT] Export job launched (background).")
+            except Exception as e:
+                tb = traceback.format_exc()
+                print(Fore.RED + f"[EXPORT ERROR] Failed to launch export job: {e}\n{tb}")
+    except Exception as e:
+        tb = traceback.format_exc()
+        print(Fore.RED + f"[EXPORT ERROR] Unexpected failure preparing export: {e}\n{tb}")
+    # --- <<< END EXPORT >>> ---
 
     # summary to console & appended to run logfile
     print(Fore.CYAN + f"[SCHEDULER] Completed polling {devices_count} devices. Total new logs: {total_new}. Run time: {run_elapsed:.2f}s")
@@ -517,16 +612,27 @@ def _poll_all_for_scheduler(app):
             with _RUN_LOCK:
                 _RUN_FH.write("\nRUN_SUMMARY_JSON: " + json.dumps(summary, default=str) + "\n")
                 _RUN_FH.flush()
-    except Exception:
-        pass
-
+    except Exception as e:
+        tb = traceback.format_exc()
+        print(Fore.RED + f"[SCHEDULER UNHANDLED ERROR] Exception in _poll_all_for_scheduler: {e}\n{tb}")
+        # best-effort summary to runlog
+        try:
+            if _RUN_FH:
+                with _RUN_LOCK:
+                    _RUN_FH.write("\nUNHANDLED ERROR IN POLL: " + tb + "\n")
+                    _RUN_FH.flush()
+        except Exception:
+            pass
     final_log = stop_run_capture()
     print(Fore.MAGENTA + f"[SCHEDULER] Run finished. Logfile: {final_log}")
 
 
-def start_recurring_scheduler(app, interval_seconds=3600, prune_interval_seconds=600):
+def start_recurring_scheduler(app, interval_seconds=None, prune_interval_seconds=None):
     """
     Start the background APScheduler that fires _poll_all_for_scheduler every interval_seconds.
+    Defaults:
+      - interval_seconds: read from app.config['SCHEDULER_INTERVAL_SECONDS'] or 5s for quick testing
+      - prune_interval_seconds: read from app.config['JOB_PRUNE_INTERVAL_SECONDS'] or 600s
     """
     global _scheduler
     with _scheduler_lock:
@@ -536,14 +642,38 @@ def start_recurring_scheduler(app, interval_seconds=3600, prune_interval_seconds
 
         from apscheduler.schedulers.background import BackgroundScheduler
         real_app = _resolve_app(app)
+        # determine effective intervals (prefer passed argument -> config -> default)
+        cfg_interval = real_app.config.get("SCHEDULER_INTERVAL_SECONDS", 5)
+        interval_seconds = int(interval_seconds if interval_seconds is not None else cfg_interval)
+        cfg_prune = real_app.config.get("JOB_PRUNE_INTERVAL_SECONDS", 600)
+        prune_interval_seconds = int(prune_interval_seconds if prune_interval_seconds is not None else cfg_prune)
+
         _scheduler = BackgroundScheduler()
-        _scheduler.add_job(_poll_all_for_scheduler, 'interval', seconds=interval_seconds, args=[real_app], id="zk_poll_job")
+        # schedule polling job
+        _scheduler.add_job(
+            _poll_all_for_scheduler,
+            'interval',
+            seconds=interval_seconds,
+            args=[real_app],
+            id="zk_poll_job",
+            replace_existing=True,
+            max_instances=1,
+            misfire_grace_time=300
+        )
 
         # try to import prune_old_jobs from tasks to keep original behavior (optional)
         try:
-            from .tasks import prune_old_jobs, _JOB_TTL_SECONDS as TASKS_JOB_TTL
-            ttl = getattr(current_app.config, "JOB_TTL_SECONDS", TASKS_JOB_TTL)
-            _scheduler.add_job(prune_old_jobs, 'interval', seconds=prune_interval_seconds, args=[_JOB_TTL_SECONDS], id="job_prune")
+            from .tasks import prune_old_jobs as tasks_prune_fn, _JOB_TTL_SECONDS as TASKS_JOB_TTL
+            ttl = real_app.config.get("JOB_TTL_SECONDS", TASKS_JOB_TTL)
+            ttl = int(ttl)
+            _scheduler.add_job(
+                tasks_prune_fn,
+                'interval',
+                seconds=prune_interval_seconds,
+                args=[ttl],
+                id="job_prune",
+                replace_existing=True
+            )
         except Exception:
             # If prune_old_jobs isn't present, skip adding that job
             pass
