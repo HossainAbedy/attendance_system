@@ -1,6 +1,5 @@
 backend/att2000.mdb
 backend/venv/
-backend/Test/
 frontend/node_modules/
 backend/migrations_backup
 backend/DBTEST/*

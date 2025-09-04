@@ -216,32 +216,6 @@ export default function SyncControls({ actions = {} }) {
           justifyContent="center"
           sx={{ flexWrap: "wrap" }}
         >
-          {/* Full Sync */}
-          <Tooltip title="Fetch logs from all branches now">
-            <span>
-              <Button
-                onClick={handleTotalSync}
-                startIcon={<SyncIcon />}
-                disabled={isSyncing}
-                aria-label="Full sync"
-                aria-busy={isSyncing ? "true" : "false"}
-                sx={{
-                  ...btnBase,
-                  boxShadow: "0 8px 20px rgba(25,118,210,0.12)",
-                  background: "linear-gradient(90deg,#00bfa5 0%,#1976d2 100%)",
-                  color: "common.white",
-                  "&:hover": {
-                    background: "linear-gradient(90deg,#00d7b0 0%,#115293 100%)",
-                    boxShadow: "0 10px 26px rgba(25,118,210,0.16)",
-                  },
-                }}
-              >
-                {isSyncing && <CircularProgress size={18} color="inherit" sx={{ mr: 1 }} />}
-                Full Sync (All)
-              </Button>
-            </span>
-          </Tooltip>
-
           {/* Start Scheduler */}
           <Tooltip title="Start recurring scheduler">
             <span>
@@ -264,7 +238,7 @@ export default function SyncControls({ actions = {} }) {
                 }}
               >
                 {isStarting && <CircularProgress size={18} color="inherit" sx={{ mr: 1 }} />}
-                Start Scheduler
+                Start 
               </Button>
             </span>
           </Tooltip>
@@ -291,33 +265,33 @@ export default function SyncControls({ actions = {} }) {
                 }}
               >
                 {isStopping && <CircularProgress size={18} color="inherit" sx={{ mr: 1 }} />}
-                Stop Scheduler
+                Stop 
               </Button>
             </span>
           </Tooltip>
 
-          {/* View Jobs */}
-          <Tooltip title="See recent sync jobs">
+          {/* Full Sync */}
+          <Tooltip title="Fetch logs from all branches now">
             <span>
               <Button
-                onClick={fetchJobs}
-                startIcon={<ListIcon />}
-                disabled={isLoadingJobs}
-                aria-label="View jobs"
-                aria-busy={isLoadingJobs ? "true" : "false"}
+                onClick={handleTotalSync}
+                startIcon={<SyncIcon />}
+                disabled={isSyncing}
+                aria-label="Full sync"
+                aria-busy={isSyncing ? "true" : "false"}
                 sx={{
                   ...btnBase,
-                  boxShadow: "0 8px 20px rgba(255,183,77,0.25)",
-                  background: "linear-gradient(90deg, #FFD54F 0%, #FF9800 100%)",
+                  boxShadow: "0 8px 20px rgba(25,118,210,0.12)",
+                  background: "linear-gradient(90deg,#00bfa5 0%,#1976d2 100%)",
                   color: "common.white",
                   "&:hover": {
-                    background: "linear-gradient(90deg, #FFE082 0%, #FB8C00 100%)",
-                    boxShadow: "0 10px 26px rgba(255,152,0,0.35)",
+                    background: "linear-gradient(90deg,#00d7b0 0%,#115293 100%)",
+                    boxShadow: "0 10px 26px rgba(25,118,210,0.16)",
                   },
                 }}
               >
-                {isLoadingJobs && <CircularProgress size={18} color="inherit" sx={{ mr: 1 }} />}
-                View Jobs
+                {isSyncing && <CircularProgress size={18} color="inherit" sx={{ mr: 1 }} />}
+                 Sync 
               </Button>
             </span>
           </Tooltip>
@@ -343,7 +317,33 @@ export default function SyncControls({ actions = {} }) {
                 }}
               >
                 {isExporting && <CircularProgress size={18} color="inherit" sx={{ mr: 1 }} />}
-                Export EndDB
+                Export 
+              </Button>
+            </span>
+          </Tooltip>
+
+          {/* View Jobs */}
+          <Tooltip title="See recent sync jobs">
+            <span>
+              <Button
+                onClick={fetchJobs}
+                startIcon={<ListIcon />}
+                disabled={isLoadingJobs}
+                aria-label="View jobs"
+                aria-busy={isLoadingJobs ? "true" : "false"}
+                sx={{
+                  ...btnBase,
+                  boxShadow: "0 8px 20px rgba(255,183,77,0.25)",
+                  background: "linear-gradient(90deg, #FFD54F 0%, #FF9800 100%)",
+                  color: "common.white",
+                  "&:hover": {
+                    background: "linear-gradient(90deg, #FFE082 0%, #FB8C00 100%)",
+                    boxShadow: "0 10px 26px rgba(255,152,0,0.35)",
+                  },
+                }}
+              >
+                {isLoadingJobs && <CircularProgress size={18} color="inherit" sx={{ mr: 1 }} />}
+                 Jobs
               </Button>
             </span>
           </Tooltip>

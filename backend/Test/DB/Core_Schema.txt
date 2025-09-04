@@ -1,0 +1,136 @@
+-- 2.1 branches
+CREATE TABLE IF NOT EXISTS branches (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(128) NOT NULL UNIQUE,
+  ip_range VARCHAR(64) DEFAULT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 2.2 devices
+CREATE TABLE IF NOT EXISTS devices (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  branch_id INT NOT NULL,
+  name VARCHAR(128) NOT NULL,
+  ip_address VARCHAR(45) NOT NULL,
+  port INT NOT NULL DEFAULT 4370,
+  serial_no VARCHAR(128) DEFAULT NULL,
+  last_seen DATETIME DEFAULT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_devices_serial (serial_no),
+  INDEX ix_devices_branch (branch_id),
+  FOREIGN KEY (branch_id) REFERENCES branches(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS attendance_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    device_id INT NOT NULL,
+    record_id INT NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
+    device_userid VARCHAR(128) DEFAULT NULL,
+    badge_id INT DEFAULT NULL,
+    timestamp DATETIME NOT NULL,
+    status VARCHAR(32) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE,
+    UNIQUE KEY _device_record_uc (device_id, record_id),
+    INDEX ix_attendance_logs_device_userid (device_userid),
+    INDEX ix_attendance_logs_badge_id (badge_id)
+);
+
+-- 1) users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `branch_id` INT NOT NULL,
+  `full_name` VARCHAR(128) NOT NULL,
+  `employee_code` VARCHAR(64) NOT NULL,
+  `designation` VARCHAR(128),
+  `status` VARCHAR(32) DEFAULT 'active',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `uix_users_employee_code` (`employee_code`),
+  KEY `ix_users_branch` (`branch_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 2) badges
+CREATE TABLE IF NOT EXISTS `badges` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `badge_number` VARCHAR(64) NOT NULL,
+  `issue_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `expiry_date` DATETIME NULL,
+  `status` VARCHAR(32) DEFAULT 'active',
+  UNIQUE KEY `uix_badges_badge_number` (`badge_number`),
+  KEY `ix_badges_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 3) user_device_map
+CREATE TABLE IF NOT EXISTS `user_device_map` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `device_id` INT NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `_user_device_uc` (`user_id`,`device_id`),
+  KEY `ix_udm_user` (`user_id`),
+  KEY `ix_udm_device` (`device_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 4) access_userinfo (replica of Access USERINFO)
+CREATE TABLE IF NOT EXISTS `access_userinfo` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `USERID` VARCHAR(64) NOT NULL,
+  `Badgenumber` VARCHAR(128) NOT NULL,
+  `Name` VARCHAR(255) DEFAULT NULL,
+  `SSN` VARCHAR(64) DEFAULT NULL,
+  `sn` VARCHAR(128) DEFAULT NULL,
+  `source` VARCHAR(64) DEFAULT 'access',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY `uix_access_userinfo_userid_sn` (`USERID`,`sn`),
+  UNIQUE KEY `uix_access_userinfo_badgenumber` (`Badgenumber`),
+  KEY `ix_access_userinfo_sn` (`sn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 5) access_checkinout (replica of CHECKINOUT)
+CREATE TABLE IF NOT EXISTS `access_checkinout` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `USERID` VARCHAR(64) NOT NULL,
+  `CHECKTIME` DATETIME NOT NULL,
+  `CHECKTYPE` VARCHAR(16) DEFAULT NULL,
+  `VERIFYCODE` VARCHAR(16) DEFAULT NULL,
+  `SENSORID` VARCHAR(32) DEFAULT NULL,
+  `Memoinfo` VARCHAR(255) DEFAULT NULL,
+  `WorkCode` VARCHAR(64) DEFAULT NULL,
+  `sn` VARCHAR(128) DEFAULT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  KEY `ix_access_checkinout_user_time_sn` (`USERID`,`CHECKTIME`,`sn`),
+  KEY `ix_access_checkinout_sn` (`sn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 6) ensure devices.serial_no is length 128 and indexed
+ALTER TABLE `devices`
+  MODIFY COLUMN `serial_no` VARCHAR(128) DEFAULT NULL,
+  ADD INDEX IF NOT EXISTS `ix_devices_serial_no` (`serial_no`);
+
+ALTER TABLE `devices`
+  MODIFY COLUMN `serial_no` VARCHAR(128) DEFAULT NULL;
+
+CREATE INDEX `ix_devices_serial_no` ON `devices` (`serial_no`);
+
+ALTER TABLE test_end_db.devices
+  MODIFY COLUMN port INT DEFAULT 4370,
+  MODIFY COLUMN serial_no VARCHAR(128) DEFAULT NULL,
+  MODIFY COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+
+TESTING...........
+
+-- Create the database
+CREATE DATABASE IF NOT EXISTS test_user;
+
+-- Create the user and set password
+CREATE USER IF NOT EXISTS 'test_user'@'localhost' IDENTIFIED BY 'password';
+
+-- Grant all privileges on the test_user database to test_pass
+GRANT ALL PRIVILEGES ON test_user.* TO 'test_pass'@'localhost';
+
+-- Flush privileges to apply changes
+FLUSH PRIVILEGES;
